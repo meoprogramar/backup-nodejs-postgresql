@@ -1,0 +1,9825 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.12
+-- Dumped by pg_dump version 10.12
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: on_update_timestamp(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.on_update_timestamp() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+  END;
+$$;
+
+
+ALTER FUNCTION public.on_update_timestamp() OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: account; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.account (
+    id integer NOT NULL,
+    id_responsible_sector integer,
+    name character varying(255) NOT NULL,
+    type integer NOT NULL,
+    username character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    cpf character varying(255),
+    address character varying(255),
+    number character varying(255),
+    complement character varying(255),
+    state character varying(255),
+    district character varying(255),
+    city character varying(255),
+    zip_code character varying(255),
+    email character varying(255),
+    phone character varying(255),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.account OWNER TO postgres;
+
+--
+-- Name: account_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.account_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.account_id_seq OWNER TO postgres;
+
+--
+-- Name: account_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.account_id_seq OWNED BY public.account.id;
+
+
+--
+-- Name: city; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.city (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.city OWNER TO postgres;
+
+--
+-- Name: civil_status; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.civil_status (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.civil_status OWNER TO postgres;
+
+--
+-- Name: civil_status_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.civil_status_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.civil_status_id_seq OWNER TO postgres;
+
+--
+-- Name: civil_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.civil_status_id_seq OWNED BY public.civil_status.id;
+
+
+--
+-- Name: gender; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.gender (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.gender OWNER TO postgres;
+
+--
+-- Name: gender_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.gender_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.gender_id_seq OWNER TO postgres;
+
+--
+-- Name: gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.gender_id_seq OWNED BY public.gender.id;
+
+
+--
+-- Name: knex_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.knex_migrations (
+    id integer NOT NULL,
+    name character varying(255),
+    batch integer,
+    migration_time timestamp with time zone
+);
+
+
+ALTER TABLE public.knex_migrations OWNER TO postgres;
+
+--
+-- Name: knex_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.knex_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.knex_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: knex_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.knex_migrations_id_seq OWNED BY public.knex_migrations.id;
+
+
+--
+-- Name: knex_migrations_lock; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.knex_migrations_lock (
+    index integer NOT NULL,
+    is_locked integer
+);
+
+
+ALTER TABLE public.knex_migrations_lock OWNER TO postgres;
+
+--
+-- Name: knex_migrations_lock_index_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.knex_migrations_lock_index_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.knex_migrations_lock_index_seq OWNER TO postgres;
+
+--
+-- Name: knex_migrations_lock_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.knex_migrations_lock_index_seq OWNED BY public.knex_migrations_lock.index;
+
+
+--
+-- Name: level_education; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.level_education (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.level_education OWNER TO postgres;
+
+--
+-- Name: level_education_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.level_education_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.level_education_id_seq OWNER TO postgres;
+
+--
+-- Name: level_education_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.level_education_id_seq OWNED BY public.level_education.id;
+
+
+--
+-- Name: medic; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medic (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    crm character varying(255),
+    cpf character varying(255),
+    address character varying(255),
+    number character varying(255),
+    complement character varying(255),
+    state character varying(255),
+    district character varying(255),
+    city character varying(255),
+    zip_code character varying(255),
+    email character varying(255),
+    phone character varying(255),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.medic OWNER TO postgres;
+
+--
+-- Name: medic_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medic_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.medic_id_seq OWNER TO postgres;
+
+--
+-- Name: medic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medic_id_seq OWNED BY public.medic.id;
+
+
+--
+-- Name: medic_schedule; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medic_schedule (
+    id integer NOT NULL,
+    id_medic integer NOT NULL,
+    sunday integer NOT NULL,
+    monday integer NOT NULL,
+    tuesday integer NOT NULL,
+    wednesday integer NOT NULL,
+    thursday integer NOT NULL,
+    friday integer NOT NULL,
+    saturday integer NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.medic_schedule OWNER TO postgres;
+
+--
+-- Name: medic_schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medic_schedule_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.medic_schedule_id_seq OWNER TO postgres;
+
+--
+-- Name: medic_schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medic_schedule_id_seq OWNED BY public.medic_schedule.id;
+
+
+--
+-- Name: nationality; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.nationality (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.nationality OWNER TO postgres;
+
+--
+-- Name: nationality_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.nationality_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.nationality_id_seq OWNER TO postgres;
+
+--
+-- Name: nationality_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.nationality_id_seq OWNED BY public.nationality.id;
+
+
+--
+-- Name: occupation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.occupation (
+    id character varying(255) NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.occupation OWNER TO postgres;
+
+--
+-- Name: patient; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.patient (
+    id integer NOT NULL,
+    id_account integer NOT NULL,
+    id_birth_place integer,
+    id_living_place integer,
+    id_occupation character varying(255),
+    id_gender integer,
+    id_civil_status integer,
+    id_skin_color integer,
+    id_nationality integer,
+    id_level_education integer,
+    report_number character varying(255),
+    name character varying(255),
+    social_name character varying(255),
+    birth_date timestamp with time zone,
+    cpf character varying(255),
+    sus_card character varying(255),
+    identity character varying(255),
+    identity_issuing_organization character varying(255),
+    birth_record character varying(255),
+    work_card character varying(255),
+    pis character varying(255),
+    mother_name character varying(255),
+    father_name character varying(255),
+    address character varying(255),
+    number character varying(255),
+    complement character varying(255),
+    state character varying(255),
+    district character varying(255),
+    city character varying(255),
+    zip_code character varying(255),
+    phone character varying(255),
+    email character varying(255),
+    note character varying(500),
+    not_identified boolean DEFAULT false,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.patient OWNER TO postgres;
+
+--
+-- Name: patient_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.patient_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.patient_id_seq OWNER TO postgres;
+
+--
+-- Name: patient_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.patient_id_seq OWNED BY public.patient.id;
+
+
+--
+-- Name: patient_screening; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.patient_screening (
+    id integer NOT NULL,
+    id_account integer NOT NULL,
+    id_patient integer NOT NULL,
+    classification character varying(255) NOT NULL,
+    symptom character varying(255),
+    pa character varying(255),
+    temperature character varying(255),
+    p character varying(255),
+    hgt character varying(255),
+    weight character varying(255),
+    spo character varying(255),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.patient_screening OWNER TO postgres;
+
+--
+-- Name: patient_screening_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.patient_screening_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.patient_screening_id_seq OWNER TO postgres;
+
+--
+-- Name: patient_screening_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.patient_screening_id_seq OWNED BY public.patient_screening.id;
+
+
+--
+-- Name: product; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product (
+    id integer NOT NULL,
+    id_account integer NOT NULL,
+    name character varying(255) NOT NULL,
+    quantity_unit character varying(255) NOT NULL,
+    validity timestamp with time zone,
+    lot character varying(255),
+    classification integer DEFAULT 0,
+    sub_classification integer DEFAULT 0,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.product OWNER TO postgres;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_id_seq OWNER TO postgres;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_id_seq OWNED BY public.product.id;
+
+
+--
+-- Name: product_movement; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_movement (
+    id integer NOT NULL,
+    id_account integer NOT NULL,
+    id_product integer NOT NULL,
+    id_sector_from integer,
+    id_sector_to integer,
+    id_patient_to integer,
+    quantity integer NOT NULL,
+    chargeback boolean DEFAULT false,
+    chargedback_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at_edited timestamp with time zone,
+    invoice_code character varying(255),
+    invoice_provider character varying(255),
+    invoice_value character varying(255),
+    invoice_date_issue timestamp with time zone,
+    invoice_link character varying(255)
+);
+
+
+ALTER TABLE public.product_movement OWNER TO postgres;
+
+--
+-- Name: product_movement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_movement_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_movement_id_seq OWNER TO postgres;
+
+--
+-- Name: product_movement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_movement_id_seq OWNED BY public.product_movement.id;
+
+
+--
+-- Name: schedule; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.schedule (
+    id integer NOT NULL,
+    id_account integer NOT NULL,
+    id_sender_medic integer NOT NULL,
+    id_requesting_medic integer,
+    id_patient integer NOT NULL,
+    scheduled_day timestamp with time zone NOT NULL,
+    type character varying(255),
+    category character varying(255),
+    status character varying(255) DEFAULT 'AGENDADO'::character varying,
+    note character varying(500),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.schedule OWNER TO postgres;
+
+--
+-- Name: schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.schedule_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.schedule_id_seq OWNER TO postgres;
+
+--
+-- Name: schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.schedule_id_seq OWNED BY public.schedule.id;
+
+
+--
+-- Name: sector; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.sector (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    can_action boolean DEFAULT false,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.sector OWNER TO postgres;
+
+--
+-- Name: sector_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.sector_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sector_id_seq OWNER TO postgres;
+
+--
+-- Name: sector_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.sector_id_seq OWNED BY public.sector.id;
+
+
+--
+-- Name: sector_stock; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.sector_stock (
+    id integer NOT NULL,
+    id_product integer NOT NULL,
+    id_sector integer NOT NULL,
+    quantity integer NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.sector_stock OWNER TO postgres;
+
+--
+-- Name: sector_stock_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.sector_stock_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sector_stock_id_seq OWNER TO postgres;
+
+--
+-- Name: sector_stock_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.sector_stock_id_seq OWNED BY public.sector_stock.id;
+
+
+--
+-- Name: skin_color; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.skin_color (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.skin_color OWNER TO postgres;
+
+--
+-- Name: skin_color_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.skin_color_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.skin_color_id_seq OWNER TO postgres;
+
+--
+-- Name: skin_color_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.skin_color_id_seq OWNED BY public.skin_color.id;
+
+
+--
+-- Name: account id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account ALTER COLUMN id SET DEFAULT nextval('public.account_id_seq'::regclass);
+
+
+--
+-- Name: civil_status id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.civil_status ALTER COLUMN id SET DEFAULT nextval('public.civil_status_id_seq'::regclass);
+
+
+--
+-- Name: gender id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.gender ALTER COLUMN id SET DEFAULT nextval('public.gender_id_seq'::regclass);
+
+
+--
+-- Name: knex_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knex_migrations ALTER COLUMN id SET DEFAULT nextval('public.knex_migrations_id_seq'::regclass);
+
+
+--
+-- Name: knex_migrations_lock index; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knex_migrations_lock ALTER COLUMN index SET DEFAULT nextval('public.knex_migrations_lock_index_seq'::regclass);
+
+
+--
+-- Name: level_education id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.level_education ALTER COLUMN id SET DEFAULT nextval('public.level_education_id_seq'::regclass);
+
+
+--
+-- Name: medic id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medic ALTER COLUMN id SET DEFAULT nextval('public.medic_id_seq'::regclass);
+
+
+--
+-- Name: medic_schedule id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medic_schedule ALTER COLUMN id SET DEFAULT nextval('public.medic_schedule_id_seq'::regclass);
+
+
+--
+-- Name: nationality id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.nationality ALTER COLUMN id SET DEFAULT nextval('public.nationality_id_seq'::regclass);
+
+
+--
+-- Name: patient id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient ALTER COLUMN id SET DEFAULT nextval('public.patient_id_seq'::regclass);
+
+
+--
+-- Name: patient_screening id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient_screening ALTER COLUMN id SET DEFAULT nextval('public.patient_screening_id_seq'::regclass);
+
+
+--
+-- Name: product id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
+
+
+--
+-- Name: product_movement id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement ALTER COLUMN id SET DEFAULT nextval('public.product_movement_id_seq'::regclass);
+
+
+--
+-- Name: schedule id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schedule ALTER COLUMN id SET DEFAULT nextval('public.schedule_id_seq'::regclass);
+
+
+--
+-- Name: sector id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector ALTER COLUMN id SET DEFAULT nextval('public.sector_id_seq'::regclass);
+
+
+--
+-- Name: sector_stock id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector_stock ALTER COLUMN id SET DEFAULT nextval('public.sector_stock_id_seq'::regclass);
+
+
+--
+-- Name: skin_color id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.skin_color ALTER COLUMN id SET DEFAULT nextval('public.skin_color_id_seq'::regclass);
+
+
+--
+-- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.account (id, id_responsible_sector, name, type, username, password, cpf, address, number, complement, state, district, city, zip_code, email, phone, created_at, updated_at) FROM stdin;
+2	3	COVID	0	covid	$2a$10$Y/PAD3G2LRZWcOCC0V7/vu3z2j0TA8i882AHvIrOOtuWpq38Rr0S.		RUA SANDRA VASCONCELOS PEREIRA DE MELO	\N		PB	ITARARÉ	CAMPINA GRANDE	58411005	\N	\N	2020-12-01 22:53:38.623254-03	2020-12-01 22:53:38.623254-03
+1	1	ADMIN	0	admin	$2a$10$hy3mtSz18z7zKkAd0zemX.u/rhdmvj9Y5XjNmlzufp.U0YAnTX94C	10550344470	RUA SANDRA VASCONCELOS PEREIRA DE MELO	\N		PB	ITARARÉ	CAMPINA GRANDE	58411005	\N	\N	2020-12-01 22:46:24.611189-03	2020-12-01 23:12:32.181462-03
+\.
+
+
+--
+-- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.city (id, name) FROM stdin;
+1100015	ALTA FLORESTA D'OESTE
+1100023	ARIQUEMES
+1100031	CABIXI
+1100049	CACOAL
+1100056	CEREJEIRAS
+1100064	COLORADO DO OESTE
+1100072	CORUMBIARA
+1100080	COSTA MARQUES
+1100098	ESPIGAO D'OESTE
+1100106	GUAJARA-MIRIM
+1100114	JARU
+1100122	JI-PARANA
+1100130	MACHADINHO D'OESTE
+1100148	NOVA BRASILANDIA D'OESTE
+1100155	OURO PRETO DO OESTE
+1100189	PIMENTA BUENO
+1100205	PORTO VELHO
+1100254	PRESIDENTE MEDICI
+1100262	RIO CRESPO
+1100288	ROLIM DE MOURA
+1100296	SANTA LUZIA D'OESTE
+1100304	VILHENA
+1100320	SAO MIGUEL DO GUAPORE
+1100338	NOVA MAMORE
+1100346	ALVORADA D'OESTE
+1100379	ALTO ALEGRE DOS PARECIS
+1100403	ALTO PARAISO
+1100452	BURITIS
+1100502	NOVO HORIZONTE DO OESTE
+1100601	CACAULANDIA
+1100700	CAMPO NOVO DE RONDONIA
+1100809	CANDEIAS DO JAMARI
+1100908	CASTANHEIRAS
+1100924	CHUPINGUAIA
+1100940	CUJUBIM
+1101005	GOVERNADOR JORGE TEIXEIRA
+1101104	ITAPUA DO OESTE
+1101203	MINISTRO ANDREAZZA
+1101302	MIRANTE DA SERRA
+1101401	MONTE NEGRO
+1101435	NOVA UNIAO
+1101450	PARECIS
+1101468	PIMENTEIRAS DO OESTE
+1101476	PRIMAVERA DE RONDONIA
+1101484	SAO FELIPE D'OESTE
+1101492	SAO FRANCISCO DO GUAPORE
+1101500	SERINGUEIRAS
+1101559	TEIXEIROPOLIS
+1101609	THEOBROMA
+1101708	URUPA
+1101757	VALE DO ANARI
+1101807	VALE DO PARAISO
+1200013	ACRELANDIA
+1200054	ASSIS BRASIL
+1200104	BRASILEIA
+1200138	BUJARI
+1200179	CAPIXABA
+1200203	CRUZEIRO DO SUL
+1200252	EPITACIOLANDIA
+1200302	FEIJO
+1200328	JORDAO
+1200336	MANCIO LIMA
+1200344	MANOEL URBANO
+1200351	MARECHAL THAUMATURGO
+1200385	PLACIDO DE CASTRO
+1200393	PORTO WALTER
+1200401	RIO BRANCO
+1200427	RODRIGUES ALVES
+1200435	SANTA ROSA DO PURUS
+1200450	SENADOR GUIOMARD
+1200500	SENA MADUREIRA
+1200609	TARAUACA
+1200708	XAPURI
+1200807	PORTO ACRE
+1300029	ALVARAES
+1300060	AMATURA
+1300086	ANAMA
+1300102	ANORI
+1300144	APUI
+1300201	ATALAIA DO NORTE
+1300300	AUTAZES
+1300409	BARCELOS
+1300508	BARREIRINHA
+1300607	BENJAMIN CONSTANT
+1300631	BERURI
+1300680	BOA VISTA DO RAMOS
+1300706	BOCA DO ACRE
+1300805	BORBA
+1300839	CAAPIRANGA
+1300904	CANUTAMA
+1301001	CARAUARI
+1301100	CAREIRO
+1301159	CAREIRO DA VARZEA
+1301209	COARI
+1301308	CODAJAS
+1301407	EIRUNEPE
+1301506	ENVIRA
+1301605	FONTE BOA
+1301654	GUAJARA
+1301704	HUMAITA
+1301803	IPIXUNA
+1301852	IRANDUBA
+1301902	ITACOATIARA
+1301951	ITAMARATI
+1302009	ITAPIRANGA
+1302108	JAPURA
+1302207	JURUA
+1302306	JUTAI
+1302405	LABREA
+1302504	MANACAPURU
+1302553	MANAQUIRI
+1302603	MANAUS
+1302702	MANICORE
+1302801	MARAA
+1302900	MAUES
+1303007	NHAMUNDA
+1303106	NOVA OLINDA DO NORTE
+1303205	NOVO AIRAO
+1303304	NOVO ARIPUANA
+1303403	PARINTINS
+1303502	PAUINI
+1303536	PRESIDENTE FIGUEIREDO
+1303569	RIO PRETO DA EVA
+1303601	SANTA ISABEL DO RIO NEGRO
+1303700	SANTO ANTONIO DO ICA
+1303809	SAO GABRIEL DA CACHOEIRA
+1303908	SAO PAULO DE OLIVENCA
+1303957	SAO SEBASTIAO DO UATUMA
+1304005	SILVES
+1304062	TABATINGA
+1304104	TAPAUA
+1304203	TEFE
+1304237	TONANTINS
+1304260	UARINI
+1304302	URUCARA
+1304401	URUCURITUBA
+1400027	AMAJARI
+1400050	ALTO ALEGRE
+1400100	BOA VISTA
+1400159	BONFIM
+1400175	CANTA
+1400209	CARACARAI
+1400233	CAROEBE
+1400282	IRACEMA
+1400308	MUCAJAI
+1400407	NORMANDIA
+1400456	PACARAIMA
+1400472	RORAINOPOLIS
+1400506	SAO JOAO DA BALIZA
+1400605	SAO LUIZ
+1400704	UIRAMUTA
+1500107	ABAETETUBA
+1500131	ABEL FIGUEIREDO
+1500206	ACARA
+1500305	AFUA
+1500347	AGUA AZUL DO NORTE
+1500404	ALENQUER
+1500503	ALMEIRIM
+1500602	ALTAMIRA
+1500701	ANAJAS
+1500800	ANANINDEUA
+1500859	ANAPU
+1500909	AUGUSTO CORREA
+1500958	AURORA DO PARA
+1501006	AVEIRO
+1501105	BAGRE
+1501204	BAIAO
+1501253	BANNACH
+1501303	BARCARENA
+1501402	BELEM
+1501451	BELTERRA
+1501501	BENEVIDES
+1501576	BOM JESUS DO TOCANTINS
+1501600	BONITO
+1501709	BRAGANCA
+1501725	BRASIL NOVO
+1501758	BREJO GRANDE DO ARAGUAIA
+1501782	BREU BRANCO
+1501808	BREVES
+1501907	BUJARU
+1501956	CACHOEIRA DO PIRIA
+1502004	CACHOEIRA DO ARARI
+1502103	CAMETA
+1502152	CANAA DOS CARAJAS
+1502202	CAPANEMA
+1502301	CAPITAO POCO
+1502400	CASTANHAL
+1502509	CHAVES
+1502608	COLARES
+1502707	CONCEICAO DO ARAGUAIA
+1502756	CONCORDIA DO PARA
+1502764	CUMARU DO NORTE
+1502772	CURIONOPOLIS
+1502806	CURRALINHO
+1502855	CURUA
+1502905	CURUCA
+1502939	DOM ELISEU
+1502954	ELDORADO DO CARAJAS
+1503002	FARO
+1503044	FLORESTA DO ARAGUAIA
+1503077	GARRAFAO DO NORTE
+1503093	GOIANESIA DO PARA
+1503101	GURUPA
+1503200	IGARAPE-ACU
+1503309	IGARAPE-MIRI
+1503408	INHANGAPI
+1503457	IPIXUNA DO PARA
+1503507	IRITUIA
+1503606	ITAITUBA
+1503705	ITUPIRANGA
+1503754	JACAREACANGA
+1503804	JACUNDA
+1503903	JURUTI
+1504000	LIMOEIRO DO AJURU
+1504059	MAE DO RIO
+1504109	MAGALHAES BARATA
+1504208	MARABA
+1504307	MARACANA
+1504406	MARAPANIM
+1504422	MARITUBA
+1504455	MEDICILANDIA
+1504505	MELGACO
+1504604	MOCAJUBA
+1504703	MOJU
+1504752	MOJUI DOS CAMPOS
+1504802	MONTE ALEGRE
+1504901	MUANA
+1504950	NOVA ESPERANCA DO PIRIA
+1504976	NOVA IPIXUNA
+1505007	NOVA TIMBOTEUA
+1505031	NOVO PROGRESSO
+1505064	NOVO REPARTIMENTO
+1505106	OBIDOS
+1505205	OEIRAS DO PARA
+1505304	ORIXIMINA
+1505403	OUREM
+1505437	OURILANDIA DO NORTE
+1505486	PACAJA
+1505494	PALESTINA DO PARA
+1505502	PARAGOMINAS
+1505536	PARAUAPEBAS
+1505551	PAU D'ARCO
+1505601	PEIXE-BOI
+1505635	PICARRA
+1505650	PLACAS
+1505700	PONTA DE PEDRAS
+1505809	PORTEL
+1505908	PORTO DE MOZ
+1506005	PRAINHA
+1506104	PRIMAVERA
+1506112	QUATIPURU
+1506138	REDENCAO
+1506161	RIO MARIA
+1506187	RONDON DO PARA
+1506195	RUROPOLIS
+1506203	SALINOPOLIS
+1506302	SALVATERRA
+1506351	SANTA BARBARA DO PARA
+1506401	SANTA CRUZ DO ARARI
+1506500	SANTA IZABEL DO PARA
+1506559	SANTA LUZIA DO PARA
+1506583	SANTA MARIA DAS BARREIRAS
+1506609	SANTA MARIA DO PARA
+1506708	SANTANA DO ARAGUAIA
+1506807	SANTAREM
+1506906	SANTAREM NOVO
+1507003	SANTO ANTONIO DO TAUA
+1507102	SAO CAETANO DE ODIVELAS
+1507151	SAO DOMINGOS DO ARAGUAIA
+1507201	SAO DOMINGOS DO CAPIM
+1507300	SAO FELIX DO XINGU
+1507409	SAO FRANCISCO DO PARA
+1507458	SAO GERALDO DO ARAGUAIA
+1507466	SAO JOAO DA PONTA
+1507474	SAO JOAO DE PIRABAS
+1507508	SAO JOAO DO ARAGUAIA
+1507607	SAO MIGUEL DO GUAMA
+1507706	SAO SEBASTIAO DA BOA VISTA
+1507755	SAPUCAIA
+1507805	SENADOR JOSE PORFIRIO
+1507904	SOURE
+1507953	TAILANDIA
+1507961	TERRA ALTA
+1507979	TERRA SANTA
+1508001	TOME-ACU
+1508035	TRACUATEUA
+1508050	TRAIRAO
+1508084	TUCUMA
+1508100	TUCURUI
+1508126	ULIANOPOLIS
+1508159	URUARA
+1508209	VIGIA
+1508308	VISEU
+1508357	VITORIA DO XINGU
+1508407	XINGUARA
+1600055	SERRA DO NAVIO
+1600105	AMAPA
+1600154	PEDRA BRANCA DO AMAPARI
+1600204	CALCOENE
+1600212	CUTIAS
+1600238	FERREIRA GOMES
+1600253	ITAUBAL
+1600279	LARANJAL DO JARI
+1600303	MACAPA
+1600402	MAZAGAO
+1600501	OIAPOQUE
+1600535	PORTO GRANDE
+1600550	PRACUUBA
+1600600	SANTANA
+1600709	TARTARUGALZINHO
+1600808	VITORIA DO JARI
+1700251	ABREULANDIA
+1700301	AGUIARNOPOLIS
+1700350	ALIANCA DO TOCANTINS
+1700400	ALMAS
+1700707	ALVORADA
+1701002	ANANAS
+1701051	ANGICO
+1701101	APARECIDA DO RIO NEGRO
+1701309	ARAGOMINAS
+1701903	ARAGUACEMA
+1702000	ARAGUACU
+1702109	ARAGUAINA
+1702158	ARAGUANA
+1702208	ARAGUATINS
+1702307	ARAPOEMA
+1702406	ARRAIAS
+1702554	AUGUSTINOPOLIS
+1702703	AURORA DO TOCANTINS
+1702901	AXIXA DO TOCANTINS
+1703008	BABACULANDIA
+1703057	BANDEIRANTES DO TOCANTINS
+1703073	BARRA DO OURO
+1703107	BARROLANDIA
+1703206	BERNARDO SAYAO
+1703305	BOM JESUS DO TOCANTINS
+1703602	BRASILANDIA DO TOCANTINS
+1703701	BREJINHO DE NAZARE
+1703800	BURITI DO TOCANTINS
+1703826	CACHOEIRINHA
+1703842	CAMPOS LINDOS
+1703867	CARIRI DO TOCANTINS
+1703883	CARMOLANDIA
+1703891	CARRASCO BONITO
+1703909	CASEARA
+1704105	CENTENARIO
+1704600	CHAPADA DE AREIA
+1705102	CHAPADA DA NATIVIDADE
+1705508	COLINAS DO TOCANTINS
+1705557	COMBINADO
+1705607	CONCEICAO DO TOCANTINS
+1706001	COUTO MAGALHAES
+1706100	CRISTALANDIA
+1706258	CRIXAS DO TOCANTINS
+1706506	DARCINOPOLIS
+1707009	DIANOPOLIS
+1707108	DIVINOPOLIS DO TOCANTINS
+1707207	DOIS IRMAOS DO TOCANTINS
+1707306	DUERE
+1707405	ESPERANTINA
+1707553	FATIMA
+1707652	FIGUEIROPOLIS
+1707702	FILADELFIA
+1708205	FORMOSO DO ARAGUAIA
+1708254	TABOCAO
+1708304	GOIANORTE
+1709005	GOIATINS
+1709302	GUARAI
+1709500	GURUPI
+1709807	IPUEIRAS
+1710508	ITACAJA
+1710706	ITAGUATINS
+1710904	ITAPIRATINS
+1711100	ITAPORA DO TOCANTINS
+1711506	JAU DO TOCANTINS
+1711803	JUARINA
+1711902	LAGOA DA CONFUSAO
+1711951	LAGOA DO TOCANTINS
+1712009	LAJEADO
+1712157	LAVANDEIRA
+1712405	LIZARDA
+1712454	LUZINOPOLIS
+1712504	MARIANOPOLIS DO TOCANTINS
+1712702	MATEIROS
+1712801	MAURILANDIA DO TOCANTINS
+1713205	MIRACEMA DO TOCANTINS
+1713304	MIRANORTE
+1713601	MONTE DO CARMO
+1713700	MONTE SANTO DO TOCANTINS
+1713809	PALMEIRAS DO TOCANTINS
+1713957	MURICILANDIA
+1714203	NATIVIDADE
+1714302	NAZARE
+1714880	NOVA OLINDA
+1715002	NOVA ROSALANDIA
+1715101	NOVO ACORDO
+1715150	NOVO ALEGRE
+1715259	NOVO JARDIM
+1715507	OLIVEIRA DE FATIMA
+1715705	PALMEIRANTE
+1715754	PALMEIROPOLIS
+1716109	PARAISO DO TOCANTINS
+1716208	PARANA
+1716307	PAU D'ARCO
+1716505	PEDRO AFONSO
+1716604	PEIXE
+1716653	PEQUIZEIRO
+1716703	COLMEIA
+1717008	PINDORAMA DO TOCANTINS
+1717206	PIRAQUE
+1717503	PIUM
+1717800	PONTE ALTA DO BOM JESUS
+1717909	PONTE ALTA DO TOCANTINS
+1718006	PORTO ALEGRE DO TOCANTINS
+1718204	PORTO NACIONAL
+1718303	PRAIA NORTE
+1718402	PRESIDENTE KENNEDY
+1718451	PUGMIL
+1718501	RECURSOLANDIA
+1718550	RIACHINHO
+1718659	RIO DA CONCEICAO
+1718709	RIO DOS BOIS
+1718758	RIO SONO
+1718808	SAMPAIO
+1718840	SANDOLANDIA
+1718865	SANTA FE DO ARAGUAIA
+1718881	SANTA MARIA DO TOCANTINS
+1718899	SANTA RITA DO TOCANTINS
+1718907	SANTA ROSA DO TOCANTINS
+1719004	SANTA TEREZA DO TOCANTINS
+1720002	SANTA TEREZINHA DO TOCANTINS
+1720101	SAO BENTO DO TOCANTINS
+1720150	SAO FELIX DO TOCANTINS
+1720200	SAO MIGUEL DO TOCANTINS
+1720259	SAO SALVADOR DO TOCANTINS
+1720309	SAO SEBASTIAO DO TOCANTINS
+1720499	SAO VALERIO
+1720655	SILVANOPOLIS
+1720804	SITIO NOVO DO TOCANTINS
+1720853	SUCUPIRA
+1720903	TAGUATINGA
+1720937	TAIPAS DO TOCANTINS
+1720978	TALISMA
+1721000	PALMAS
+1721109	TOCANTINIA
+1721208	TOCANTINOPOLIS
+1721257	TUPIRAMA
+1721307	TUPIRATINS
+1722081	WANDERLANDIA
+1722107	XAMBIOA
+2100055	ACAILANDIA
+2100105	AFONSO CUNHA
+2100154	AGUA DOCE DO MARANHAO
+2100204	ALCANTARA
+2100303	ALDEIAS ALTAS
+2100402	ALTAMIRA DO MARANHAO
+2100436	ALTO ALEGRE DO MARANHAO
+2100477	ALTO ALEGRE DO PINDARE
+2100501	ALTO PARNAIBA
+2100550	AMAPA DO MARANHAO
+2100600	AMARANTE DO MARANHAO
+2100709	ANAJATUBA
+2100808	ANAPURUS
+2100832	APICUM-ACU
+2100873	ARAGUANA
+2100907	ARAIOSES
+2100956	ARAME
+2101004	ARARI
+2101103	AXIXA
+2101202	BACABAL
+2101251	BACABEIRA
+2101301	BACURI
+2101350	BACURITUBA
+2101400	BALSAS
+2101509	BARAO DE GRAJAU
+2101608	BARRA DO CORDA
+2101707	BARREIRINHAS
+2101731	BELAGUA
+2101772	BELA VISTA DO MARANHAO
+2101806	BENEDITO LEITE
+2101905	BEQUIMAO
+2101939	BERNARDO DO MEARIM
+2101970	BOA VISTA DO GURUPI
+2102002	BOM JARDIM
+2102036	BOM JESUS DAS SELVAS
+2102077	BOM LUGAR
+2102101	BREJO
+2102150	BREJO DE AREIA
+2102200	BURITI
+2102309	BURITI BRAVO
+2102325	BURITICUPU
+2102358	BURITIRANA
+2102374	CACHOEIRA GRANDE
+2102408	CAJAPIO
+2102507	CAJARI
+2102556	CAMPESTRE DO MARANHAO
+2102606	CANDIDO MENDES
+2102705	CANTANHEDE
+2102754	CAPINZAL DO NORTE
+2102804	CAROLINA
+2102903	CARUTAPERA
+2103000	CAXIAS
+2103109	CEDRAL
+2103125	CENTRAL DO MARANHAO
+2103158	CENTRO DO GUILHERME
+2103174	CENTRO NOVO DO MARANHAO
+2103208	CHAPADINHA
+2103257	CIDELANDIA
+2103307	CODO
+2103406	COELHO NETO
+2103505	COLINAS
+2103554	CONCEICAO DO LAGO-ACU
+2103604	COROATA
+2103703	CURURUPU
+2103752	DAVINOPOLIS
+2103802	DOM PEDRO
+2103901	DUQUE BACELAR
+2104008	ESPERANTINOPOLIS
+2104057	ESTREITO
+2104073	FEIRA NOVA DO MARANHAO
+2104081	FERNANDO FALCAO
+2104099	FORMOSA DA SERRA NEGRA
+2104107	FORTALEZA DOS NOGUEIRAS
+2104206	FORTUNA
+2104305	GODOFREDO VIANA
+2104404	GONCALVES DIAS
+2104503	GOVERNADOR ARCHER
+2104552	GOVERNADOR EDISON LOBAO
+2104602	GOVERNADOR EUGENIO BARROS
+2104628	GOVERNADOR LUIZ ROCHA
+2104651	GOVERNADOR NEWTON BELLO
+2104677	GOVERNADOR NUNES FREIRE
+2104701	GRACA ARANHA
+2104800	GRAJAU
+2104909	GUIMARAES
+2105005	HUMBERTO DE CAMPOS
+2105104	ICATU
+2105153	IGARAPE DO MEIO
+2105203	IGARAPE GRANDE
+2105302	IMPERATRIZ
+2105351	ITAIPAVA DO GRAJAU
+2105401	ITAPECURU MIRIM
+2105427	ITINGA DO MARANHAO
+2105450	JATOBA
+2105476	JENIPAPO DOS VIEIRAS
+2105500	JOAO LISBOA
+2105609	JOSELANDIA
+2105658	JUNCO DO MARANHAO
+2105708	LAGO DA PEDRA
+2105807	LAGO DO JUNCO
+2105906	LAGO VERDE
+2105922	LAGOA DO MATO
+2105948	LAGO DOS RODRIGUES
+2105963	LAGOA GRANDE DO MARANHAO
+2105989	LAJEADO NOVO
+2106003	LIMA CAMPOS
+2106102	LORETO
+2106201	LUIS DOMINGUES
+2106300	MAGALHAES DE ALMEIDA
+2106326	MARACACUME
+2106359	MARAJA DO SENA
+2106375	MARANHAOZINHO
+2106409	MATA ROMA
+2106508	MATINHA
+2106607	MATOES
+2106631	MATOES DO NORTE
+2106672	MILAGRES DO MARANHAO
+2106706	MIRADOR
+2106755	MIRANDA DO NORTE
+2106805	MIRINZAL
+2106904	MONCAO
+2107001	MONTES ALTOS
+2107100	MORROS
+2107209	NINA RODRIGUES
+2107258	NOVA COLINAS
+2107308	NOVA IORQUE
+2107357	NOVA OLINDA DO MARANHAO
+2107407	OLHO D'AGUA DAS CUNHAS
+2107456	OLINDA NOVA DO MARANHAO
+2107506	PACO DO LUMIAR
+2107605	PALMEIRANDIA
+2107704	PARAIBANO
+2107803	PARNARAMA
+2107902	PASSAGEM FRANCA
+2108009	PASTOS BONS
+2108058	PAULINO NEVES
+2108108	PAULO RAMOS
+2108207	PEDREIRAS
+2108256	PEDRO DO ROSARIO
+2108306	PENALVA
+2108405	PERI MIRIM
+2108454	PERITORO
+2108504	PINDARE-MIRIM
+2108603	PINHEIRO
+2108702	PIO XII
+2108801	PIRAPEMAS
+2108900	POCAO DE PEDRAS
+2109007	PORTO FRANCO
+2109056	PORTO RICO DO MARANHAO
+2109106	PRESIDENTE DUTRA
+2109205	PRESIDENTE JUSCELINO
+2109239	PRESIDENTE MEDICI
+2109270	PRESIDENTE SARNEY
+2109304	PRESIDENTE VARGAS
+2109403	PRIMEIRA CRUZ
+2109452	RAPOSA
+2109502	RIACHAO
+2109551	RIBAMAR FIQUENE
+2109601	ROSARIO
+2109700	SAMBAIBA
+2109759	SANTA FILOMENA DO MARANHAO
+2109809	SANTA HELENA
+2109908	SANTA INES
+2110005	SANTA LUZIA
+2110039	SANTA LUZIA DO PARUA
+2110104	SANTA QUITERIA DO MARANHAO
+2110203	SANTA RITA
+2110237	SANTANA DO MARANHAO
+2110278	SANTO AMARO DO MARANHAO
+2110302	SANTO ANTONIO DOS LOPES
+2110401	SAO BENEDITO DO RIO PRETO
+2110500	SAO BENTO
+2110609	SAO BERNARDO
+2110658	SAO DOMINGOS DO AZEITAO
+2110708	SAO DOMINGOS DO MARANHAO
+2110807	SAO FELIX DE BALSAS
+2110856	SAO FRANCISCO DO BREJAO
+2110906	SAO FRANCISCO DO MARANHAO
+2111003	SAO JOAO BATISTA
+2111029	SAO JOAO DO CARU
+2111052	SAO JOAO DO PARAISO
+2111078	SAO JOAO DO SOTER
+2111102	SAO JOAO DOS PATOS
+2111201	SAO JOSE DE RIBAMAR
+2111250	SAO JOSE DOS BASILIOS
+2111300	SAO LUIS
+2111409	SAO LUIS GONZAGA DO MARANHAO
+2111508	SAO MATEUS DO MARANHAO
+2111532	SAO PEDRO DA AGUA BRANCA
+2111573	SAO PEDRO DOS CRENTES
+2111607	SAO RAIMUNDO DAS MANGABEIRAS
+2111631	SAO RAIMUNDO DO DOCA BEZERRA
+2111672	SAO ROBERTO
+2111706	SAO VICENTE FERRER
+2111722	SATUBINHA
+2111748	SENADOR ALEXANDRE COSTA
+2111763	SENADOR LA ROCQUE
+2111789	SERRANO DO MARANHAO
+2111805	SITIO NOVO
+2111904	SUCUPIRA DO NORTE
+2111953	SUCUPIRA DO RIACHAO
+2112001	TASSO FRAGOSO
+2112100	TIMBIRAS
+2112209	TIMON
+2112233	TRIZIDELA DO VALE
+2112274	TUFILANDIA
+2112308	TUNTUM
+2112407	TURIACU
+2112456	TURILANDIA
+2112506	TUTOIA
+2112605	URBANO SANTOS
+2112704	VARGEM GRANDE
+2112803	VIANA
+2112852	VILA NOVA DOS MARTIRIOS
+2112902	VITORIA DO MEARIM
+2113009	VITORINO FREIRE
+2114007	ZE DOCA
+2200053	ACAUA
+2200103	AGRICOLANDIA
+2200202	AGUA BRANCA
+2200251	ALAGOINHA DO PIAUI
+2200277	ALEGRETE DO PIAUI
+2200301	ALTO LONGA
+2200400	ALTOS
+2200459	ALVORADA DO GURGUEIA
+2200509	AMARANTE
+2200608	ANGICAL DO PIAUI
+2200707	ANISIO DE ABREU
+2200806	ANTONIO ALMEIDA
+2200905	AROAZES
+2200954	AROEIRAS DO ITAIM
+2201002	ARRAIAL
+2201051	ASSUNCAO DO PIAUI
+2201101	AVELINO LOPES
+2201150	BAIXA GRANDE DO RIBEIRO
+2201176	BARRA D'ALCANTARA
+2201200	BARRAS
+2201309	BARREIRAS DO PIAUI
+2201408	BARRO DURO
+2201507	BATALHA
+2201556	BELA VISTA DO PIAUI
+2201572	BELEM DO PIAUI
+2201606	BENEDITINOS
+2201705	BERTOLINIA
+2201739	BETANIA DO PIAUI
+2201770	BOA HORA
+2201804	BOCAINA
+2201903	BOM JESUS
+2201919	BOM PRINCIPIO DO PIAUI
+2201929	BONFIM DO PIAUI
+2201945	BOQUEIRAO DO PIAUI
+2201960	BRASILEIRA
+2201988	BREJO DO PIAUI
+2202000	BURITI DOS LOPES
+2202026	BURITI DOS MONTES
+2202059	CABECEIRAS DO PIAUI
+2202075	CAJAZEIRAS DO PIAUI
+2202083	CAJUEIRO DA PRAIA
+2202091	CALDEIRAO GRANDE DO PIAUI
+2202109	CAMPINAS DO PIAUI
+2202117	CAMPO ALEGRE DO FIDALGO
+2202133	CAMPO GRANDE DO PIAUI
+2202174	CAMPO LARGO DO PIAUI
+2202208	CAMPO MAIOR
+2202251	CANAVIEIRA
+2202307	CANTO DO BURITI
+2202406	CAPITAO DE CAMPOS
+2202455	CAPITAO GERVASIO OLIVEIRA
+2202505	CARACOL
+2202539	CARAUBAS DO PIAUI
+2202554	CARIDADE DO PIAUI
+2202604	CASTELO DO PIAUI
+2202653	CAXINGO
+2202703	COCAL
+2202711	COCAL DE TELHA
+2202729	COCAL DOS ALVES
+2202737	COIVARAS
+2202752	COLONIA DO GURGUEIA
+2202778	COLONIA DO PIAUI
+2202802	CONCEICAO DO CANINDE
+2202851	CORONEL JOSE DIAS
+2202901	CORRENTE
+2203008	CRISTALANDIA DO PIAUI
+2203107	CRISTINO CASTRO
+2203206	CURIMATA
+2203230	CURRAIS
+2203255	CURRALINHOS
+2203271	CURRAL NOVO DO PIAUI
+2203305	DEMERVAL LOBAO
+2203354	DIRCEU ARCOVERDE
+2203404	DOM EXPEDITO LOPES
+2203420	DOMINGOS MOURAO
+2203453	DOM INOCENCIO
+2203503	ELESBAO VELOSO
+2203602	ELISEU MARTINS
+2203701	ESPERANTINA
+2203750	FARTURA DO PIAUI
+2203800	FLORES DO PIAUI
+2203859	FLORESTA DO PIAUI
+2203909	FLORIANO
+2204006	FRANCINOPOLIS
+2204105	FRANCISCO AYRES
+2204154	FRANCISCO MACEDO
+2204204	FRANCISCO SANTOS
+2204303	FRONTEIRAS
+2204352	GEMINIANO
+2204402	GILBUES
+2204501	GUADALUPE
+2204550	GUARIBAS
+2204600	HUGO NAPOLEAO
+2204659	ILHA GRANDE
+2204709	INHUMA
+2204808	IPIRANGA DO PIAUI
+2204907	ISAIAS COELHO
+2205003	ITAINOPOLIS
+2205102	ITAUEIRA
+2205151	JACOBINA DO PIAUI
+2205201	JAICOS
+2205250	JARDIM DO MULATO
+2205276	JATOBA DO PIAUI
+2205300	JERUMENHA
+2205359	JOAO COSTA
+2205409	JOAQUIM PIRES
+2205458	JOCA MARQUES
+2205508	JOSE DE FREITAS
+2205516	JUAZEIRO DO PIAUI
+2205524	JULIO BORGES
+2205532	JUREMA
+2205540	LAGOINHA DO PIAUI
+2205557	LAGOA ALEGRE
+2205565	LAGOA DO BARRO DO PIAUI
+2205573	LAGOA DE SAO FRANCISCO
+2205581	LAGOA DO PIAUI
+2205599	LAGOA DO SITIO
+2205607	LANDRI SALES
+2205706	LUIS CORREIA
+2205805	LUZILANDIA
+2205854	MADEIRO
+2205904	MANOEL EMIDIO
+2205953	MARCOLANDIA
+2206001	MARCOS PARENTE
+2206050	MASSAPE DO PIAUI
+2206100	MATIAS OLIMPIO
+2206209	MIGUEL ALVES
+2206308	MIGUEL LEAO
+2206357	MILTON BRANDAO
+2206407	MONSENHOR GIL
+2206506	MONSENHOR HIPOLITO
+2206605	MONTE ALEGRE DO PIAUI
+2206654	MORRO CABECA NO TEMPO
+2206670	MORRO DO CHAPEU DO PIAUI
+2206696	MURICI DOS PORTELAS
+2206704	NAZARE DO PIAUI
+2206720	NAZARIA
+2206753	NOSSA SENHORA DE NAZARE
+2206803	NOSSA SENHORA DOS REMEDIOS
+2206902	NOVO ORIENTE DO PIAUI
+2206951	NOVO SANTO ANTONIO
+2207009	OEIRAS
+2207108	OLHO D'AGUA DO PIAUI
+2207207	PADRE MARCOS
+2207306	PAES LANDIM
+2207355	PAJEU DO PIAUI
+2207405	PALMEIRA DO PIAUI
+2207504	PALMEIRAIS
+2207553	PAQUETA
+2207603	PARNAGUA
+2207702	PARNAIBA
+2207751	PASSAGEM FRANCA DO PIAUI
+2207777	PATOS DO PIAUI
+2207793	PAU D'ARCO DO PIAUI
+2207801	PAULISTANA
+2207850	PAVUSSU
+2207900	PEDRO II
+2207934	PEDRO LAURENTINO
+2207959	NOVA SANTA RITA
+2208007	PICOS
+2208106	PIMENTEIRAS
+2208205	PIO IX
+2208304	PIRACURUCA
+2208403	PIRIPIRI
+2208502	PORTO
+2208551	PORTO ALEGRE DO PIAUI
+2208601	PRATA DO PIAUI
+2208650	QUEIMADA NOVA
+2208700	REDENCAO DO GURGUEIA
+2208809	REGENERACAO
+2208858	RIACHO FRIO
+2208874	RIBEIRA DO PIAUI
+2208908	RIBEIRO GONCALVES
+2209005	RIO GRANDE DO PIAUI
+2209104	SANTA CRUZ DO PIAUI
+2209153	SANTA CRUZ DOS MILAGRES
+2209203	SANTA FILOMENA
+2209302	SANTA LUZ
+2209351	SANTANA DO PIAUI
+2209377	SANTA ROSA DO PIAUI
+2209401	SANTO ANTONIO DE LISBOA
+2209450	SANTO ANTONIO DOS MILAGRES
+2209500	SANTO INACIO DO PIAUI
+2209559	SAO BRAZ DO PIAUI
+2209609	SAO FELIX DO PIAUI
+2209658	SAO FRANCISCO DE ASSIS DO PIAUI
+2209708	SAO FRANCISCO DO PIAUI
+2209757	SAO GONCALO DO GURGUEIA
+2209807	SAO GONCALO DO PIAUI
+2209856	SAO JOAO DA CANABRAVA
+2209872	SAO JOAO DA FRONTEIRA
+2209906	SAO JOAO DA SERRA
+2209955	SAO JOAO DA VARJOTA
+2209971	SAO JOAO DO ARRAIAL
+2210003	SAO JOAO DO PIAUI
+2210052	SAO JOSE DO DIVINO
+2210102	SAO JOSE DO PEIXE
+2210201	SAO JOSE DO PIAUI
+2210300	SAO JULIAO
+2210359	SAO LOURENCO DO PIAUI
+2210375	SAO LUIS DO PIAUI
+2210383	SAO MIGUEL DA BAIXA GRANDE
+2210391	SAO MIGUEL DO FIDALGO
+2210409	SAO MIGUEL DO TAPUIO
+2210508	SAO PEDRO DO PIAUI
+2210607	SAO RAIMUNDO NONATO
+2210623	SEBASTIAO BARROS
+2210631	SEBASTIAO LEAL
+2210656	SIGEFREDO PACHECO
+2210706	SIMOES
+2210805	SIMPLICIO MENDES
+2210904	SOCORRO DO PIAUI
+2210938	SUSSUAPARA
+2210953	TAMBORIL DO PIAUI
+2210979	TANQUE DO PIAUI
+2211001	TERESINA
+2211100	UNIAO
+2211209	URUCUI
+2211308	VALENCA DO PIAUI
+2211357	VARZEA BRANCA
+2211407	VARZEA GRANDE
+2211506	VERA MENDES
+2211605	VILA NOVA DO PIAUI
+2211704	WALL FERRAZ
+2300101	ABAIARA
+2300150	ACARAPE
+2300200	ACARAU
+2300309	ACOPIARA
+2300408	AIUABA
+2300507	ALCANTARAS
+2300606	ALTANEIRA
+2300705	ALTO SANTO
+2300754	AMONTADA
+2300804	ANTONINA DO NORTE
+2300903	APUIARES
+2301000	AQUIRAZ
+2301109	ARACATI
+2301208	ARACOIABA
+2301257	ARARENDA
+2301307	ARARIPE
+2301406	ARATUBA
+2301505	ARNEIROZ
+2301604	ASSARE
+2301703	AURORA
+2301802	BAIXIO
+2301851	BANABUIU
+2301901	BARBALHA
+2301950	BARREIRA
+2302008	BARRO
+2302057	BARROQUINHA
+2302107	BATURITE
+2302206	BEBERIBE
+2302305	BELA CRUZ
+2302404	BOA VIAGEM
+2302503	BREJO SANTO
+2302602	CAMOCIM
+2302701	CAMPOS SALES
+2302800	CANINDE
+2302909	CAPISTRANO
+2303006	CARIDADE
+2303105	CARIRE
+2303204	CARIRIACU
+2303303	CARIUS
+2303402	CARNAUBAL
+2303501	CASCAVEL
+2303600	CATARINA
+2303659	CATUNDA
+2303709	CAUCAIA
+2303808	CEDRO
+2303907	CHAVAL
+2303931	CHORO
+2303956	CHOROZINHO
+2304004	COREAU
+2304103	CRATEUS
+2304202	CRATO
+2304236	CROATA
+2304251	CRUZ
+2304269	DEPUTADO IRAPUAN PINHEIRO
+2304277	ERERE
+2304285	EUSEBIO
+2304301	FARIAS BRITO
+2304350	FORQUILHA
+2304400	FORTALEZA
+2304459	FORTIM
+2304509	FRECHEIRINHA
+2304608	GENERAL SAMPAIO
+2304657	GRACA
+2304707	GRANJA
+2304806	GRANJEIRO
+2304905	GROAIRAS
+2304954	GUAIUBA
+2305001	GUARACIABA DO NORTE
+2305100	GUARAMIRANGA
+2305209	HIDROLANDIA
+2305233	HORIZONTE
+2305266	IBARETAMA
+2305308	IBIAPINA
+2305332	IBICUITINGA
+2305357	ICAPUI
+2305407	ICO
+2305506	IGUATU
+2305605	INDEPENDENCIA
+2305654	IPAPORANGA
+2305704	IPAUMIRIM
+2305803	IPU
+2305902	IPUEIRAS
+2306009	IRACEMA
+2306108	IRAUCUBA
+2306207	ITAICABA
+2306256	ITAITINGA
+2306306	ITAPAJE
+2306405	ITAPIPOCA
+2306504	ITAPIUNA
+2306553	ITAREMA
+2306603	ITATIRA
+2306702	JAGUARETAMA
+2306801	JAGUARIBARA
+2306900	JAGUARIBE
+2307007	JAGUARUANA
+2307106	JARDIM
+2307205	JATI
+2307254	JIJOCA DE JERICOACOARA
+2307304	JUAZEIRO DO NORTE
+2307403	JUCAS
+2307502	LAVRAS DA MANGABEIRA
+2307601	LIMOEIRO DO NORTE
+2307635	MADALENA
+2307650	MARACANAU
+2307700	MARANGUAPE
+2307809	MARCO
+2307908	MARTINOPOLE
+2308005	MASSAPE
+2308104	MAURITI
+2308203	MERUOCA
+2308302	MILAGRES
+2308351	MILHA
+2308377	MIRAIMA
+2308401	MISSAO VELHA
+2308500	MOMBACA
+2308609	MONSENHOR TABOSA
+2308708	MORADA NOVA
+2308807	MORAUJO
+2308906	MORRINHOS
+2309003	MUCAMBO
+2309102	MULUNGU
+2309201	NOVA OLINDA
+2309300	NOVA RUSSAS
+2309409	NOVO ORIENTE
+2309458	OCARA
+2309508	OROS
+2309607	PACAJUS
+2309706	PACATUBA
+2309805	PACOTI
+2309904	PACUJA
+2310001	PALHANO
+2310100	PALMACIA
+2310209	PARACURU
+2310258	PARAIPABA
+2310308	PARAMBU
+2310407	PARAMOTI
+2310506	PEDRA BRANCA
+2310605	PENAFORTE
+2310704	PENTECOSTE
+2310803	PEREIRO
+2310852	PINDORETAMA
+2310902	PIQUET CARNEIRO
+2310951	PIRES FERREIRA
+2311009	PORANGA
+2311108	PORTEIRAS
+2311207	POTENGI
+2311231	POTIRETAMA
+2311264	QUITERIANOPOLIS
+2311306	QUIXADA
+2311355	QUIXELO
+2311405	QUIXERAMOBIM
+2311504	QUIXERE
+2311603	REDENCAO
+2311702	RERIUTABA
+2311801	RUSSAS
+2311900	SABOEIRO
+2311959	SALITRE
+2312007	SANTANA DO ACARAU
+2312106	SANTANA DO CARIRI
+2312205	SANTA QUITERIA
+2312304	SAO BENEDITO
+2312403	SAO GONCALO DO AMARANTE
+2312502	SAO JOAO DO JAGUARIBE
+2312601	SAO LUIS DO CURU
+2312700	SENADOR POMPEU
+2312809	SENADOR SA
+2312908	SOBRAL
+2313005	SOLONOPOLE
+2313104	TABULEIRO DO NORTE
+2313203	TAMBORIL
+2313252	TARRAFAS
+2313302	TAUA
+2313351	TEJUCUOCA
+2313401	TIANGUA
+2313500	TRAIRI
+2313559	TURURU
+2313609	UBAJARA
+2313708	UMARI
+2313757	UMIRIM
+2313807	URUBURETAMA
+2313906	URUOCA
+2313955	VARJOTA
+2314003	VARZEA ALEGRE
+2314102	VICOSA DO CEARA
+2400109	ACARI
+2400208	ACU
+2400307	AFONSO BEZERRA
+2400406	AGUA NOVA
+2400505	ALEXANDRIA
+2400604	ALMINO AFONSO
+2400703	ALTO DO RODRIGUES
+2400802	ANGICOS
+2400901	ANTONIO MARTINS
+2401008	APODI
+2401107	AREIA BRANCA
+2401206	ARES
+2401305	CAMPO GRANDE
+2401404	BAIA FORMOSA
+2401453	BARAUNA
+2401503	BARCELONA
+2401602	BENTO FERNANDES
+2401651	BODO
+2401701	BOM JESUS
+2401800	BREJINHO
+2401859	CAICARA DO NORTE
+2401909	CAICARA DO RIO DO VENTO
+2402006	CAICO
+2402105	CAMPO REDONDO
+2402204	CANGUARETAMA
+2402303	CARAUBAS
+2402402	CARNAUBA DOS DANTAS
+2402501	CARNAUBAIS
+2402600	CEARA-MIRIM
+2402709	CERRO CORA
+2402808	CORONEL EZEQUIEL
+2402907	CORONEL JOAO PESSOA
+2403004	CRUZETA
+2403103	CURRAIS NOVOS
+2403202	DOUTOR SEVERIANO
+2403251	PARNAMIRIM
+2403301	ENCANTO
+2403400	EQUADOR
+2403509	ESPIRITO SANTO
+2403608	EXTREMOZ
+2403707	FELIPE GUERRA
+2403756	FERNANDO PEDROZA
+2403806	FLORANIA
+2403905	FRANCISCO DANTAS
+2404002	FRUTUOSO GOMES
+2404101	GALINHOS
+2404200	GOIANINHA
+2404309	GOVERNADOR DIX-SEPT ROSADO
+2404408	GROSSOS
+2404507	GUAMARE
+2404606	IELMO MARINHO
+2404705	IPANGUACU
+2404804	IPUEIRA
+2404853	ITAJA
+2404903	ITAU
+2405009	JACANA
+2405108	JANDAIRA
+2405207	JANDUIS
+2405306	JANUARIO CICCO
+2405405	JAPI
+2405504	JARDIM DE ANGICOS
+2405603	JARDIM DE PIRANHAS
+2405702	JARDIM DO SERIDO
+2405801	JOAO CAMARA
+2405900	JOAO DIAS
+2406007	JOSE DA PENHA
+2406106	JUCURUTU
+2406155	JUNDIA
+2406205	LAGOA D'ANTA
+2406304	LAGOA DE PEDRAS
+2406403	LAGOA DE VELHOS
+2406502	LAGOA NOVA
+2406601	LAGOA SALGADA
+2406700	LAJES
+2406809	LAJES PINTADAS
+2406908	LUCRECIA
+2407005	LUIS GOMES
+2407104	MACAIBA
+2407203	MACAU
+2407252	MAJOR SALES
+2407302	MARCELINO VIEIRA
+2407401	MARTINS
+2407500	MAXARANGUAPE
+2407609	MESSIAS TARGINO
+2407708	MONTANHAS
+2407807	MONTE ALEGRE
+2407906	MONTE DAS GAMELEIRAS
+2408003	MOSSORO
+2408102	NATAL
+2408201	NISIA FLORESTA
+2408300	NOVA CRUZ
+2408409	OLHO D'AGUA DO BORGES
+2408508	OURO BRANCO
+2408607	PARANA
+2408706	PARAU
+2408805	PARAZINHO
+2408904	PARELHAS
+2408953	RIO DO FOGO
+2409100	PASSA E FICA
+2409209	PASSAGEM
+2409308	PATU
+2409332	SANTA MARIA
+2409407	PAU DOS FERROS
+2409506	PEDRA GRANDE
+2409605	PEDRA PRETA
+2409704	PEDRO AVELINO
+2409803	PEDRO VELHO
+2409902	PENDENCIAS
+2410009	PILOES
+2410108	POCO BRANCO
+2410207	PORTALEGRE
+2410256	PORTO DO MANGUE
+2410306	SERRA CAIADA
+2410405	PUREZA
+2410504	RAFAEL FERNANDES
+2410603	RAFAEL GODEIRO
+2410702	RIACHO DA CRUZ
+2410801	RIACHO DE SANTANA
+2410900	RIACHUELO
+2411007	RODOLFO FERNANDES
+2411056	TIBAU
+2411106	RUY BARBOSA
+2411205	SANTA CRUZ
+2411403	SANTANA DO MATOS
+2411429	SANTANA DO SERIDO
+2411502	SANTO ANTONIO
+2411601	SAO BENTO DO NORTE
+2411700	SAO BENTO DO TRAIRI
+2411809	SAO FERNANDO
+2411908	SAO FRANCISCO DO OESTE
+2412005	SAO GONCALO DO AMARANTE
+2412104	SAO JOAO DO SABUGI
+2412203	SAO JOSE DE MIPIBU
+2412302	SAO JOSE DO CAMPESTRE
+2412401	SAO JOSE DO SERIDO
+2412500	SAO MIGUEL
+2412559	SAO MIGUEL DO GOSTOSO
+2412609	SAO PAULO DO POTENGI
+2412708	SAO PEDRO
+2412807	SAO RAFAEL
+2412906	SAO TOME
+2413003	SAO VICENTE
+2413102	SENADOR ELOI DE SOUZA
+2413201	SENADOR GEORGINO AVELINO
+2413300	SERRA DE SAO BENTO
+2413359	SERRA DO MEL
+2413409	SERRA NEGRA DO NORTE
+2413508	SERRINHA
+2413557	SERRINHA DOS PINTOS
+2413607	SEVERIANO MELO
+2413706	SITIO NOVO
+2413805	TABOLEIRO GRANDE
+2413904	TAIPU
+2414001	TANGARA
+2414100	TENENTE ANANIAS
+2414159	TENENTE LAURENTINO CRUZ
+2414209	TIBAU DO SUL
+2414308	TIMBAUBA DOS BATISTAS
+2414407	TOUROS
+2414456	TRIUNFO POTIGUAR
+2414506	UMARIZAL
+2414605	UPANEMA
+2414704	VARZEA
+2414753	VENHA-VER
+2414803	VERA CRUZ
+2414902	VICOSA
+2415008	VILA FLOR
+2500106	AGUA BRANCA
+2500205	AGUIAR
+2500304	ALAGOA GRANDE
+2500403	ALAGOA NOVA
+2500502	ALAGOINHA
+2500536	ALCANTIL
+2500577	ALGODAO DE JANDAIRA
+2500601	ALHANDRA
+2500700	SAO JOAO DO RIO DO PEIXE
+2500734	AMPARO
+2500775	APARECIDA
+2500809	ARACAGI
+2500908	ARARA
+2501005	ARARUNA
+2501104	AREIA
+2501153	AREIA DE BARAUNAS
+2501203	AREIAL
+2501302	AROEIRAS
+2501351	ASSUNCAO
+2501401	BAIA DA TRAICAO
+2501500	BANANEIRAS
+2501534	BARAUNA
+2501575	BARRA DE SANTANA
+2501609	BARRA DE SANTA ROSA
+2501708	BARRA DE SAO MIGUEL
+2501807	BAYEUX
+2501906	BELEM
+2502003	BELEM DO BREJO DO CRUZ
+2502052	BERNARDINO BATISTA
+2502102	BOA VENTURA
+2502151	BOA VISTA
+2502201	BOM JESUS
+2502300	BOM SUCESSO
+2502409	BONITO DE SANTA FE
+2502508	BOQUEIRAO
+2502607	IGARACY
+2502706	BORBOREMA
+2502805	BREJO DO CRUZ
+2502904	BREJO DOS SANTOS
+2503001	CAAPORA
+2503100	CABACEIRAS
+2503209	CABEDELO
+2503308	CACHOEIRA DOS INDIOS
+2503407	CACIMBA DE AREIA
+2503506	CACIMBA DE DENTRO
+2503555	CACIMBAS
+2503605	CAICARA
+2503704	CAJAZEIRAS
+2503753	CAJAZEIRINHAS
+2503803	CALDAS BRANDAO
+2503902	CAMALAU
+2504009	CAMPINA GRANDE
+2504033	CAPIM
+2504074	CARAUBAS
+2504108	CARRAPATEIRA
+2504157	CASSERENGUE
+2504207	CATINGUEIRA
+2504306	CATOLE DO ROCHA
+2504355	CATURITE
+2504405	CONCEICAO
+2504504	CONDADO
+2504603	CONDE
+2504702	CONGO
+2504801	COREMAS
+2504850	COXIXOLA
+2504900	CRUZ DO ESPIRITO SANTO
+2505006	CUBATI
+2505105	CUITE
+2505204	CUITEGI
+2505238	CUITE DE MAMANGUAPE
+2505279	CURRAL DE CIMA
+2505303	CURRAL VELHO
+2505352	DAMIAO
+2505402	DESTERRO
+2505501	VISTA SERRANA
+2505600	DIAMANTE
+2505709	DONA INES
+2505808	DUAS ESTRADAS
+2505907	EMAS
+2506004	ESPERANCA
+2506103	FAGUNDES
+2506202	FREI MARTINHO
+2506251	GADO BRAVO
+2506301	GUARABIRA
+2506400	GURINHEM
+2506509	GURJAO
+2506608	IBIARA
+2506707	IMACULADA
+2506806	INGA
+2506905	ITABAIANA
+2507002	ITAPORANGA
+2507101	ITAPOROROCA
+2507200	ITATUBA
+2507309	JACARAU
+2507408	JERICO
+2507507	JOAO PESSOA
+2507606	JUAREZ TAVORA
+2507705	JUAZEIRINHO
+2507804	JUNCO DO SERIDO
+2507903	JURIPIRANGA
+2508000	JURU
+2508109	LAGOA
+2508208	LAGOA DE DENTRO
+2508307	LAGOA SECA
+2508406	LASTRO
+2508505	LIVRAMENTO
+2508554	LOGRADOURO
+2508604	LUCENA
+2508703	MAE D'AGUA
+2508802	MALTA
+2508901	MAMANGUAPE
+2509008	MANAIRA
+2509057	MARCACAO
+2509107	MARI
+2509156	MARIZOPOLIS
+2509206	MASSARANDUBA
+2509305	MATARACA
+2509339	MATINHAS
+2509370	MATO GROSSO
+2509396	MATUREIA
+2509404	MOGEIRO
+2509503	MONTADAS
+2509602	MONTE HOREBE
+2509701	MONTEIRO
+2509800	MULUNGU
+2509909	NATUBA
+2510006	NAZAREZINHO
+2510105	NOVA FLORESTA
+2510204	NOVA OLINDA
+2510303	NOVA PALMEIRA
+2510402	OLHO D'AGUA
+2510501	OLIVEDOS
+2510600	OURO VELHO
+2510659	PARARI
+2510709	PASSAGEM
+2510808	PATOS
+2510907	PAULISTA
+2511004	PEDRA BRANCA
+2511103	PEDRA LAVRADA
+2511202	PEDRAS DE FOGO
+2511301	PIANCO
+2511400	PICUI
+2511509	PILAR
+2511608	PILOES
+2511707	PILOEZINHOS
+2511806	PIRPIRITUBA
+2511905	PITIMBU
+2512002	POCINHOS
+2512036	POCO DANTAS
+2512077	POCO DE JOSE DE MOURA
+2512101	POMBAL
+2512200	PRATA
+2512309	PRINCESA ISABEL
+2512408	PUXINANA
+2512507	QUEIMADAS
+2512606	QUIXABA
+2512705	REMIGIO
+2512721	PEDRO REGIS
+2512747	RIACHAO
+2512754	RIACHAO DO BACAMARTE
+2512762	RIACHAO DO POCO
+2512788	RIACHO DE SANTO ANTONIO
+2512804	RIACHO DOS CAVALOS
+2512903	RIO TINTO
+2513000	SALGADINHO
+2513109	SALGADO DE SAO FELIX
+2513158	SANTA CECILIA
+2513208	SANTA CRUZ
+2513307	SANTA HELENA
+2513356	SANTA INES
+2513406	SANTA LUZIA
+2513505	SANTANA DE MANGUEIRA
+2513604	SANTANA DOS GARROTES
+2513653	JOCA CLAUDINO
+2513703	SANTA RITA
+2513802	SANTA TERESINHA
+2513851	SANTO ANDRE
+2513901	SAO BENTO
+2513927	SAO BENTINHO
+2513943	SAO DOMINGOS DO CARIRI
+2513968	SAO DOMINGOS
+2513984	SAO FRANCISCO
+2514008	SAO JOAO DO CARIRI
+2514107	SAO JOAO DO TIGRE
+2514206	SAO JOSE DA LAGOA TAPADA
+2514305	SAO JOSE DE CAIANA
+2514404	SAO JOSE DE ESPINHARAS
+2514453	SAO JOSE DOS RAMOS
+2514503	SAO JOSE DE PIRANHAS
+2514552	SAO JOSE DE PRINCESA
+2514602	SAO JOSE DO BONFIM
+2514651	SAO JOSE DO BREJO DO CRUZ
+2514701	SAO JOSE DO SABUGI
+2514800	SAO JOSE DOS CORDEIROS
+2514909	SAO MAMEDE
+2515005	SAO MIGUEL DE TAIPU
+2515104	SAO SEBASTIAO DE LAGOA DE ROCA
+2515203	SAO SEBASTIAO DO UMBUZEIRO
+2515302	SAPE
+2515401	SAO VICENTE DO SERIDO
+2515500	SERRA BRANCA
+2515609	SERRA DA RAIZ
+2515708	SERRA GRANDE
+2515807	SERRA REDONDA
+2515906	SERRARIA
+2515930	SERTAOZINHO
+2515971	SOBRADO
+2516003	SOLANEA
+2516102	SOLEDADE
+2516151	SOSSEGO
+2516201	SOUSA
+2516300	SUME
+2516409	TACIMA
+2516508	TAPEROA
+2516607	TAVARES
+2516706	TEIXEIRA
+2516755	TENORIO
+2516805	TRIUNFO
+2516904	UIRAUNA
+2517001	UMBUZEIRO
+2517100	VARZEA
+2517209	VIEIROPOLIS
+2517407	ZABELE
+2600054	ABREU E LIMA
+2600104	AFOGADOS DA INGAZEIRA
+2600203	AFRANIO
+2600302	AGRESTINA
+2600401	AGUA PRETA
+2600500	AGUAS BELAS
+2600609	ALAGOINHA
+2600708	ALIANCA
+2600807	ALTINHO
+2600906	AMARAJI
+2601003	ANGELIM
+2601052	ARACOIABA
+2601102	ARARIPINA
+2601201	ARCOVERDE
+2601300	BARRA DE GUABIRABA
+2601409	BARREIROS
+2601508	BELEM DE MARIA
+2601607	BELEM DO SAO FRANCISCO
+2601706	BELO JARDIM
+2601805	BETANIA
+2601904	BEZERROS
+2602001	BODOCO
+2602100	BOM CONSELHO
+2602209	BOM JARDIM
+2602308	BONITO
+2602407	BREJAO
+2602506	BREJINHO
+2602605	BREJO DA MADRE DE DEUS
+2602704	BUENOS AIRES
+2602803	BUIQUE
+2602902	CABO DE SANTO AGOSTINHO
+2603009	CABROBO
+2603108	CACHOEIRINHA
+2603207	CAETES
+2603306	CALCADO
+2603405	CALUMBI
+2603454	CAMARAGIBE
+2603504	CAMOCIM DE SAO FELIX
+2603603	CAMUTANGA
+2603702	CANHOTINHO
+2603801	CAPOEIRAS
+2603900	CARNAIBA
+2603926	CARNAUBEIRA DA PENHA
+2604007	CARPINA
+2604106	CARUARU
+2604155	CASINHAS
+2604205	CATENDE
+2604304	CEDRO
+2604403	CHA DE ALEGRIA
+2604502	CHA GRANDE
+2604601	CONDADO
+2604700	CORRENTES
+2604809	CORTES
+2604908	CUMARU
+2605004	CUPIRA
+2605103	CUSTODIA
+2605152	DORMENTES
+2605202	ESCADA
+2605301	EXU
+2605400	FEIRA NOVA
+2605459	FERNANDO DE NORONHA
+2605509	FERREIROS
+2605608	FLORES
+2605707	FLORESTA
+2605806	FREI MIGUELINHO
+2605905	GAMELEIRA
+2606002	GARANHUNS
+2606101	GLORIA DO GOITA
+2606200	GOIANA
+2606309	GRANITO
+2606408	GRAVATA
+2606507	IATI
+2606606	IBIMIRIM
+2606705	IBIRAJUBA
+2606804	IGARASSU
+2606903	IGUARACY
+2607000	INAJA
+2607109	INGAZEIRA
+2607208	IPOJUCA
+2607307	IPUBI
+2607406	ITACURUBA
+2607505	ITAIBA
+2607604	ILHA DE ITAMARACA
+2607653	ITAMBE
+2607703	ITAPETIM
+2607752	ITAPISSUMA
+2607802	ITAQUITINGA
+2607901	JABOATAO DOS GUARARAPES
+2607950	JAQUEIRA
+2608008	JATAUBA
+2608057	JATOBA
+2608107	JOAO ALFREDO
+2608206	JOAQUIM NABUCO
+2608255	JUCATI
+2608305	JUPI
+2608404	JUREMA
+2608453	LAGOA DO CARRO
+2608503	LAGOA DE ITAENGA
+2608602	LAGOA DO OURO
+2608701	LAGOA DOS GATOS
+2608750	LAGOA GRANDE
+2608800	LAJEDO
+2608909	LIMOEIRO
+2609006	MACAPARANA
+2609105	MACHADOS
+2609154	MANARI
+2609204	MARAIAL
+2609303	MIRANDIBA
+2609402	MORENO
+2609501	NAZARE DA MATA
+2609600	OLINDA
+2609709	OROBO
+2609808	OROCO
+2609907	OURICURI
+2610004	PALMARES
+2610103	PALMEIRINA
+2610202	PANELAS
+2610301	PARANATAMA
+2610400	PARNAMIRIM
+2610509	PASSIRA
+2610608	PAUDALHO
+2610707	PAULISTA
+2610806	PEDRA
+2610905	PESQUEIRA
+2611002	PETROLANDIA
+2611101	PETROLINA
+2611200	POCAO
+2611309	POMBOS
+2611408	PRIMAVERA
+2611507	QUIPAPA
+2611533	QUIXABA
+2611606	RECIFE
+2611705	RIACHO DAS ALMAS
+2611804	RIBEIRAO
+2611903	RIO FORMOSO
+2612000	SAIRE
+2612109	SALGADINHO
+2612208	SALGUEIRO
+2612307	SALOA
+2612406	SANHARO
+2612455	SANTA CRUZ
+2612471	SANTA CRUZ DA BAIXA VERDE
+2612505	SANTA CRUZ DO CAPIBARIBE
+2612554	SANTA FILOMENA
+2612604	SANTA MARIA DA BOA VISTA
+2612703	SANTA MARIA DO CAMBUCA
+2612802	SANTA TEREZINHA
+2612901	SAO BENEDITO DO SUL
+2613008	SAO BENTO DO UNA
+2613107	SAO CAITANO
+2613206	SAO JOAO
+2613305	SAO JOAQUIM DO MONTE
+2613404	SAO JOSE DA COROA GRANDE
+2613503	SAO JOSE DO BELMONTE
+2613602	SAO JOSE DO EGITO
+2613701	SAO LOURENCO DA MATA
+2613800	SAO VICENTE FERRER
+2613909	SERRA TALHADA
+2614006	SERRITA
+2614105	SERTANIA
+2614204	SIRINHAEM
+2614303	MOREILANDIA
+2614402	SOLIDAO
+2614501	SURUBIM
+2614600	TABIRA
+2614709	TACAIMBO
+2614808	TACARATU
+2614857	TAMANDARE
+2615003	TAQUARITINGA DO NORTE
+2615102	TEREZINHA
+2615201	TERRA NOVA
+2615300	TIMBAUBA
+2615409	TORITAMA
+2615508	TRACUNHAEM
+2615607	TRINDADE
+2615706	TRIUNFO
+2615805	TUPANATINGA
+2615904	TUPARETAMA
+2616001	VENTUROSA
+2616100	VERDEJANTE
+2616183	VERTENTE DO LERIO
+2616209	VERTENTES
+2616308	VICENCIA
+2616407	VITORIA DE SANTO ANTAO
+2616506	XEXEU
+2700102	AGUA BRANCA
+2700201	ANADIA
+2700300	ARAPIRACA
+2700409	ATALAIA
+2700508	BARRA DE SANTO ANTONIO
+2700607	BARRA DE SAO MIGUEL
+2700706	BATALHA
+2700805	BELEM
+2700904	BELO MONTE
+2701001	BOCA DA MATA
+2701100	BRANQUINHA
+2701209	CACIMBINHAS
+2701308	CAJUEIRO
+2701357	CAMPESTRE
+2701407	CAMPO ALEGRE
+2701506	CAMPO GRANDE
+2701605	CANAPI
+2701704	CAPELA
+2701803	CARNEIROS
+2701902	CHA PRETA
+2702009	COITE DO NOIA
+2702108	COLONIA LEOPOLDINA
+2702207	COQUEIRO SECO
+2702306	CORURIPE
+2702355	CRAIBAS
+2702405	DELMIRO GOUVEIA
+2702504	DOIS RIACHOS
+2702553	ESTRELA DE ALAGOAS
+2702603	FEIRA GRANDE
+2702702	FELIZ DESERTO
+2702801	FLEXEIRAS
+2702900	GIRAU DO PONCIANO
+2703007	IBATEGUARA
+2703106	IGACI
+2703205	IGREJA NOVA
+2703304	INHAPI
+2703403	JACARE DOS HOMENS
+2703502	JACUIPE
+2703601	JAPARATINGA
+2703700	JARAMATAIA
+2703759	JEQUIA DA PRAIA
+2703809	JOAQUIM GOMES
+2703908	JUNDIA
+2704005	JUNQUEIRO
+2704104	LAGOA DA CANOA
+2704203	LIMOEIRO DE ANADIA
+2704302	MACEIO
+2704401	MAJOR ISIDORO
+2704500	MARAGOGI
+2704609	MARAVILHA
+2704708	MARECHAL DEODORO
+2704807	MARIBONDO
+2704906	MAR VERMELHO
+2705002	MATA GRANDE
+2705101	MATRIZ DE CAMARAGIBE
+2705200	MESSIAS
+2705309	MINADOR DO NEGRAO
+2705408	MONTEIROPOLIS
+2705507	MURICI
+2705606	NOVO LINO
+2705705	OLHO D'AGUA DAS FLORES
+2705804	OLHO D'AGUA DO CASADO
+2705903	OLHO D'AGUA GRANDE
+2706000	OLIVENCA
+2706109	OURO BRANCO
+2706208	PALESTINA
+2706307	PALMEIRA DOS INDIOS
+2706406	PAO DE ACUCAR
+2706422	PARICONHA
+2706448	PARIPUEIRA
+2706505	PASSO DE CAMARAGIBE
+2706604	PAULO JACINTO
+2706703	PENEDO
+2706802	PIACABUCU
+2706901	PILAR
+2707008	PINDOBA
+2707107	PIRANHAS
+2707206	POCO DAS TRINCHEIRAS
+2707305	PORTO CALVO
+2707404	PORTO DE PEDRAS
+2707503	PORTO REAL DO COLEGIO
+2707602	QUEBRANGULO
+2707701	RIO LARGO
+2707800	ROTEIRO
+2707909	SANTA LUZIA DO NORTE
+2708006	SANTANA DO IPANEMA
+2708105	SANTANA DO MUNDAU
+2708204	SAO BRAS
+2708303	SAO JOSE DA LAJE
+2708402	SAO JOSE DA TAPERA
+2708501	SAO LUIS DO QUITUNDE
+2708600	SAO MIGUEL DOS CAMPOS
+2708709	SAO MIGUEL DOS MILAGRES
+2708808	SAO SEBASTIAO
+2708907	SATUBA
+2708956	SENADOR RUI PALMEIRA
+2709004	TANQUE D'ARCA
+2709103	TAQUARANA
+2709152	TEOTONIO VILELA
+2709202	TRAIPU
+2709301	UNIAO DOS PALMARES
+2709400	VICOSA
+2800100	AMPARO DO SAO FRANCISCO
+2800209	AQUIDABA
+2800308	ARACAJU
+2800407	ARAUA
+2800506	AREIA BRANCA
+2800605	BARRA DOS COQUEIROS
+2800670	BOQUIM
+2800704	BREJO GRANDE
+2801009	CAMPO DO BRITO
+2801108	CANHOBA
+2801207	CANINDE DE SAO FRANCISCO
+2801306	CAPELA
+2801405	CARIRA
+2801504	CARMOPOLIS
+2801603	CEDRO DE SAO JOAO
+2801702	CRISTINAPOLIS
+2801900	CUMBE
+2802007	DIVINA PASTORA
+2802106	ESTANCIA
+2802205	FEIRA NOVA
+2802304	FREI PAULO
+2802403	GARARU
+2802502	GENERAL MAYNARD
+2802601	GRACHO CARDOSO
+2802700	ILHA DAS FLORES
+2802809	INDIAROBA
+2802908	ITABAIANA
+2803005	ITABAIANINHA
+2803104	ITABI
+2803203	ITAPORANGA D'AJUDA
+2803302	JAPARATUBA
+2803401	JAPOATA
+2803500	LAGARTO
+2803609	LARANJEIRAS
+2803708	MACAMBIRA
+2803807	MALHADA DOS BOIS
+2803906	MALHADOR
+2804003	MARUIM
+2804102	MOITA BONITA
+2804201	MONTE ALEGRE DE SERGIPE
+2804300	MURIBECA
+2804409	NEOPOLIS
+2804458	NOSSA SENHORA APARECIDA
+2804508	NOSSA SENHORA DA GLORIA
+2804607	NOSSA SENHORA DAS DORES
+2804706	NOSSA SENHORA DE LOURDES
+2804805	NOSSA SENHORA DO SOCORRO
+2804904	PACATUBA
+2805000	PEDRA MOLE
+2805109	PEDRINHAS
+2805208	PINHAO
+2805307	PIRAMBU
+2805406	POCO REDONDO
+2805505	POCO VERDE
+2805604	PORTO DA FOLHA
+2805703	PROPRIA
+2805802	RIACHAO DO DANTAS
+2805901	RIACHUELO
+2806008	RIBEIROPOLIS
+2806107	ROSARIO DO CATETE
+2806206	SALGADO
+2806305	SANTA LUZIA DO ITANHY
+2806404	SANTANA DO SAO FRANCISCO
+2806503	SANTA ROSA DE LIMA
+2806602	SANTO AMARO DAS BROTAS
+2806701	SAO CRISTOVAO
+2806800	SAO DOMINGOS
+2806909	SAO FRANCISCO
+2807006	SAO MIGUEL DO ALEIXO
+2807105	SIMAO DIAS
+2807204	SIRIRI
+2807303	TELHA
+2807402	TOBIAS BARRETO
+2807501	TOMAR DO GERU
+2807600	UMBAUBA
+2900108	ABAIRA
+2900207	ABARE
+2900306	ACAJUTIBA
+2900355	ADUSTINA
+2900405	AGUA FRIA
+2900504	ERICO CARDOSO
+2900603	AIQUARA
+2900702	ALAGOINHAS
+2900801	ALCOBACA
+2900900	ALMADINA
+2901007	AMARGOSA
+2901106	AMELIA RODRIGUES
+2901155	AMERICA DOURADA
+2901205	ANAGE
+2901304	ANDARAI
+2901353	ANDORINHA
+2901403	ANGICAL
+2901502	ANGUERA
+2901601	ANTAS
+2901700	ANTONIO CARDOSO
+2901809	ANTONIO GONCALVES
+2901908	APORA
+2901957	APUAREMA
+2902005	ARACATU
+2902054	ARACAS
+2902104	ARACI
+2902203	ARAMARI
+2902252	ARATACA
+2902302	ARATUIPE
+2902401	AURELINO LEAL
+2902500	BAIANOPOLIS
+2902609	BAIXA GRANDE
+2902658	BANZAE
+2902708	BARRA
+2902807	BARRA DA ESTIVA
+2902906	BARRA DO CHOCA
+2903003	BARRA DO MENDES
+2903102	BARRA DO ROCHA
+2903201	BARREIRAS
+2903235	BARRO ALTO
+2903276	BARROCAS
+2903300	BARRO PRETO
+2903409	BELMONTE
+2903508	BELO CAMPO
+2903607	BIRITINGA
+2903706	BOA NOVA
+2903805	BOA VISTA DO TUPIM
+2903904	BOM JESUS DA LAPA
+2903953	BOM JESUS DA SERRA
+2904001	BONINAL
+2904050	BONITO
+2904100	BOQUIRA
+2904209	BOTUPORA
+2904308	BREJOES
+2904407	BREJOLANDIA
+2904506	BROTAS DE MACAUBAS
+2904605	BRUMADO
+2904704	BUERAREMA
+2904753	BURITIRAMA
+2904803	CAATIBA
+2904852	CABACEIRAS DO PARAGUACU
+2904902	CACHOEIRA
+2905008	CACULE
+2905107	CAEM
+2905156	CAETANOS
+2905206	CAETITE
+2905305	CAFARNAUM
+2905404	CAIRU
+2905503	CALDEIRAO GRANDE
+2905602	CAMACAN
+2905701	CAMACARI
+2905800	CAMAMU
+2905909	CAMPO ALEGRE DE LOURDES
+2906006	CAMPO FORMOSO
+2906105	CANAPOLIS
+2906204	CANARANA
+2906303	CANAVIEIRAS
+2906402	CANDEAL
+2906501	CANDEIAS
+2906600	CANDIBA
+2906709	CANDIDO SALES
+2906808	CANSANCAO
+2906824	CANUDOS
+2906857	CAPELA DO ALTO ALEGRE
+2906873	CAPIM GROSSO
+2906899	CARAIBAS
+2906907	CARAVELAS
+2907004	CARDEAL DA SILVA
+2907103	CARINHANHA
+2907202	CASA NOVA
+2907301	CASTRO ALVES
+2907400	CATOLANDIA
+2907509	CATU
+2907558	CATURAMA
+2907608	CENTRAL
+2907707	CHORROCHO
+2907806	CICERO DANTAS
+2907905	CIPO
+2908002	COARACI
+2908101	COCOS
+2908200	CONCEICAO DA FEIRA
+2908309	CONCEICAO DO ALMEIDA
+2908408	CONCEICAO DO COITE
+2908507	CONCEICAO DO JACUIPE
+2908606	CONDE
+2908705	CONDEUBA
+2908804	CONTENDAS DO SINCORA
+2908903	CORACAO DE MARIA
+2909000	CORDEIROS
+2909109	CORIBE
+2909208	CORONEL JOAO SA
+2909307	CORRENTINA
+2909406	COTEGIPE
+2909505	CRAVOLANDIA
+2909604	CRISOPOLIS
+2909703	CRISTOPOLIS
+2909802	CRUZ DAS ALMAS
+2909901	CURACA
+2910008	DARIO MEIRA
+2910057	DIAS D'AVILA
+2910107	DOM BASILIO
+2910206	DOM MACEDO COSTA
+2910305	ELISIO MEDRADO
+2910404	ENCRUZILHADA
+2910503	ENTRE RIOS
+2910602	ESPLANADA
+2910701	EUCLIDES DA CUNHA
+2910727	EUNAPOLIS
+2910750	FATIMA
+2910776	FEIRA DA MATA
+2910800	FEIRA DE SANTANA
+2910859	FILADELFIA
+2910909	FIRMINO ALVES
+2911006	FLORESTA AZUL
+2911105	FORMOSA DO RIO PRETO
+2911204	GANDU
+2911253	GAVIAO
+2911303	GENTIO DO OURO
+2911402	GLORIA
+2911501	GONGOGI
+2911600	GOVERNADOR MANGABEIRA
+2911659	GUAJERU
+2911709	GUANAMBI
+2911808	GUARATINGA
+2911857	HELIOPOLIS
+2911907	IACU
+2912004	IBIASSUCE
+2912103	IBICARAI
+2912202	IBICOARA
+2912301	IBICUI
+2912400	IBIPEBA
+2912509	IBIPITANGA
+2912608	IBIQUERA
+2912707	IBIRAPITANGA
+2912806	IBIRAPUA
+2912905	IBIRATAIA
+2913002	IBITIARA
+2913101	IBITITA
+2913200	IBOTIRAMA
+2913309	ICHU
+2913408	IGAPORA
+2913457	IGRAPIUNA
+2913507	IGUAI
+2913606	ILHEUS
+2913705	INHAMBUPE
+2913804	IPECAETA
+2913903	IPIAU
+2914000	IPIRA
+2914109	IPUPIARA
+2914208	IRAJUBA
+2914307	IRAMAIA
+2914406	IRAQUARA
+2914505	IRARA
+2914604	IRECE
+2914653	ITABELA
+2914703	ITABERABA
+2914802	ITABUNA
+2914901	ITACARE
+2915007	ITAETE
+2915106	ITAGI
+2915205	ITAGIBA
+2915304	ITAGIMIRIM
+2915353	ITAGUACU DA BAHIA
+2915403	ITAJU DO COLONIA
+2915502	ITAJUIPE
+2915601	ITAMARAJU
+2915700	ITAMARI
+2915809	ITAMBE
+2915908	ITANAGRA
+2916005	ITANHEM
+2916104	ITAPARICA
+2916203	ITAPE
+2916302	ITAPEBI
+2916401	ITAPETINGA
+2916500	ITAPICURU
+2916609	ITAPITANGA
+2916708	ITAQUARA
+2916807	ITARANTIM
+2916856	ITATIM
+2916906	ITIRUCU
+2917003	ITIUBA
+2917102	ITORORO
+2917201	ITUACU
+2917300	ITUBERA
+2917334	IUIU
+2917359	JABORANDI
+2917409	JACARACI
+2917508	JACOBINA
+2917607	JAGUAQUARA
+2917706	JAGUARARI
+2917805	JAGUARIPE
+2917904	JANDAIRA
+2918001	JEQUIE
+2918100	JEREMOABO
+2918209	JIQUIRICA
+2918308	JITAUNA
+2918357	JOAO DOURADO
+2918407	JUAZEIRO
+2918456	JUCURUCU
+2918506	JUSSARA
+2918555	JUSSARI
+2918605	JUSSIAPE
+2918704	LAFAIETE COUTINHO
+2918753	LAGOA REAL
+2918803	LAJE
+2918902	LAJEDAO
+2919009	LAJEDINHO
+2919058	LAJEDO DO TABOCAL
+2919108	LAMARAO
+2919157	LAPAO
+2919207	LAURO DE FREITAS
+2919306	LENCOIS
+2919405	LICINIO DE ALMEIDA
+2919504	LIVRAMENTO DE NOSSA SENHORA
+2919553	LUIS EDUARDO MAGALHAES
+2919603	MACAJUBA
+2919702	MACARANI
+2919801	MACAUBAS
+2919900	MACURURE
+2919926	MADRE DE DEUS
+2919959	MAETINGA
+2920007	MAIQUINIQUE
+2920106	MAIRI
+2920205	MALHADA
+2920304	MALHADA DE PEDRAS
+2920403	MANOEL VITORINO
+2920452	MANSIDAO
+2920502	MARACAS
+2920601	MARAGOGIPE
+2920700	MARAU
+2920809	MARCIONILIO SOUZA
+2920908	MASCOTE
+2921005	MATA DE SAO JOAO
+2921054	MATINA
+2921104	MEDEIROS NETO
+2921203	MIGUEL CALMON
+2921302	MILAGRES
+2921401	MIRANGABA
+2921450	MIRANTE
+2921500	MONTE SANTO
+2921609	MORPARA
+2921708	MORRO DO CHAPEU
+2921807	MORTUGABA
+2921906	MUCUGE
+2922003	MUCURI
+2922052	MULUNGU DO MORRO
+2922102	MUNDO NOVO
+2922201	MUNIZ FERREIRA
+2922250	MUQUEM DO SAO FRANCISCO
+2922300	MURITIBA
+2922409	MUTUIPE
+2922508	NAZARE
+2922607	NILO PECANHA
+2922656	NORDESTINA
+2922706	NOVA CANAA
+2922730	NOVA FATIMA
+2922755	NOVA IBIA
+2922805	NOVA ITARANA
+2922854	NOVA REDENCAO
+2922904	NOVA SOURE
+2923001	NOVA VICOSA
+2923035	NOVO HORIZONTE
+2923050	NOVO TRIUNFO
+2923100	OLINDINA
+2923209	OLIVEIRA DOS BREJINHOS
+2923308	OURICANGAS
+2923357	OUROLANDIA
+2923407	PALMAS DE MONTE ALTO
+2923506	PALMEIRAS
+2923605	PARAMIRIM
+2923704	PARATINGA
+2923803	PARIPIRANGA
+2923902	PAU BRASIL
+2924009	PAULO AFONSO
+2924058	PE DE SERRA
+2924108	PEDRAO
+2924207	PEDRO ALEXANDRE
+2924306	PIATA
+2924405	PILAO ARCADO
+2924504	PINDAI
+2924603	PINDOBACU
+2924652	PINTADAS
+2924678	PIRAI DO NORTE
+2924702	PIRIPA
+2924801	PIRITIBA
+2924900	PLANALTINO
+2925006	PLANALTO
+2925105	POCOES
+2925204	POJUCA
+2925253	PONTO NOVO
+2925303	PORTO SEGURO
+2925402	POTIRAGUA
+2925501	PRADO
+2925600	PRESIDENTE DUTRA
+2925709	PRESIDENTE JANIO QUADROS
+2925758	PRESIDENTE TANCREDO NEVES
+2925808	QUEIMADAS
+2925907	QUIJINGUE
+2925931	QUIXABEIRA
+2925956	RAFAEL JAMBEIRO
+2926004	REMANSO
+2926103	RETIROLANDIA
+2926202	RIACHAO DAS NEVES
+2926301	RIACHAO DO JACUIPE
+2926400	RIACHO DE SANTANA
+2926509	RIBEIRA DO AMPARO
+2926608	RIBEIRA DO POMBAL
+2926657	RIBEIRAO DO LARGO
+2926707	RIO DE CONTAS
+2926806	RIO DO ANTONIO
+2926905	RIO DO PIRES
+2927002	RIO REAL
+2927101	RODELAS
+2927200	RUY BARBOSA
+2927309	SALINAS DA MARGARIDA
+2927408	SALVADOR
+2927507	SANTA BARBARA
+2927606	SANTA BRIGIDA
+2927705	SANTA CRUZ CABRALIA
+2927804	SANTA CRUZ DA VITORIA
+2927903	SANTA INES
+2928000	SANTALUZ
+2928059	SANTA LUZIA
+2928109	SANTA MARIA DA VITORIA
+2928208	SANTANA
+2928307	SANTANOPOLIS
+2928406	SANTA RITA DE CASSIA
+2928505	SANTA TEREZINHA
+2928604	SANTO AMARO
+2928703	SANTO ANTONIO DE JESUS
+2928802	SANTO ESTEVAO
+2928901	SAO DESIDERIO
+2928950	SAO DOMINGOS
+2929008	SAO FELIX
+2929057	SAO FELIX DO CORIBE
+2929107	SAO FELIPE
+2929206	SAO FRANCISCO DO CONDE
+2929255	SAO GABRIEL
+2929305	SAO GONCALO DOS CAMPOS
+2929354	SAO JOSE DA VITORIA
+2929370	SAO JOSE DO JACUIPE
+2929404	SAO MIGUEL DAS MATAS
+2929503	SAO SEBASTIAO DO PASSE
+2929602	SAPEACU
+2929701	SATIRO DIAS
+2929750	SAUBARA
+2929800	SAUDE
+2929909	SEABRA
+2930006	SEBASTIAO LARANJEIRAS
+2930105	SENHOR DO BONFIM
+2930154	SERRA DO RAMALHO
+2930204	SENTO SE
+2930303	SERRA DOURADA
+2930402	SERRA PRETA
+2930501	SERRINHA
+2930600	SERROLANDIA
+2930709	SIMOES FILHO
+2930758	SITIO DO MATO
+2930766	SITIO DO QUINTO
+2930774	SOBRADINHO
+2930808	SOUTO SOARES
+2930907	TABOCAS DO BREJO VELHO
+2931004	TANHACU
+2931053	TANQUE NOVO
+2931103	TANQUINHO
+2931202	TAPEROA
+2931301	TAPIRAMUTA
+2931350	TEIXEIRA DE FREITAS
+2931400	TEODORO SAMPAIO
+2931509	TEOFILANDIA
+2931608	TEOLANDIA
+2931707	TERRA NOVA
+2931806	TREMEDAL
+2931905	TUCANO
+2932002	UAUA
+2932101	UBAIRA
+2932200	UBAITABA
+2932309	UBATA
+2932408	UIBAI
+2932457	UMBURANAS
+2932507	UNA
+2932606	URANDI
+2932705	URUCUCA
+2932804	UTINGA
+2932903	VALENCA
+2933000	VALENTE
+2933059	VARZEA DA ROCA
+2933109	VARZEA DO POCO
+2933158	VARZEA NOVA
+2933174	VARZEDO
+2933208	VERA CRUZ
+2933257	VEREDA
+2933307	VITORIA DA CONQUISTA
+2933406	WAGNER
+2933455	WANDERLEY
+2933505	WENCESLAU GUIMARAES
+2933604	XIQUE-XIQUE
+3100104	ABADIA DOS DOURADOS
+3100203	ABAETE
+3100302	ABRE CAMPO
+3100401	ACAIACA
+3100500	ACUCENA
+3100609	AGUA BOA
+3100708	AGUA COMPRIDA
+3100807	AGUANIL
+3100906	AGUAS FORMOSAS
+3101003	AGUAS VERMELHAS
+3101102	AIMORES
+3101201	AIURUOCA
+3101300	ALAGOA
+3101409	ALBERTINA
+3101508	ALEM PARAIBA
+3101607	ALFENAS
+3101631	ALFREDO VASCONCELOS
+3101706	ALMENARA
+3101805	ALPERCATA
+3101904	ALPINOPOLIS
+3102001	ALTEROSA
+3102050	ALTO CAPARAO
+3102100	ALTO RIO DOCE
+3102209	ALVARENGA
+3102308	ALVINOPOLIS
+3102407	ALVORADA DE MINAS
+3102506	AMPARO DO SERRA
+3102605	ANDRADAS
+3102704	CACHOEIRA DE PAJEU
+3102803	ANDRELANDIA
+3102852	ANGELANDIA
+3102902	ANTONIO CARLOS
+3103009	ANTONIO DIAS
+3103108	ANTONIO PRADO DE MINAS
+3103207	ARACAI
+3103306	ARACITABA
+3103405	ARACUAI
+3103504	ARAGUARI
+3103603	ARANTINA
+3103702	ARAPONGA
+3103751	ARAPORA
+3103801	ARAPUA
+3103900	ARAUJOS
+3104007	ARAXA
+3104106	ARCEBURGO
+3104205	ARCOS
+3104304	AREADO
+3104403	ARGIRITA
+3104452	ARICANDUVA
+3104502	ARINOS
+3104601	ASTOLFO DUTRA
+3104700	ATALEIA
+3104809	AUGUSTO DE LIMA
+3104908	BAEPENDI
+3105004	BALDIM
+3105103	BAMBUI
+3105202	BANDEIRA
+3105301	BANDEIRA DO SUL
+3105400	BARAO DE COCAIS
+3105509	BARAO DE MONTE ALTO
+3105608	BARBACENA
+3105707	BARRA LONGA
+3105905	BARROSO
+3106002	BELA VISTA DE MINAS
+3106101	BELMIRO BRAGA
+3106200	BELO HORIZONTE
+3106309	BELO ORIENTE
+3106408	BELO VALE
+3106507	BERILO
+3106606	BERTOPOLIS
+3106655	BERIZAL
+3106705	BETIM
+3106804	BIAS FORTES
+3106903	BICAS
+3107000	BIQUINHAS
+3107109	BOA ESPERANCA
+3107208	BOCAINA DE MINAS
+3107307	BOCAIUVA
+3107406	BOM DESPACHO
+3107505	BOM JARDIM DE MINAS
+3107604	BOM JESUS DA PENHA
+3107703	BOM JESUS DO AMPARO
+3107802	BOM JESUS DO GALHO
+3107901	BOM REPOUSO
+3108008	BOM SUCESSO
+3108107	BONFIM
+3108206	BONFINOPOLIS DE MINAS
+3108255	BONITO DE MINAS
+3108305	BORDA DA MATA
+3108404	BOTELHOS
+3108503	BOTUMIRIM
+3108552	BRASILANDIA DE MINAS
+3108602	BRASILIA DE MINAS
+3108701	BRAS PIRES
+3108800	BRAUNAS
+3108909	BRAZOPOLIS
+3109006	BRUMADINHO
+3109105	BUENO BRANDAO
+3109204	BUENOPOLIS
+3109253	BUGRE
+3109303	BURITIS
+3109402	BURITIZEIRO
+3109451	CABECEIRA GRANDE
+3109501	CABO VERDE
+3109600	CACHOEIRA DA PRATA
+3109709	CACHOEIRA DE MINAS
+3109808	CACHOEIRA DOURADA
+3109907	CAETANOPOLIS
+3110004	CAETE
+3110103	CAIANA
+3110202	CAJURI
+3110301	CALDAS
+3110400	CAMACHO
+3110509	CAMANDUCAIA
+3110608	CAMBUI
+3110707	CAMBUQUIRA
+3110806	CAMPANARIO
+3110905	CAMPANHA
+3111002	CAMPESTRE
+3111101	CAMPINA VERDE
+3111150	CAMPO AZUL
+3111200	CAMPO BELO
+3111309	CAMPO DO MEIO
+3111408	CAMPO FLORIDO
+3111507	CAMPOS ALTOS
+3111606	CAMPOS GERAIS
+3111705	CANAA
+3111804	CANAPOLIS
+3111903	CANA VERDE
+3112000	CANDEIAS
+3112059	CANTAGALO
+3112109	CAPARAO
+3112208	CAPELA NOVA
+3112307	CAPELINHA
+3112406	CAPETINGA
+3112505	CAPIM BRANCO
+3112604	CAPINOPOLIS
+3112653	CAPITAO ANDRADE
+3112703	CAPITAO ENEAS
+3112802	CAPITOLIO
+3112901	CAPUTIRA
+3113008	CARAI
+3113107	CARANAIBA
+3113206	CARANDAI
+3113305	CARANGOLA
+3113404	CARATINGA
+3113503	CARBONITA
+3113602	CAREACU
+3113701	CARLOS CHAGAS
+3113800	CARMESIA
+3113909	CARMO DA CACHOEIRA
+3114006	CARMO DA MATA
+3114105	CARMO DE MINAS
+3114204	CARMO DO CAJURU
+3114303	CARMO DO PARANAIBA
+3114402	CARMO DO RIO CLARO
+3114501	CARMOPOLIS DE MINAS
+3114550	CARNEIRINHO
+3114600	CARRANCAS
+3114709	CARVALHOPOLIS
+3114808	CARVALHOS
+3114907	CASA GRANDE
+3115003	CASCALHO RICO
+3115102	CASSIA
+3115201	CONCEICAO DA BARRA DE MINAS
+3115300	CATAGUASES
+3115359	CATAS ALTAS
+3115409	CATAS ALTAS DA NORUEGA
+3115458	CATUJI
+3115474	CATUTI
+3115508	CAXAMBU
+3115607	CEDRO DO ABAETE
+3115706	CENTRAL DE MINAS
+3115805	CENTRALINA
+3115904	CHACARA
+3116001	CHALE
+3116100	CHAPADA DO NORTE
+3116159	CHAPADA GAUCHA
+3116209	CHIADOR
+3116308	CIPOTANEA
+3116407	CLARAVAL
+3116506	CLARO DOS POCOES
+3116605	CLAUDIO
+3116704	COIMBRA
+3116803	COLUNA
+3116902	COMENDADOR GOMES
+3117009	COMERCINHO
+3117108	CONCEICAO DA APARECIDA
+3117207	CONCEICAO DAS PEDRAS
+3117306	CONCEICAO DAS ALAGOAS
+3117405	CONCEICAO DE IPANEMA
+3117504	CONCEICAO DO MATO DENTRO
+3117603	CONCEICAO DO PARA
+3117702	CONCEICAO DO RIO VERDE
+3117801	CONCEICAO DOS OUROS
+3117836	CONEGO MARINHO
+3117876	CONFINS
+3117900	CONGONHAL
+3118007	CONGONHAS
+3118106	CONGONHAS DO NORTE
+3118205	CONQUISTA
+3118304	CONSELHEIRO LAFAIETE
+3118403	CONSELHEIRO PENA
+3118502	CONSOLACAO
+3118601	CONTAGEM
+3118700	COQUEIRAL
+3118809	CORACAO DE JESUS
+3118908	CORDISBURGO
+3119005	CORDISLANDIA
+3119104	CORINTO
+3119203	COROACI
+3119302	COROMANDEL
+3119401	CORONEL FABRICIANO
+3119500	CORONEL MURTA
+3119609	CORONEL PACHECO
+3119708	CORONEL XAVIER CHAVES
+3119807	CORREGO DANTA
+3119906	CORREGO DO BOM JESUS
+3119955	CORREGO FUNDO
+3120003	CORREGO NOVO
+3120102	COUTO DE MAGALHAES DE MINAS
+3120151	CRISOLITA
+3120201	CRISTAIS
+3120300	CRISTALIA
+3120409	CRISTIANO OTONI
+3120508	CRISTINA
+3120607	CRUCILANDIA
+3120706	CRUZEIRO DA FORTALEZA
+3120805	CRUZILIA
+3120839	CUPARAQUE
+3120870	CURRAL DE DENTRO
+3120904	CURVELO
+3121001	DATAS
+3121100	DELFIM MOREIRA
+3121209	DELFINOPOLIS
+3121258	DELTA
+3121308	DESCOBERTO
+3121407	DESTERRO DE ENTRE RIOS
+3121506	DESTERRO DO MELO
+3121605	DIAMANTINA
+3121704	DIOGO DE VASCONCELOS
+3121803	DIONISIO
+3121902	DIVINESIA
+3122009	DIVINO
+3122108	DIVINO DAS LARANJEIRAS
+3122207	DIVINOLANDIA DE MINAS
+3122306	DIVINOPOLIS
+3122355	DIVISA ALEGRE
+3122405	DIVISA NOVA
+3122454	DIVISOPOLIS
+3122470	DOM BOSCO
+3122504	DOM CAVATI
+3122603	DOM JOAQUIM
+3122702	DOM SILVERIO
+3122801	DOM VICOSO
+3122900	DONA EUZEBIA
+3123007	DORES DE CAMPOS
+3123106	DORES DE GUANHAES
+3123205	DORES DO INDAIA
+3123304	DORES DO TURVO
+3123403	DORESOPOLIS
+3123502	DOURADOQUARA
+3123528	DURANDE
+3123601	ELOI MENDES
+3123700	ENGENHEIRO CALDAS
+3123809	ENGENHEIRO NAVARRO
+3123858	ENTRE FOLHAS
+3123908	ENTRE RIOS DE MINAS
+3124005	ERVALIA
+3124104	ESMERALDAS
+3124203	ESPERA FELIZ
+3124302	ESPINOSA
+3124401	ESPIRITO SANTO DO DOURADO
+3124500	ESTIVA
+3124609	ESTRELA DALVA
+3124708	ESTRELA DO INDAIA
+3124807	ESTRELA DO SUL
+3124906	EUGENOPOLIS
+3125002	EWBANK DA CAMARA
+3125101	EXTREMA
+3125200	FAMA
+3125309	FARIA LEMOS
+3125408	FELICIO DOS SANTOS
+3125507	SAO GONCALO DO RIO PRETO
+3125606	FELISBURGO
+3125705	FELIXLANDIA
+3125804	FERNANDES TOURINHO
+3125903	FERROS
+3125952	FERVEDOURO
+3126000	FLORESTAL
+3126109	FORMIGA
+3126208	FORMOSO
+3126307	FORTALEZA DE MINAS
+3126406	FORTUNA DE MINAS
+3126505	FRANCISCO BADARO
+3126604	FRANCISCO DUMONT
+3126703	FRANCISCO SA
+3126752	FRANCISCOPOLIS
+3126802	FREI GASPAR
+3126901	FREI INOCENCIO
+3126950	FREI LAGONEGRO
+3127008	FRONTEIRA
+3127057	FRONTEIRA DOS VALES
+3127073	FRUTA DE LEITE
+3127107	FRUTAL
+3127206	FUNILANDIA
+3127305	GALILEIA
+3127339	GAMELEIRAS
+3127354	GLAUCILANDIA
+3127370	GOIABEIRA
+3127388	GOIANA
+3127404	GONCALVES
+3127503	GONZAGA
+3127602	GOUVEIA
+3127701	GOVERNADOR VALADARES
+3127800	GRAO MOGOL
+3127909	GRUPIARA
+3128006	GUANHAES
+3128105	GUAPE
+3128204	GUARACIABA
+3128253	GUARACIAMA
+3128303	GUARANESIA
+3128402	GUARANI
+3128501	GUARARA
+3128600	GUARDA-MOR
+3128709	GUAXUPE
+3128808	GUIDOVAL
+3128907	GUIMARANIA
+3129004	GUIRICEMA
+3129103	GURINHATA
+3129202	HELIODORA
+3129301	IAPU
+3129400	IBERTIOGA
+3129509	IBIA
+3129608	IBIAI
+3129657	IBIRACATU
+3129707	IBIRACI
+3129806	IBIRITE
+3129905	IBITIURA DE MINAS
+3130002	IBITURUNA
+3130051	ICARAI DE MINAS
+3130101	IGARAPE
+3130200	IGARATINGA
+3130309	IGUATAMA
+3130408	IJACI
+3130507	ILICINEA
+3130556	IMBE DE MINAS
+3130606	INCONFIDENTES
+3130655	INDAIABIRA
+3130705	INDIANOPOLIS
+3130804	INGAI
+3130903	INHAPIM
+3131000	INHAUMA
+3131109	INIMUTABA
+3131158	IPABA
+3131208	IPANEMA
+3131307	IPATINGA
+3131406	IPIACU
+3131505	IPUIUNA
+3131604	IRAI DE MINAS
+3131703	ITABIRA
+3131802	ITABIRINHA
+3131901	ITABIRITO
+3132008	ITACAMBIRA
+3132107	ITACARAMBI
+3132206	ITAGUARA
+3132305	ITAIPE
+3132404	ITAJUBA
+3132503	ITAMARANDIBA
+3132602	ITAMARATI DE MINAS
+3132701	ITAMBACURI
+3132800	ITAMBE DO MATO DENTRO
+3132909	ITAMOGI
+3133006	ITAMONTE
+3133105	ITANHANDU
+3133204	ITANHOMI
+3133303	ITAOBIM
+3133402	ITAPAGIPE
+3133501	ITAPECERICA
+3133600	ITAPEVA
+3133709	ITATIAIUCU
+3133758	ITAU DE MINAS
+3133808	ITAUNA
+3133907	ITAVERAVA
+3134004	ITINGA
+3134103	ITUETA
+3134202	ITUIUTABA
+3134301	ITUMIRIM
+3134400	ITURAMA
+3134509	ITUTINGA
+3134608	JABOTICATUBAS
+3134707	JACINTO
+3134806	JACUI
+3134905	JACUTINGA
+3135001	JAGUARACU
+3135050	JAIBA
+3135076	JAMPRUCA
+3135100	JANAUBA
+3135209	JANUARIA
+3135308	JAPARAIBA
+3135357	JAPONVAR
+3135407	JECEABA
+3135456	JENIPAPO DE MINAS
+3135506	JEQUERI
+3135605	JEQUITAI
+3135704	JEQUITIBA
+3135803	JEQUITINHONHA
+3135902	JESUANIA
+3136009	JOAIMA
+3136108	JOANESIA
+3136207	JOAO MONLEVADE
+3136306	JOAO PINHEIRO
+3136405	JOAQUIM FELICIO
+3136504	JORDANIA
+3136520	JOSE GONCALVES DE MINAS
+3136553	JOSE RAYDAN
+3136579	JOSENOPOLIS
+3136603	NOVA UNIAO
+3136652	JUATUBA
+3136702	JUIZ DE FORA
+3136801	JURAMENTO
+3136900	JURUAIA
+3136959	JUVENILIA
+3137007	LADAINHA
+3137106	LAGAMAR
+3137205	LAGOA DA PRATA
+3137304	LAGOA DOS PATOS
+3137403	LAGOA DOURADA
+3137502	LAGOA FORMOSA
+3137536	LAGOA GRANDE
+3137601	LAGOA SANTA
+3137700	LAJINHA
+3137809	LAMBARI
+3137908	LAMIM
+3138005	LARANJAL
+3138104	LASSANCE
+3138203	LAVRAS
+3138302	LEANDRO FERREIRA
+3138351	LEME DO PRADO
+3138401	LEOPOLDINA
+3138500	LIBERDADE
+3138609	LIMA DUARTE
+3138625	LIMEIRA DO OESTE
+3138658	LONTRA
+3138674	LUISBURGO
+3138682	LUISLANDIA
+3138708	LUMINARIAS
+3138807	LUZ
+3138906	MACHACALIS
+3139003	MACHADO
+3139102	MADRE DE DEUS DE MINAS
+3139201	MALACACHETA
+3139250	MAMONAS
+3139300	MANGA
+3139409	MANHUACU
+3139508	MANHUMIRIM
+3139607	MANTENA
+3139706	MARAVILHAS
+3139805	MAR DE ESPANHA
+3139904	MARIA DA FE
+3140001	MARIANA
+3140100	MARILAC
+3140159	MARIO CAMPOS
+3140209	MARIPA DE MINAS
+3140308	MARLIERIA
+3140407	MARMELOPOLIS
+3140506	MARTINHO CAMPOS
+3140530	MARTINS SOARES
+3140555	MATA VERDE
+3140605	MATERLANDIA
+3140704	MATEUS LEME
+3140803	MATIAS BARBOSA
+3140852	MATIAS CARDOSO
+3140902	MATIPO
+3141009	MATO VERDE
+3141108	MATOZINHOS
+3141207	MATUTINA
+3141306	MEDEIROS
+3141405	MEDINA
+3141504	MENDES PIMENTEL
+3141603	MERCES
+3141702	MESQUITA
+3141801	MINAS NOVAS
+3141900	MINDURI
+3142007	MIRABELA
+3142106	MIRADOURO
+3142205	MIRAI
+3142254	MIRAVANIA
+3142304	MOEDA
+3142403	MOEMA
+3142502	MONJOLOS
+3142601	MONSENHOR PAULO
+3142700	MONTALVANIA
+3142809	MONTE ALEGRE DE MINAS
+3142908	MONTE AZUL
+3143005	MONTE BELO
+3143104	MONTE CARMELO
+3143153	MONTE FORMOSO
+3143203	MONTE SANTO DE MINAS
+3143302	MONTES CLAROS
+3143401	MONTE SIAO
+3143450	MONTEZUMA
+3143500	MORADA NOVA DE MINAS
+3143609	MORRO DA GARCA
+3143708	MORRO DO PILAR
+3143807	MUNHOZ
+3143906	MURIAE
+3144003	MUTUM
+3144102	MUZAMBINHO
+3144201	NACIP RAYDAN
+3144300	NANUQUE
+3144359	NAQUE
+3144375	NATALANDIA
+3144409	NATERCIA
+3144508	NAZARENO
+3144607	NEPOMUCENO
+3144656	NINHEIRA
+3144672	NOVA BELEM
+3144706	NOVA ERA
+3144805	NOVA LIMA
+3144904	NOVA MODICA
+3145000	NOVA PONTE
+3145059	NOVA PORTEIRINHA
+3145109	NOVA RESENDE
+3145208	NOVA SERRANA
+3145307	NOVO CRUZEIRO
+3145356	NOVO ORIENTE DE MINAS
+3145372	NOVORIZONTE
+3145406	OLARIA
+3145455	OLHOS-D'AGUA
+3145505	OLIMPIO NORONHA
+3145604	OLIVEIRA
+3145703	OLIVEIRA FORTES
+3145802	ONCA DE PITANGUI
+3145851	ORATORIOS
+3145877	ORIZANIA
+3145901	OURO BRANCO
+3146008	OURO FINO
+3146107	OURO PRETO
+3146206	OURO VERDE DE MINAS
+3146255	PADRE CARVALHO
+3146305	PADRE PARAISO
+3146404	PAINEIRAS
+3146503	PAINS
+3146552	PAI PEDRO
+3146602	PAIVA
+3146701	PALMA
+3146750	PALMOPOLIS
+3146909	PAPAGAIOS
+3147006	PARACATU
+3147105	PARA DE MINAS
+3147204	PARAGUACU
+3147303	PARAISOPOLIS
+3147402	PARAOPEBA
+3147501	PASSABEM
+3147600	PASSA QUATRO
+3147709	PASSA TEMPO
+3147808	PASSA VINTE
+3147907	PASSOS
+3147956	PATIS
+3148004	PATOS DE MINAS
+3148103	PATROCINIO
+3148202	PATROCINIO DO MURIAE
+3148301	PAULA CANDIDO
+3148400	PAULISTAS
+3148509	PAVAO
+3148608	PECANHA
+3148707	PEDRA AZUL
+3148756	PEDRA BONITA
+3148806	PEDRA DO ANTA
+3148905	PEDRA DO INDAIA
+3149002	PEDRA DOURADA
+3149101	PEDRALVA
+3149150	PEDRAS DE MARIA DA CRUZ
+3149200	PEDRINOPOLIS
+3149309	PEDRO LEOPOLDO
+3149408	PEDRO TEIXEIRA
+3149507	PEQUERI
+3149606	PEQUI
+3149705	PERDIGAO
+3149804	PERDIZES
+3149903	PERDOES
+3149952	PERIQUITO
+3150000	PESCADOR
+3150109	PIAU
+3150158	PIEDADE DE CARATINGA
+3150208	PIEDADE DE PONTE NOVA
+3150307	PIEDADE DO RIO GRANDE
+3150406	PIEDADE DOS GERAIS
+3150505	PIMENTA
+3150539	PINGO D'AGUA
+3150570	PINTOPOLIS
+3150604	PIRACEMA
+3150703	PIRAJUBA
+3150802	PIRANGA
+3150901	PIRANGUCU
+3151008	PIRANGUINHO
+3151107	PIRAPETINGA
+3151206	PIRAPORA
+3151305	PIRAUBA
+3151404	PITANGUI
+3151503	PIUMHI
+3151602	PLANURA
+3151701	POCO FUNDO
+3151800	POCOS DE CALDAS
+3151909	POCRANE
+3152006	POMPEU
+3152105	PONTE NOVA
+3152131	PONTO CHIQUE
+3152170	PONTO DOS VOLANTES
+3152204	PORTEIRINHA
+3152303	PORTO FIRME
+3152402	POTE
+3152501	POUSO ALEGRE
+3152600	POUSO ALTO
+3152709	PRADOS
+3152808	PRATA
+3152907	PRATAPOLIS
+3153004	PRATINHA
+3153103	PRESIDENTE BERNARDES
+3153202	PRESIDENTE JUSCELINO
+3153301	PRESIDENTE KUBITSCHEK
+3153400	PRESIDENTE OLEGARIO
+3153509	ALTO JEQUITIBA
+3153608	PRUDENTE DE MORAIS
+3153707	QUARTEL GERAL
+3153806	QUELUZITO
+3153905	RAPOSOS
+3154002	RAUL SOARES
+3154101	RECREIO
+3154150	REDUTO
+3154200	RESENDE COSTA
+3154309	RESPLENDOR
+3154408	RESSAQUINHA
+3154457	RIACHINHO
+3154507	RIACHO DOS MACHADOS
+3154606	RIBEIRAO DAS NEVES
+3154705	RIBEIRAO VERMELHO
+3154804	RIO ACIMA
+3154903	RIO CASCA
+3155009	RIO DOCE
+3155108	RIO DO PRADO
+3155207	RIO ESPERA
+3155306	RIO MANSO
+3155405	RIO NOVO
+3155504	RIO PARANAIBA
+3155603	RIO PARDO DE MINAS
+3155702	RIO PIRACICABA
+3155801	RIO POMBA
+3155900	RIO PRETO
+3156007	RIO VERMELHO
+3156106	RITAPOLIS
+3156205	ROCHEDO DE MINAS
+3156304	RODEIRO
+3156403	ROMARIA
+3156452	ROSARIO DA LIMEIRA
+3156502	RUBELITA
+3156601	RUBIM
+3156700	SABARA
+3156809	SABINOPOLIS
+3156908	SACRAMENTO
+3157005	SALINAS
+3157104	SALTO DA DIVISA
+3157203	SANTA BARBARA
+3157252	SANTA BARBARA DO LESTE
+3157278	SANTA BARBARA DO MONTE VERDE
+3157302	SANTA BARBARA DO TUGURIO
+3157336	SANTA CRUZ DE MINAS
+3157377	SANTA CRUZ DE SALINAS
+3157401	SANTA CRUZ DO ESCALVADO
+3157500	SANTA EFIGENIA DE MINAS
+3157609	SANTA FE DE MINAS
+3157658	SANTA HELENA DE MINAS
+3157708	SANTA JULIANA
+3157807	SANTA LUZIA
+3157906	SANTA MARGARIDA
+3158003	SANTA MARIA DE ITABIRA
+3158102	SANTA MARIA DO SALTO
+3158201	SANTA MARIA DO SUACUI
+3158300	SANTANA DA VARGEM
+3158409	SANTANA DE CATAGUASES
+3158508	SANTANA DE PIRAPAMA
+3158607	SANTANA DO DESERTO
+3158706	SANTANA DO GARAMBEU
+3158805	SANTANA DO JACARE
+3158904	SANTANA DO MANHUACU
+3158953	SANTANA DO PARAISO
+3159001	SANTANA DO RIACHO
+3159100	SANTANA DOS MONTES
+3159209	SANTA RITA DE CALDAS
+3159308	SANTA RITA DE JACUTINGA
+3159357	SANTA RITA DE MINAS
+3159407	SANTA RITA DE IBITIPOCA
+3159506	SANTA RITA DO ITUETO
+3159605	SANTA RITA DO SAPUCAI
+3159704	SANTA ROSA DA SERRA
+3159803	SANTA VITORIA
+3159902	SANTO ANTONIO DO AMPARO
+3160009	SANTO ANTONIO DO AVENTUREIRO
+3160108	SANTO ANTONIO DO GRAMA
+3160207	SANTO ANTONIO DO ITAMBE
+3160306	SANTO ANTONIO DO JACINTO
+3160405	SANTO ANTONIO DO MONTE
+3160454	SANTO ANTONIO DO RETIRO
+3160504	SANTO ANTONIO DO RIO ABAIXO
+3160603	SANTO HIPOLITO
+3160702	SANTOS DUMONT
+3160801	SAO BENTO ABADE
+3160900	SAO BRAS DO SUACUI
+3160959	SAO DOMINGOS DAS DORES
+3161007	SAO DOMINGOS DO PRATA
+3161056	SAO FELIX DE MINAS
+3161106	SAO FRANCISCO
+3161205	SAO FRANCISCO DE PAULA
+3161304	SAO FRANCISCO DE SALES
+3161403	SAO FRANCISCO DO GLORIA
+3161502	SAO GERALDO
+3161601	SAO GERALDO DA PIEDADE
+3161650	SAO GERALDO DO BAIXIO
+3161700	SAO GONCALO DO ABAETE
+3161809	SAO GONCALO DO PARA
+3161908	SAO GONCALO DO RIO ABAIXO
+3162005	SAO GONCALO DO SAPUCAI
+3162104	SAO GOTARDO
+3162203	SAO JOAO BATISTA DO GLORIA
+3162252	SAO JOAO DA LAGOA
+3162302	SAO JOAO DA MATA
+3162401	SAO JOAO DA PONTE
+3162450	SAO JOAO DAS MISSOES
+3162500	SAO JOAO DEL REI
+3162559	SAO JOAO DO MANHUACU
+3162575	SAO JOAO DO MANTENINHA
+3162609	SAO JOAO DO ORIENTE
+3162658	SAO JOAO DO PACUI
+3162708	SAO JOAO DO PARAISO
+3162807	SAO JOAO EVANGELISTA
+3162906	SAO JOAO NEPOMUCENO
+3162922	SAO JOAQUIM DE BICAS
+3162948	SAO JOSE DA BARRA
+3162955	SAO JOSE DA LAPA
+3163003	SAO JOSE DA SAFIRA
+3163102	SAO JOSE DA VARGINHA
+3163201	SAO JOSE DO ALEGRE
+3163300	SAO JOSE DO DIVINO
+3163409	SAO JOSE DO GOIABAL
+3163508	SAO JOSE DO JACURI
+3163607	SAO JOSE DO MANTIMENTO
+3163706	SAO LOURENCO
+3163805	SAO MIGUEL DO ANTA
+3163904	SAO PEDRO DA UNIAO
+3164001	SAO PEDRO DOS FERROS
+3164100	SAO PEDRO DO SUACUI
+3164209	SAO ROMAO
+3164308	SAO ROQUE DE MINAS
+3164407	SAO SEBASTIAO DA BELA VISTA
+3164431	SAO SEBASTIAO DA VARGEM ALEGRE
+3164472	SAO SEBASTIAO DO ANTA
+3164506	SAO SEBASTIAO DO MARANHAO
+3164605	SAO SEBASTIAO DO OESTE
+3164704	SAO SEBASTIAO DO PARAISO
+3164803	SAO SEBASTIAO DO RIO PRETO
+3164902	SAO SEBASTIAO DO RIO VERDE
+3165008	SAO TIAGO
+3165107	SAO TOMAS DE AQUINO
+3165206	SAO TOME DAS LETRAS
+3165305	SAO VICENTE DE MINAS
+3165404	SAPUCAI-MIRIM
+3165503	SARDOA
+3165537	SARZEDO
+3165552	SETUBINHA
+3165560	SEM-PEIXE
+3165578	SENADOR AMARAL
+3165602	SENADOR CORTES
+3165701	SENADOR FIRMINO
+3165800	SENADOR JOSE BENTO
+3165909	SENADOR MODESTINO GONCALVES
+3166006	SENHORA DE OLIVEIRA
+3166105	SENHORA DO PORTO
+3166204	SENHORA DOS REMEDIOS
+3166303	SERICITA
+3166402	SERITINGA
+3166501	SERRA AZUL DE MINAS
+3166600	SERRA DA SAUDADE
+3166709	SERRA DOS AIMORES
+3166808	SERRA DO SALITRE
+3166907	SERRANIA
+3166956	SERRANOPOLIS DE MINAS
+3167004	SERRANOS
+3167103	SERRO
+3167202	SETE LAGOAS
+3167301	SILVEIRANIA
+3167400	SILVIANOPOLIS
+3167509	SIMAO PEREIRA
+3167608	SIMONESIA
+3167707	SOBRALIA
+3167806	SOLEDADE DE MINAS
+3167905	TABULEIRO
+3168002	TAIOBEIRAS
+3168051	TAPARUBA
+3168101	TAPIRA
+3168200	TAPIRAI
+3168309	TAQUARACU DE MINAS
+3168408	TARUMIRIM
+3168507	TEIXEIRAS
+3168606	TEOFILO OTONI
+3168705	TIMOTEO
+3168804	TIRADENTES
+3168903	TIROS
+3169000	TOCANTINS
+3169059	TOCOS DO MOJI
+3169109	TOLEDO
+3169208	TOMBOS
+3169307	TRES CORACOES
+3169356	TRES MARIAS
+3169406	TRES PONTAS
+3169505	TUMIRITINGA
+3169604	TUPACIGUARA
+3169703	TURMALINA
+3169802	TURVOLANDIA
+3169901	UBA
+3170008	UBAI
+3170057	UBAPORANGA
+3170107	UBERABA
+3170206	UBERLANDIA
+3170305	UMBURATIBA
+3170404	UNAI
+3170438	UNIAO DE MINAS
+3170479	URUANA DE MINAS
+3170503	URUCANIA
+3170529	URUCUIA
+3170578	VARGEM ALEGRE
+3170602	VARGEM BONITA
+3170651	VARGEM GRANDE DO RIO PARDO
+3170701	VARGINHA
+3170750	VARJAO DE MINAS
+3170800	VARZEA DA PALMA
+3170909	VARZELANDIA
+3171006	VAZANTE
+3171030	VERDELANDIA
+3171071	VEREDINHA
+3171105	VERISSIMO
+3171154	VERMELHO NOVO
+3171204	VESPASIANO
+3171303	VICOSA
+3171402	VIEIRAS
+3171501	MATHIAS LOBATO
+3171600	VIRGEM DA LAPA
+3171709	VIRGINIA
+3171808	VIRGINOPOLIS
+3171907	VIRGOLANDIA
+3172004	VISCONDE DO RIO BRANCO
+3172103	VOLTA GRANDE
+3172202	WENCESLAU BRAZ
+3200102	AFONSO CLAUDIO
+3200136	AGUIA BRANCA
+3200169	AGUA DOCE DO NORTE
+3200201	ALEGRE
+3200300	ALFREDO CHAVES
+3200359	ALTO RIO NOVO
+3200409	ANCHIETA
+3200508	APIACA
+3200607	ARACRUZ
+3200706	ATILIO VIVACQUA
+3200805	BAIXO GUANDU
+3200904	BARRA DE SAO FRANCISCO
+3201001	BOA ESPERANCA
+3201100	BOM JESUS DO NORTE
+3201159	BREJETUBA
+3201209	CACHOEIRO DE ITAPEMIRIM
+3201308	CARIACICA
+3201407	CASTELO
+3201506	COLATINA
+3201605	CONCEICAO DA BARRA
+3201704	CONCEICAO DO CASTELO
+3201803	DIVINO DE SAO LOURENCO
+3201902	DOMINGOS MARTINS
+3202009	DORES DO RIO PRETO
+3202108	ECOPORANGA
+3202207	FUNDAO
+3202256	GOVERNADOR LINDENBERG
+3202306	GUACUI
+3202405	GUARAPARI
+3202454	IBATIBA
+3202504	IBIRACU
+3202553	IBITIRAMA
+3202603	ICONHA
+3202652	IRUPI
+3202702	ITAGUACU
+3202801	ITAPEMIRIM
+3202900	ITARANA
+3203007	IUNA
+3203056	JAGUARE
+3203106	JERONIMO MONTEIRO
+3203130	JOAO NEIVA
+3203163	LARANJA DA TERRA
+3203205	LINHARES
+3203304	MANTENOPOLIS
+3203320	MARATAIZES
+3203346	MARECHAL FLORIANO
+3203353	MARILANDIA
+3203403	MIMOSO DO SUL
+3203502	MONTANHA
+3203601	MUCURICI
+3203700	MUNIZ FREIRE
+3203809	MUQUI
+3203908	NOVA VENECIA
+3204005	PANCAS
+3204054	PEDRO CANARIO
+3204104	PINHEIROS
+3204203	PIUMA
+3204252	PONTO BELO
+3204302	PRESIDENTE KENNEDY
+3204351	RIO BANANAL
+3204401	RIO NOVO DO SUL
+3204500	SANTA LEOPOLDINA
+3204559	SANTA MARIA DE JETIBA
+3204609	SANTA TERESA
+3204658	SAO DOMINGOS DO NORTE
+3204708	SAO GABRIEL DA PALHA
+3204807	SAO JOSE DO CALCADO
+3204906	SAO MATEUS
+3204955	SAO ROQUE DO CANAA
+3205002	SERRA
+3205010	SOORETAMA
+3205036	VARGEM ALTA
+3205069	VENDA NOVA DO IMIGRANTE
+3205101	VIANA
+3205150	VILA PAVAO
+3205176	VILA VALERIO
+3205200	VILA VELHA
+3205309	VITORIA
+3300100	ANGRA DOS REIS
+3300159	APERIBE
+3300209	ARARUAMA
+3300225	AREAL
+3300233	ARMACAO DOS BUZIOS
+3300258	ARRAIAL DO CABO
+3300308	BARRA DO PIRAI
+3300407	BARRA MANSA
+3300456	BELFORD ROXO
+3300506	BOM JARDIM
+3300605	BOM JESUS DO ITABAPOANA
+3300704	CABO FRIO
+3300803	CACHOEIRAS DE MACACU
+3300902	CAMBUCI
+3300936	CARAPEBUS
+3300951	COMENDADOR LEVY GASPARIAN
+3301009	CAMPOS DOS GOYTACAZES
+3301108	CANTAGALO
+3301157	CARDOSO MOREIRA
+3301207	CARMO
+3301306	CASIMIRO DE ABREU
+3301405	CONCEICAO DE MACABU
+3301504	CORDEIRO
+3301603	DUAS BARRAS
+3301702	DUQUE DE CAXIAS
+3301801	ENGENHEIRO PAULO DE FRONTIN
+3301850	GUAPIMIRIM
+3301876	IGUABA GRANDE
+3301900	ITABORAI
+3302007	ITAGUAI
+3302056	ITALVA
+3302106	ITAOCARA
+3302205	ITAPERUNA
+3302254	ITATIAIA
+3302270	JAPERI
+3302304	LAJE DO MURIAE
+3302403	MACAE
+3302452	MACUCO
+3302502	MAGE
+3302601	MANGARATIBA
+3302700	MARICA
+3302809	MENDES
+3302858	MESQUITA
+3302908	MIGUEL PEREIRA
+3303005	MIRACEMA
+3303104	NATIVIDADE
+3303203	NILOPOLIS
+3303302	NITEROI
+3303401	NOVA FRIBURGO
+3303500	NOVA IGUACU
+3303609	PARACAMBI
+3303708	PARAIBA DO SUL
+3303807	PARATY
+3303856	PATY DO ALFERES
+3303906	PETROPOLIS
+3303955	PINHEIRAL
+3304003	PIRAI
+3304102	PORCIUNCULA
+3304110	PORTO REAL
+3304128	QUATIS
+3304144	QUEIMADOS
+3304151	QUISSAMA
+3304201	RESENDE
+3304300	RIO BONITO
+3304409	RIO CLARO
+3304508	RIO DAS FLORES
+3304524	RIO DAS OSTRAS
+3304557	RIO DE JANEIRO
+3304607	SANTA MARIA MADALENA
+3304706	SANTO ANTONIO DE PADUA
+3304755	SAO FRANCISCO DE ITABAPOANA
+3304805	SAO FIDELIS
+3304904	SAO GONCALO
+3305000	SAO JOAO DA BARRA
+3305109	SAO JOAO DE MERITI
+3305133	SAO JOSE DE UBA
+3305158	SAO JOSE DO VALE DO RIO PRETO
+3305208	SAO PEDRO DA ALDEIA
+3305307	SAO SEBASTIAO DO ALTO
+3305406	SAPUCAIA
+3305505	SAQUAREMA
+3305554	SEROPEDICA
+3305604	SILVA JARDIM
+3305703	SUMIDOURO
+3305752	TANGUA
+3305802	TERESOPOLIS
+3305901	TRAJANO DE MORAES
+3306008	TRES RIOS
+3306107	VALENCA
+3306156	VARRE-SAI
+3306206	VASSOURAS
+3306305	VOLTA REDONDA
+3500105	ADAMANTINA
+3500204	ADOLFO
+3500303	AGUAI
+3500402	AGUAS DA PRATA
+3500501	AGUAS DE LINDOIA
+3500550	AGUAS DE SANTA BARBARA
+3500600	AGUAS DE SAO PEDRO
+3500709	AGUDOS
+3500758	ALAMBARI
+3500808	ALFREDO MARCONDES
+3500907	ALTAIR
+3501004	ALTINOPOLIS
+3501103	ALTO ALEGRE
+3501152	ALUMINIO
+3501202	ALVARES FLORENCE
+3501301	ALVARES MACHADO
+3501400	ALVARO DE CARVALHO
+3501509	ALVINLANDIA
+3501608	AMERICANA
+3501707	AMERICO BRASILIENSE
+3501806	AMERICO DE CAMPOS
+3501905	AMPARO
+3502002	ANALANDIA
+3502101	ANDRADINA
+3502200	ANGATUBA
+3502309	ANHEMBI
+3502408	ANHUMAS
+3502507	APARECIDA
+3502606	APARECIDA D'OESTE
+3502705	APIAI
+3502754	ARACARIGUAMA
+3502804	ARACATUBA
+3502903	ARACOIABA DA SERRA
+3503000	ARAMINA
+3503109	ARANDU
+3503158	ARAPEI
+3503208	ARARAQUARA
+3503307	ARARAS
+3503356	ARCO-IRIS
+3503406	AREALVA
+3503505	AREIAS
+3503604	AREIOPOLIS
+3503703	ARIRANHA
+3503802	ARTUR NOGUEIRA
+3503901	ARUJA
+3503950	ASPASIA
+3504008	ASSIS
+3504107	ATIBAIA
+3504206	AURIFLAMA
+3504305	AVAI
+3504404	AVANHANDAVA
+3504503	AVARE
+3504602	BADY BASSITT
+3504701	BALBINOS
+3504800	BALSAMO
+3504909	BANANAL
+3505005	BARAO DE ANTONINA
+3505104	BARBOSA
+3505203	BARIRI
+3505302	BARRA BONITA
+3505351	BARRA DO CHAPEU
+3505401	BARRA DO TURVO
+3505500	BARRETOS
+3505609	BARRINHA
+3505708	BARUERI
+3505807	BASTOS
+3505906	BATATAIS
+3506003	BAURU
+3506102	BEBEDOURO
+3506201	BENTO DE ABREU
+3506300	BERNARDINO DE CAMPOS
+3506359	BERTIOGA
+3506409	BILAC
+3506508	BIRIGUI
+3506607	BIRITIBA MIRIM
+3506706	BOA ESPERANCA DO SUL
+3506805	BOCAINA
+3506904	BOFETE
+3507001	BOITUVA
+3507100	BOM JESUS DOS PERDOES
+3507159	BOM SUCESSO DE ITARARE
+3507209	BORA
+3507308	BORACEIA
+3507407	BORBOREMA
+3507456	BOREBI
+3507506	BOTUCATU
+3507605	BRAGANCA PAULISTA
+3507704	BRAUNA
+3507753	BREJO ALEGRE
+3507803	BRODOWSKI
+3507902	BROTAS
+3508009	BURI
+3508108	BURITAMA
+3508207	BURITIZAL
+3508306	CABRALIA PAULISTA
+3508405	CABREUVA
+3508504	CACAPAVA
+3508603	CACHOEIRA PAULISTA
+3508702	CACONDE
+3508801	CAFELANDIA
+3508900	CAIABU
+3509007	CAIEIRAS
+3509106	CAIUA
+3509205	CAJAMAR
+3509254	CAJATI
+3509304	CAJOBI
+3509403	CAJURU
+3509452	CAMPINA DO MONTE ALEGRE
+3509502	CAMPINAS
+3509601	CAMPO LIMPO PAULISTA
+3509700	CAMPOS DO JORDAO
+3509809	CAMPOS NOVOS PAULISTA
+3509908	CANANEIA
+3509957	CANAS
+3510005	CANDIDO MOTA
+3510104	CANDIDO RODRIGUES
+3510153	CANITAR
+3510203	CAPAO BONITO
+3510302	CAPELA DO ALTO
+3510401	CAPIVARI
+3510500	CARAGUATATUBA
+3510609	CARAPICUIBA
+3510708	CARDOSO
+3510807	CASA BRANCA
+3510906	CASSIA DOS COQUEIROS
+3511003	CASTILHO
+3511102	CATANDUVA
+3511201	CATIGUA
+3511300	CEDRAL
+3511409	CERQUEIRA CESAR
+3511508	CERQUILHO
+3511607	CESARIO LANGE
+3511706	CHARQUEADA
+3511904	CLEMENTINA
+3512001	COLINA
+3512100	COLOMBIA
+3512209	CONCHAL
+3512308	CONCHAS
+3512407	CORDEIROPOLIS
+3512506	COROADOS
+3512605	CORONEL MACEDO
+3512704	CORUMBATAI
+3512803	COSMOPOLIS
+3512902	COSMORAMA
+3513009	COTIA
+3513108	CRAVINHOS
+3513207	CRISTAIS PAULISTA
+3513306	CRUZALIA
+3513405	CRUZEIRO
+3513504	CUBATAO
+3513603	CUNHA
+3513702	DESCALVADO
+3513801	DIADEMA
+3513850	DIRCE REIS
+3513900	DIVINOLANDIA
+3514007	DOBRADA
+3514106	DOIS CORREGOS
+3514205	DOLCINOPOLIS
+3514304	DOURADO
+3514403	DRACENA
+3514502	DUARTINA
+3514601	DUMONT
+3514700	ECHAPORA
+3514809	ELDORADO
+3514908	ELIAS FAUSTO
+3514924	ELISIARIO
+3514957	EMBAUBA
+3515004	EMBU DAS ARTES
+3515103	EMBU-GUACU
+3515129	EMILIANOPOLIS
+3515152	ENGENHEIRO COELHO
+3515186	ESPIRITO SANTO DO PINHAL
+3515194	ESPIRITO SANTO DO TURVO
+3515202	ESTRELA D'OESTE
+3515301	ESTRELA DO NORTE
+3515350	EUCLIDES DA CUNHA PAULISTA
+3515400	FARTURA
+3515509	FERNANDOPOLIS
+3515608	FERNANDO PRESTES
+3515657	FERNAO
+3515707	FERRAZ DE VASCONCELOS
+3515806	FLORA RICA
+3515905	FLOREAL
+3516002	FLORIDA PAULISTA
+3516101	FLORINEA
+3516200	FRANCA
+3516309	FRANCISCO MORATO
+3516408	FRANCO DA ROCHA
+3516507	GABRIEL MONTEIRO
+3516606	GALIA
+3516705	GARCA
+3516804	GASTAO VIDIGAL
+3516853	GAVIAO PEIXOTO
+3516903	GENERAL SALGADO
+3517000	GETULINA
+3517109	GLICERIO
+3517208	GUAICARA
+3517307	GUAIMBE
+3517406	GUAIRA
+3517505	GUAPIACU
+3517604	GUAPIARA
+3517703	GUARA
+3517802	GUARACAI
+3517901	GUARACI
+3518008	GUARANI D'OESTE
+3518107	GUARANTA
+3518206	GUARARAPES
+3518305	GUARAREMA
+3518404	GUARATINGUETA
+3518503	GUAREI
+3518602	GUARIBA
+3518701	GUARUJA
+3518800	GUARULHOS
+3518859	GUATAPARA
+3518909	GUZOLANDIA
+3519006	HERCULANDIA
+3519055	HOLAMBRA
+3519071	HORTOLANDIA
+3519105	IACANGA
+3519204	IACRI
+3519253	IARAS
+3519303	IBATE
+3519402	IBIRA
+3519501	IBIRAREMA
+3519600	IBITINGA
+3519709	IBIUNA
+3519808	ICEM
+3519907	IEPE
+3520004	IGARACU DO TIETE
+3520103	IGARAPAVA
+3520202	IGARATA
+3520301	IGUAPE
+3520400	ILHABELA
+3520426	ILHA COMPRIDA
+3520442	ILHA SOLTEIRA
+3520509	INDAIATUBA
+3520608	INDIANA
+3520707	INDIAPORA
+3520806	INUBIA PAULISTA
+3520905	IPAUSSU
+3521002	IPERO
+3521101	IPEUNA
+3521150	IPIGUA
+3521200	IPORANGA
+3521309	IPUA
+3521408	IRACEMAPOLIS
+3521507	IRAPUA
+3521606	IRAPURU
+3521705	ITABERA
+3521804	ITAI
+3521903	ITAJOBI
+3522000	ITAJU
+3522109	ITANHAEM
+3522158	ITAOCA
+3522208	ITAPECERICA DA SERRA
+3522307	ITAPETININGA
+3522406	ITAPEVA
+3522505	ITAPEVI
+3522604	ITAPIRA
+3522653	ITAPIRAPUA PAULISTA
+3522703	ITAPOLIS
+3522802	ITAPORANGA
+3522901	ITAPUI
+3523008	ITAPURA
+3523107	ITAQUAQUECETUBA
+3523206	ITARARE
+3523305	ITARIRI
+3523404	ITATIBA
+3523503	ITATINGA
+3523602	ITIRAPINA
+3523701	ITIRAPUA
+3523800	ITOBI
+3523909	ITU
+3524006	ITUPEVA
+3524105	ITUVERAVA
+3524204	JABORANDI
+3524303	JABOTICABAL
+3524402	JACAREI
+3524501	JACI
+3524600	JACUPIRANGA
+3524709	JAGUARIUNA
+3524808	JALES
+3524907	JAMBEIRO
+3525003	JANDIRA
+3525102	JARDINOPOLIS
+3525201	JARINU
+3525300	JAU
+3525409	JERIQUARA
+3525508	JOANOPOLIS
+3525607	JOAO RAMALHO
+3525706	JOSE BONIFACIO
+3525805	JULIO MESQUITA
+3525854	JUMIRIM
+3525904	JUNDIAI
+3526001	JUNQUEIROPOLIS
+3526100	JUQUIA
+3526209	JUQUITIBA
+3526308	LAGOINHA
+3526407	LARANJAL PAULISTA
+3526506	LAVINIA
+3526605	LAVRINHAS
+3526704	LEME
+3526803	LENCOIS PAULISTA
+3526902	LIMEIRA
+3527009	LINDOIA
+3527108	LINS
+3527207	LORENA
+3527256	LOURDES
+3527306	LOUVEIRA
+3527405	LUCELIA
+3527504	LUCIANOPOLIS
+3527603	LUIS ANTONIO
+3527702	LUIZIANIA
+3527801	LUPERCIO
+3527900	LUTECIA
+3528007	MACATUBA
+3528106	MACAUBAL
+3528205	MACEDONIA
+3528304	MAGDA
+3528403	MAIRINQUE
+3528502	MAIRIPORA
+3528601	MANDURI
+3528700	MARABA PAULISTA
+3528809	MARACAI
+3528858	MARAPOAMA
+3528908	MARIAPOLIS
+3529005	MARILIA
+3529104	MARINOPOLIS
+3529203	MARTINOPOLIS
+3529302	MATAO
+3529401	MAUA
+3529500	MENDONCA
+3529609	MERIDIANO
+3529658	MESOPOLIS
+3529708	MIGUELOPOLIS
+3529807	MINEIROS DO TIETE
+3529906	MIRACATU
+3530003	MIRA ESTRELA
+3530102	MIRANDOPOLIS
+3530201	MIRANTE DO PARANAPANEMA
+3530300	MIRASSOL
+3530409	MIRASSOLANDIA
+3530508	MOCOCA
+3530607	MOGI DAS CRUZES
+3530706	MOGI GUACU
+3530805	MOGI MIRIM
+3530904	MOMBUCA
+3531001	MONCOES
+3531100	MONGAGUA
+3531209	MONTE ALEGRE DO SUL
+3531308	MONTE ALTO
+3531407	MONTE APRAZIVEL
+3531506	MONTE AZUL PAULISTA
+3531605	MONTE CASTELO
+3531704	MONTEIRO LOBATO
+3531803	MONTE MOR
+3531902	MORRO AGUDO
+3532009	MORUNGABA
+3532058	MOTUCA
+3532108	MURUTINGA DO SUL
+3532157	NANTES
+3532207	NARANDIBA
+3532306	NATIVIDADE DA SERRA
+3532405	NAZARE PAULISTA
+3532504	NEVES PAULISTA
+3532603	NHANDEARA
+3532702	NIPOA
+3532801	NOVA ALIANCA
+3532827	NOVA CAMPINA
+3532843	NOVA CANAA PAULISTA
+3532868	NOVA CASTILHO
+3532900	NOVA EUROPA
+3533007	NOVA GRANADA
+3533106	NOVA GUATAPORANGA
+3533205	NOVA INDEPENDENCIA
+3533254	NOVAIS
+3533304	NOVA LUZITANIA
+3533403	NOVA ODESSA
+3533502	NOVO HORIZONTE
+3533601	NUPORANGA
+3533700	OCAUCU
+3533809	OLEO
+3533908	OLIMPIA
+3534005	ONDA VERDE
+3534104	ORIENTE
+3534203	ORINDIUVA
+3534302	ORLANDIA
+3534401	OSASCO
+3534500	OSCAR BRESSANE
+3534609	OSVALDO CRUZ
+3534708	OURINHOS
+3534757	OUROESTE
+3534807	OURO VERDE
+3534906	PACAEMBU
+3535002	PALESTINA
+3535101	PALMARES PAULISTA
+3535200	PALMEIRA D'OESTE
+3535309	PALMITAL
+3535408	PANORAMA
+3535507	PARAGUACU PAULISTA
+3535606	PARAIBUNA
+3535705	PARAISO
+3535804	PARANAPANEMA
+3535903	PARANAPUA
+3536000	PARAPUA
+3536109	PARDINHO
+3536208	PARIQUERA-ACU
+3536257	PARISI
+3536307	PATROCINIO PAULISTA
+3536406	PAULICEIA
+3536505	PAULINIA
+3536570	PAULISTANIA
+3536604	PAULO DE FARIA
+3536703	PEDERNEIRAS
+3536802	PEDRA BELA
+3536901	PEDRANOPOLIS
+3537008	PEDREGULHO
+3537107	PEDREIRA
+3537156	PEDRINHAS PAULISTA
+3537206	PEDRO DE TOLEDO
+3537305	PENAPOLIS
+3537404	PEREIRA BARRETO
+3537503	PEREIRAS
+3537602	PERUIBE
+3537701	PIACATU
+3537800	PIEDADE
+3537909	PILAR DO SUL
+3538006	PINDAMONHANGABA
+3538105	PINDORAMA
+3538204	PINHALZINHO
+3538303	PIQUEROBI
+3538501	PIQUETE
+3538600	PIRACAIA
+3538709	PIRACICABA
+3538808	PIRAJU
+3538907	PIRAJUI
+3539004	PIRANGI
+3539103	PIRAPORA DO BOM JESUS
+3539202	PIRAPOZINHO
+3539301	PIRASSUNUNGA
+3539400	PIRATININGA
+3539509	PITANGUEIRAS
+3539608	PLANALTO
+3539707	PLATINA
+3539806	POA
+3539905	POLONI
+3540002	POMPEIA
+3540101	PONGAI
+3540200	PONTAL
+3540259	PONTALINDA
+3540309	PONTES GESTAL
+3540408	POPULINA
+3540507	PORANGABA
+3540606	PORTO FELIZ
+3540705	PORTO FERREIRA
+3540754	POTIM
+3540804	POTIRENDABA
+3540853	PRACINHA
+3540903	PRADOPOLIS
+3541000	PRAIA GRANDE
+3541059	PRATANIA
+3541109	PRESIDENTE ALVES
+3541208	PRESIDENTE BERNARDES
+3541307	PRESIDENTE EPITACIO
+3541406	PRESIDENTE PRUDENTE
+3541505	PRESIDENTE VENCESLAU
+3541604	PROMISSAO
+3541653	QUADRA
+3541703	QUATA
+3541802	QUEIROZ
+3541901	QUELUZ
+3542008	QUINTANA
+3542107	RAFARD
+3542206	RANCHARIA
+3542305	REDENCAO DA SERRA
+3542404	REGENTE FEIJO
+3542503	REGINOPOLIS
+3542602	REGISTRO
+3542701	RESTINGA
+3542800	RIBEIRA
+3542909	RIBEIRAO BONITO
+3543006	RIBEIRAO BRANCO
+3543105	RIBEIRAO CORRENTE
+3543204	RIBEIRAO DO SUL
+3543238	RIBEIRAO DOS INDIOS
+3543253	RIBEIRAO GRANDE
+3543303	RIBEIRAO PIRES
+3543402	RIBEIRAO PRETO
+3543501	RIVERSUL
+3543600	RIFAINA
+3543709	RINCAO
+3543808	RINOPOLIS
+3543907	RIO CLARO
+3544004	RIO DAS PEDRAS
+3544103	RIO GRANDE DA SERRA
+3544202	RIOLANDIA
+3544251	ROSANA
+3544301	ROSEIRA
+3544400	RUBIACEA
+3544509	RUBINEIA
+3544608	SABINO
+3544707	SAGRES
+3544806	SALES
+3544905	SALES OLIVEIRA
+3545001	SALESOPOLIS
+3545100	SALMOURAO
+3545159	SALTINHO
+3545209	SALTO
+3545308	SALTO DE PIRAPORA
+3545407	SALTO GRANDE
+3545506	SANDOVALINA
+3545605	SANTA ADELIA
+3545704	SANTA ALBERTINA
+3545803	SANTA BARBARA D'OESTE
+3546009	SANTA BRANCA
+3546108	SANTA CLARA D'OESTE
+3546207	SANTA CRUZ DA CONCEICAO
+3546256	SANTA CRUZ DA ESPERANCA
+3546306	SANTA CRUZ DAS PALMEIRAS
+3546405	SANTA CRUZ DO RIO PARDO
+3546504	SANTA ERNESTINA
+3546603	SANTA FE DO SUL
+3546702	SANTA GERTRUDES
+3546801	SANTA ISABEL
+3546900	SANTA LUCIA
+3547007	SANTA MARIA DA SERRA
+3547106	SANTA MERCEDES
+3547205	SANTANA DA PONTE PENSA
+3547304	SANTANA DE PARNAIBA
+3547403	SANTA RITA D'OESTE
+3547502	SANTA RITA DO PASSA QUATRO
+3547601	SANTA ROSA DE VITERBO
+3547650	SANTA SALETE
+3547700	SANTO ANASTACIO
+3547809	SANTO ANDRE
+3547908	SANTO ANTONIO DA ALEGRIA
+3548005	SANTO ANTONIO DE POSSE
+3548054	SANTO ANTONIO DO ARACANGUA
+3548104	SANTO ANTONIO DO JARDIM
+3548203	SANTO ANTONIO DO PINHAL
+3548302	SANTO EXPEDITO
+3548401	SANTOPOLIS DO AGUAPEI
+3548500	SANTOS
+3548609	SAO BENTO DO SAPUCAI
+3548708	SAO BERNARDO DO CAMPO
+3548807	SAO CAETANO DO SUL
+3548906	SAO CARLOS
+3549003	SAO FRANCISCO
+3549102	SAO JOAO DA BOA VISTA
+3549201	SAO JOAO DAS DUAS PONTES
+3549250	SAO JOAO DE IRACEMA
+3549300	SAO JOAO DO PAU D'ALHO
+3549409	SAO JOAQUIM DA BARRA
+3549508	SAO JOSE DA BELA VISTA
+3549607	SAO JOSE DO BARREIRO
+3549706	SAO JOSE DO RIO PARDO
+3549805	SAO JOSE DO RIO PRETO
+3549904	SAO JOSE DOS CAMPOS
+3549953	SAO LOURENCO DA SERRA
+3550001	SAO LUIZ DO PARAITINGA
+3550100	SAO MANUEL
+3550209	SAO MIGUEL ARCANJO
+3550308	SAO PAULO
+3550407	SAO PEDRO
+3550506	SAO PEDRO DO TURVO
+3550605	SAO ROQUE
+3550704	SAO SEBASTIAO
+3550803	SAO SEBASTIAO DA GRAMA
+3550902	SAO SIMAO
+3551009	SAO VICENTE
+3551108	SARAPUI
+3551207	SARUTAIA
+3551306	SEBASTIANOPOLIS DO SUL
+3551405	SERRA AZUL
+3551504	SERRANA
+3551603	SERRA NEGRA
+3551702	SERTAOZINHO
+3551801	SETE BARRAS
+3551900	SEVERINIA
+3552007	SILVEIRAS
+3552106	SOCORRO
+3552205	SOROCABA
+3552304	SUD MENNUCCI
+3552403	SUMARE
+3552502	SUZANO
+3552551	SUZANAPOLIS
+3552601	TABAPUA
+3552700	TABATINGA
+3552809	TABOAO DA SERRA
+3552908	TACIBA
+3553005	TAGUAI
+3553104	TAIACU
+3553203	TAIUVA
+3553302	TAMBAU
+3553401	TANABI
+3553500	TAPIRAI
+3553609	TAPIRATIBA
+3553658	TAQUARAL
+3553708	TAQUARITINGA
+3553807	TAQUARITUBA
+3553856	TAQUARIVAI
+3553906	TARABAI
+3553955	TARUMA
+3554003	TATUI
+3554102	TAUBATE
+3554201	TEJUPA
+3554300	TEODORO SAMPAIO
+3554409	TERRA ROXA
+3554508	TIETE
+3554607	TIMBURI
+3554656	TORRE DE PEDRA
+3554706	TORRINHA
+3554755	TRABIJU
+3554805	TREMEMBE
+3554904	TRES FRONTEIRAS
+3554953	TUIUTI
+3555000	TUPA
+3555109	TUPI PAULISTA
+3555208	TURIUBA
+3555307	TURMALINA
+3555356	UBARANA
+3555406	UBATUBA
+3555505	UBIRAJARA
+3555604	UCHOA
+3555703	UNIAO PAULISTA
+3555802	URANIA
+3555901	URU
+3556008	URUPES
+3556107	VALENTIM GENTIL
+3556206	VALINHOS
+3556305	VALPARAISO
+3556354	VARGEM
+3556404	VARGEM GRANDE DO SUL
+3556453	VARGEM GRANDE PAULISTA
+3556503	VARZEA PAULISTA
+3556602	VERA CRUZ
+3556701	VINHEDO
+3556800	VIRADOURO
+3556909	VISTA ALEGRE DO ALTO
+3556958	VITORIA BRASIL
+3557006	VOTORANTIM
+3557105	VOTUPORANGA
+3557154	ZACARIAS
+3557204	CHAVANTES
+3557303	ESTIVA GERBI
+4100103	ABATIA
+4100202	ADRIANOPOLIS
+4100301	AGUDOS DO SUL
+4100400	ALMIRANTE TAMANDARE
+4100459	ALTAMIRA DO PARANA
+4100509	ALTONIA
+4100608	ALTO PARANA
+4100707	ALTO PIQUIRI
+4100806	ALVORADA DO SUL
+4100905	AMAPORA
+4101002	AMPERE
+4101051	ANAHY
+4101101	ANDIRA
+4101150	ANGULO
+4101200	ANTONINA
+4101309	ANTONIO OLINTO
+4101408	APUCARANA
+4101507	ARAPONGAS
+4101606	ARAPOTI
+4101655	ARAPUA
+4101705	ARARUNA
+4101804	ARAUCARIA
+4101853	ARIRANHA DO IVAI
+4101903	ASSAI
+4102000	ASSIS CHATEAUBRIAND
+4102109	ASTORGA
+4102208	ATALAIA
+4102307	BALSA NOVA
+4102406	BANDEIRANTES
+4102505	BARBOSA FERRAZ
+4102604	BARRACAO
+4102703	BARRA DO JACARE
+4102752	BELA VISTA DA CAROBA
+4102802	BELA VISTA DO PARAISO
+4102901	BITURUNA
+4103008	BOA ESPERANCA
+4103024	BOA ESPERANCA DO IGUACU
+4103040	BOA VENTURA DE SAO ROQUE
+4103057	BOA VISTA DA APARECIDA
+4103107	BOCAIUVA DO SUL
+4103156	BOM JESUS DO SUL
+4103206	BOM SUCESSO
+4103222	BOM SUCESSO DO SUL
+4103305	BORRAZOPOLIS
+4103354	BRAGANEY
+4103370	BRASILANDIA DO SUL
+4103404	CAFEARA
+4103453	CAFELANDIA
+4103479	CAFEZAL DO SUL
+4103503	CALIFORNIA
+4103602	CAMBARA
+4103701	CAMBE
+4103800	CAMBIRA
+4103909	CAMPINA DA LAGOA
+4103958	CAMPINA DO SIMAO
+4104006	CAMPINA GRANDE DO SUL
+4104055	CAMPO BONITO
+4104105	CAMPO DO TENENTE
+4104204	CAMPO LARGO
+4104253	CAMPO MAGRO
+4104303	CAMPO MOURAO
+4104402	CANDIDO DE ABREU
+4104428	CANDOI
+4104451	CANTAGALO
+4104501	CAPANEMA
+4104600	CAPITAO LEONIDAS MARQUES
+4104659	CARAMBEI
+4104709	CARLOPOLIS
+4104808	CASCAVEL
+4104907	CASTRO
+4105003	CATANDUVAS
+4105102	CENTENARIO DO SUL
+4105201	CERRO AZUL
+4105300	CEU AZUL
+4105409	CHOPINZINHO
+4105508	CIANORTE
+4105607	CIDADE GAUCHA
+4105706	CLEVELANDIA
+4105805	COLOMBO
+4105904	COLORADO
+4106001	CONGONHINHAS
+4106100	CONSELHEIRO MAIRINCK
+4106209	CONTENDA
+4106308	CORBELIA
+4106407	CORNELIO PROCOPIO
+4106456	CORONEL DOMINGOS SOARES
+4106506	CORONEL VIVIDA
+4106555	CORUMBATAI DO SUL
+4106571	CRUZEIRO DO IGUACU
+4106605	CRUZEIRO DO OESTE
+4106704	CRUZEIRO DO SUL
+4106803	CRUZ MACHADO
+4106852	CRUZMALTINA
+4106902	CURITIBA
+4107009	CURIUVA
+4107108	DIAMANTE DO NORTE
+4107124	DIAMANTE DO SUL
+4107157	DIAMANTE D'OESTE
+4107207	DOIS VIZINHOS
+4107256	DOURADINA
+4107306	DOUTOR CAMARGO
+4107405	ENEAS MARQUES
+4107504	ENGENHEIRO BELTRAO
+4107520	ESPERANCA NOVA
+4107538	ENTRE RIOS DO OESTE
+4107546	ESPIGAO ALTO DO IGUACU
+4107553	FAROL
+4107603	FAXINAL
+4107652	FAZENDA RIO GRANDE
+4107702	FENIX
+4107736	FERNANDES PINHEIRO
+4107751	FIGUEIRA
+4107801	FLORAI
+4107850	FLOR DA SERRA DO SUL
+4107900	FLORESTA
+4108007	FLORESTOPOLIS
+4108106	FLORIDA
+4108205	FORMOSA DO OESTE
+4108304	FOZ DO IGUACU
+4108320	FRANCISCO ALVES
+4108403	FRANCISCO BELTRAO
+4108452	FOZ DO JORDAO
+4108502	GENERAL CARNEIRO
+4108551	GODOY MOREIRA
+4108601	GOIOERE
+4108650	GOIOXIM
+4108700	GRANDES RIOS
+4108809	GUAIRA
+4108908	GUAIRACA
+4108957	GUAMIRANGA
+4109005	GUAPIRAMA
+4109104	GUAPOREMA
+4109203	GUARACI
+4109302	GUARANIACU
+4109401	GUARAPUAVA
+4109500	GUARAQUECABA
+4109609	GUARATUBA
+4109658	HONORIO SERPA
+4109708	IBAITI
+4109757	IBEMA
+4109807	IBIPORA
+4109906	ICARAIMA
+4110003	IGUARACU
+4110052	IGUATU
+4110078	IMBAU
+4110102	IMBITUVA
+4110201	INACIO MARTINS
+4110300	INAJA
+4110409	INDIANOPOLIS
+4110508	IPIRANGA
+4110607	IPORA
+4110656	IRACEMA DO OESTE
+4110706	IRATI
+4110805	IRETAMA
+4110904	ITAGUAJE
+4110953	ITAIPULANDIA
+4111001	ITAMBARACA
+4111100	ITAMBE
+4111209	ITAPEJARA D'OESTE
+4111258	ITAPERUCU
+4111308	ITAUNA DO SUL
+4111407	IVAI
+4111506	IVAIPORA
+4111555	IVATE
+4111605	IVATUBA
+4111704	JABOTI
+4111803	JACAREZINHO
+4111902	JAGUAPITA
+4112009	JAGUARIAIVA
+4112108	JANDAIA DO SUL
+4112207	JANIOPOLIS
+4112306	JAPIRA
+4112405	JAPURA
+4112504	JARDIM ALEGRE
+4112603	JARDIM OLINDA
+4112702	JATAIZINHO
+4112751	JESUITAS
+4112801	JOAQUIM TAVORA
+4112900	JUNDIAI DO SUL
+4112959	JURANDA
+4113007	JUSSARA
+4113106	KALORE
+4113205	LAPA
+4113254	LARANJAL
+4113304	LARANJEIRAS DO SUL
+4113403	LEOPOLIS
+4113429	LIDIANOPOLIS
+4113452	LINDOESTE
+4113502	LOANDA
+4113601	LOBATO
+4113700	LONDRINA
+4113734	LUIZIANA
+4113759	LUNARDELLI
+4113809	LUPIONOPOLIS
+4113908	MALLET
+4114005	MAMBORE
+4114104	MANDAGUACU
+4114203	MANDAGUARI
+4114302	MANDIRITUBA
+4114351	MANFRINOPOLIS
+4114401	MANGUEIRINHA
+4114500	MANOEL RIBAS
+4114609	MARECHAL CANDIDO RONDON
+4114708	MARIA HELENA
+4114807	MARIALVA
+4114906	MARILANDIA DO SUL
+4115002	MARILENA
+4115101	MARILUZ
+4115200	MARINGA
+4115309	MARIOPOLIS
+4115358	MARIPA
+4115408	MARMELEIRO
+4115457	MARQUINHO
+4115507	MARUMBI
+4115606	MATELANDIA
+4115705	MATINHOS
+4115739	MATO RICO
+4115754	MAUA DA SERRA
+4115804	MEDIANEIRA
+4115853	MERCEDES
+4115903	MIRADOR
+4116000	MIRASELVA
+4116059	MISSAL
+4116109	MOREIRA SALES
+4116208	MORRETES
+4116307	MUNHOZ DE MELO
+4116406	NOSSA SENHORA DAS GRACAS
+4116505	NOVA ALIANCA DO IVAI
+4116604	NOVA AMERICA DA COLINA
+4116703	NOVA AURORA
+4116802	NOVA CANTU
+4116901	NOVA ESPERANCA
+4116950	NOVA ESPERANCA DO SUDOESTE
+4117008	NOVA FATIMA
+4117057	NOVA LARANJEIRAS
+4117107	NOVA LONDRINA
+4117206	NOVA OLIMPIA
+4117214	NOVA SANTA BARBARA
+4117222	NOVA SANTA ROSA
+4117255	NOVA PRATA DO IGUACU
+4117271	NOVA TEBAS
+4117297	NOVO ITACOLOMI
+4117305	ORTIGUEIRA
+4117404	OURIZONA
+4117453	OURO VERDE DO OESTE
+4117503	PAICANDU
+4117602	PALMAS
+4117701	PALMEIRA
+4117800	PALMITAL
+4117909	PALOTINA
+4118006	PARAISO DO NORTE
+4118105	PARANACITY
+4118204	PARANAGUA
+4118303	PARANAPOEMA
+4118402	PARANAVAI
+4118451	PATO BRAGADO
+4118501	PATO BRANCO
+4118600	PAULA FREITAS
+4118709	PAULO FRONTIN
+4118808	PEABIRU
+4118857	PEROBAL
+4118907	PEROLA
+4119004	PEROLA D'OESTE
+4119103	PIEN
+4119152	PINHAIS
+4119202	PINHALAO
+4119251	PINHAL DE SAO BENTO
+4119301	PINHAO
+4119400	PIRAI DO SUL
+4119509	PIRAQUARA
+4119608	PITANGA
+4119657	PITANGUEIRAS
+4119707	PLANALTINA DO PARANA
+4119806	PLANALTO
+4119905	PONTA GROSSA
+4119954	PONTAL DO PARANA
+4120002	PORECATU
+4120101	PORTO AMAZONAS
+4120150	PORTO BARREIRO
+4120200	PORTO RICO
+4120309	PORTO VITORIA
+4120333	PRADO FERREIRA
+4120358	PRANCHITA
+4120408	PRESIDENTE CASTELO BRANCO
+4120507	PRIMEIRO DE MAIO
+4120606	PRUDENTOPOLIS
+4120655	QUARTO CENTENARIO
+4120705	QUATIGUA
+4120804	QUATRO BARRAS
+4120853	QUATRO PONTES
+4120903	QUEDAS DO IGUACU
+4121000	QUERENCIA DO NORTE
+4121109	QUINTA DO SOL
+4121208	QUITANDINHA
+4121257	RAMILANDIA
+4121307	RANCHO ALEGRE
+4121356	RANCHO ALEGRE D'OESTE
+4121406	REALEZA
+4121505	REBOUCAS
+4121604	RENASCENCA
+4121703	RESERVA
+4121752	RESERVA DO IGUACU
+4121802	RIBEIRAO CLARO
+4121901	RIBEIRAO DO PINHAL
+4122008	RIO AZUL
+4122107	RIO BOM
+4122156	RIO BONITO DO IGUACU
+4122172	RIO BRANCO DO IVAI
+4122206	RIO BRANCO DO SUL
+4122305	RIO NEGRO
+4122404	ROLANDIA
+4122503	RONCADOR
+4122602	RONDON
+4122651	ROSARIO DO IVAI
+4122701	SABAUDIA
+4122800	SALGADO FILHO
+4122909	SALTO DO ITARARE
+4123006	SALTO DO LONTRA
+4123105	SANTA AMELIA
+4123204	SANTA CECILIA DO PAVAO
+4123303	SANTA CRUZ DE MONTE CASTELO
+4123402	SANTA FE
+4123501	SANTA HELENA
+4123600	SANTA INES
+4123709	SANTA ISABEL DO IVAI
+4123808	SANTA IZABEL DO OESTE
+4123824	SANTA LUCIA
+4123857	SANTA MARIA DO OESTE
+4123907	SANTA MARIANA
+4123956	SANTA MONICA
+4124004	SANTANA DO ITARARE
+4124020	SANTA TEREZA DO OESTE
+4124053	SANTA TEREZINHA DE ITAIPU
+4124103	SANTO ANTONIO DA PLATINA
+4124202	SANTO ANTONIO DO CAIUA
+4124301	SANTO ANTONIO DO PARAISO
+4124400	SANTO ANTONIO DO SUDOESTE
+4124509	SANTO INACIO
+4124608	SAO CARLOS DO IVAI
+4124707	SAO JERONIMO DA SERRA
+4124806	SAO JOAO
+4124905	SAO JOAO DO CAIUA
+4125001	SAO JOAO DO IVAI
+4125100	SAO JOAO DO TRIUNFO
+4125209	SAO JORGE D'OESTE
+4125308	SAO JORGE DO IVAI
+4125357	SAO JORGE DO PATROCINIO
+4125407	SAO JOSE DA BOA VISTA
+4125456	SAO JOSE DAS PALMEIRAS
+4125506	SAO JOSE DOS PINHAIS
+4125555	SAO MANOEL DO PARANA
+4125605	SAO MATEUS DO SUL
+4125704	SAO MIGUEL DO IGUACU
+4125753	SAO PEDRO DO IGUACU
+4125803	SAO PEDRO DO IVAI
+4125902	SAO PEDRO DO PARANA
+4126009	SAO SEBASTIAO DA AMOREIRA
+4126108	SAO TOME
+4126207	SAPOPEMA
+4126256	SARANDI
+4126272	SAUDADE DO IGUACU
+4126306	SENGES
+4126355	SERRANOPOLIS DO IGUACU
+4126405	SERTANEJA
+4126504	SERTANOPOLIS
+4126603	SIQUEIRA CAMPOS
+4126652	SULINA
+4126678	TAMARANA
+4126702	TAMBOARA
+4126801	TAPEJARA
+4126900	TAPIRA
+4127007	TEIXEIRA SOARES
+4127106	TELEMACO BORBA
+4127205	TERRA BOA
+4127304	TERRA RICA
+4127403	TERRA ROXA
+4127502	TIBAGI
+4127601	TIJUCAS DO SUL
+4127700	TOLEDO
+4127809	TOMAZINA
+4127858	TRES BARRAS DO PARANA
+4127882	TUNAS DO PARANA
+4127908	TUNEIRAS DO OESTE
+4127957	TUPASSI
+4127965	TURVO
+4128005	UBIRATA
+4128104	UMUARAMA
+4128203	UNIAO DA VITORIA
+4128302	UNIFLOR
+4128401	URAI
+4128500	WENCESLAU BRAZ
+4128534	VENTANIA
+4128559	VERA CRUZ DO OESTE
+4128609	VERE
+4128625	ALTO PARAISO
+4128633	DOUTOR ULYSSES
+4128658	VIRMOND
+4128708	VITORINO
+4128807	XAMBRE
+4200051	ABDON BATISTA
+4200101	ABELARDO LUZ
+4200200	AGROLANDIA
+4200309	AGRONOMICA
+4200408	AGUA DOCE
+4200507	AGUAS DE CHAPECO
+4200556	AGUAS FRIAS
+4200606	AGUAS MORNAS
+4200705	ALFREDO WAGNER
+4200754	ALTO BELA VISTA
+4200804	ANCHIETA
+4200903	ANGELINA
+4201000	ANITA GARIBALDI
+4201109	ANITAPOLIS
+4201208	ANTONIO CARLOS
+4201257	APIUNA
+4201273	ARABUTA
+4201307	ARAQUARI
+4201406	ARARANGUA
+4201505	ARMAZEM
+4201604	ARROIO TRINTA
+4201653	ARVOREDO
+4201703	ASCURRA
+4201802	ATALANTA
+4201901	AURORA
+4201950	BALNEARIO ARROIO DO SILVA
+4202008	BALNEARIO CAMBORIU
+4202057	BALNEARIO BARRA DO SUL
+4202073	BALNEARIO GAIVOTA
+4202081	BANDEIRANTE
+4202099	BARRA BONITA
+4202107	BARRA VELHA
+4202131	BELA VISTA DO TOLDO
+4202156	BELMONTE
+4202206	BENEDITO NOVO
+4202305	BIGUACU
+4202404	BLUMENAU
+4202438	BOCAINA DO SUL
+4202453	BOMBINHAS
+4202503	BOM JARDIM DA SERRA
+4202537	BOM JESUS
+4202578	BOM JESUS DO OESTE
+4202602	BOM RETIRO
+4202701	BOTUVERA
+4202800	BRACO DO NORTE
+4202859	BRACO DO TROMBUDO
+4202875	BRUNOPOLIS
+4202909	BRUSQUE
+4203006	CACADOR
+4203105	CAIBI
+4203154	CALMON
+4203204	CAMBORIU
+4203253	CAPAO ALTO
+4203303	CAMPO ALEGRE
+4203402	CAMPO BELO DO SUL
+4203501	CAMPO ERE
+4203600	CAMPOS NOVOS
+4203709	CANELINHA
+4203808	CANOINHAS
+4203907	CAPINZAL
+4203956	CAPIVARI DE BAIXO
+4204004	CATANDUVAS
+4204103	CAXAMBU DO SUL
+4204152	CELSO RAMOS
+4204178	CERRO NEGRO
+4204194	CHAPADAO DO LAGEADO
+4204202	CHAPECO
+4204251	COCAL DO SUL
+4204301	CONCORDIA
+4204350	CORDILHEIRA ALTA
+4204400	CORONEL FREITAS
+4204459	CORONEL MARTINS
+4204509	CORUPA
+4204558	CORREIA PINTO
+4204608	CRICIUMA
+4204707	CUNHA PORA
+4204756	CUNHATAI
+4204806	CURITIBANOS
+4204905	DESCANSO
+4205001	DIONISIO CERQUEIRA
+4205100	DONA EMMA
+4205159	DOUTOR PEDRINHO
+4205175	ENTRE RIOS
+4205191	ERMO
+4205209	ERVAL VELHO
+4205308	FAXINAL DOS GUEDES
+4205357	FLOR DO SERTAO
+4205407	FLORIANOPOLIS
+4205431	FORMOSA DO SUL
+4205456	FORQUILHINHA
+4205506	FRAIBURGO
+4205555	FREI ROGERIO
+4205605	GALVAO
+4205704	GAROPABA
+4205803	GARUVA
+4205902	GASPAR
+4206009	GOVERNADOR CELSO RAMOS
+4206108	GRAO PARA
+4206207	GRAVATAL
+4206306	GUABIRUBA
+4206405	GUARACIABA
+4206504	GUARAMIRIM
+4206603	GUARUJA DO SUL
+4206652	GUATAMBU
+4206702	HERVAL D'OESTE
+4206751	IBIAM
+4206801	IBICARE
+4206900	IBIRAMA
+4207007	ICARA
+4207106	ILHOTA
+4207205	IMARUI
+4207304	IMBITUBA
+4207403	IMBUIA
+4207502	INDAIAL
+4207577	IOMERE
+4207601	IPIRA
+4207650	IPORA DO OESTE
+4207684	IPUACU
+4207700	IPUMIRIM
+4207759	IRACEMINHA
+4207809	IRANI
+4207858	IRATI
+4207908	IRINEOPOLIS
+4208005	ITA
+4208104	ITAIOPOLIS
+4208203	ITAJAI
+4208302	ITAPEMA
+4208401	ITAPIRANGA
+4208450	ITAPOA
+4208500	ITUPORANGA
+4208609	JABORA
+4208708	JACINTO MACHADO
+4208807	JAGUARUNA
+4208906	JARAGUA DO SUL
+4208955	JARDINOPOLIS
+4209003	JOACABA
+4209102	JOINVILLE
+4209151	JOSE BOITEUX
+4209177	JUPIA
+4209201	LACERDOPOLIS
+4209300	LAGES
+4209409	LAGUNA
+4209458	LAJEADO GRANDE
+4209508	LAURENTINO
+4209607	LAURO MULLER
+4209706	LEBON REGIS
+4209805	LEOBERTO LEAL
+4209854	LINDOIA DO SUL
+4209904	LONTRAS
+4210001	LUIZ ALVES
+4210035	LUZERNA
+4210050	MACIEIRA
+4210100	MAFRA
+4210209	MAJOR GERCINO
+4210308	MAJOR VIEIRA
+4210407	MARACAJA
+4210506	MARAVILHA
+4210555	MAREMA
+4210605	MASSARANDUBA
+4210704	MATOS COSTA
+4210803	MELEIRO
+4210852	MIRIM DOCE
+4210902	MODELO
+4211009	MONDAI
+4211058	MONTE CARLO
+4211108	MONTE CASTELO
+4211207	MORRO DA FUMACA
+4211256	MORRO GRANDE
+4211306	NAVEGANTES
+4211405	NOVA ERECHIM
+4211454	NOVA ITABERABA
+4211504	NOVA TRENTO
+4211603	NOVA VENEZA
+4211652	NOVO HORIZONTE
+4211702	ORLEANS
+4211751	OTACILIO COSTA
+4211801	OURO
+4211850	OURO VERDE
+4211876	PAIAL
+4211892	PAINEL
+4211900	PALHOCA
+4212007	PALMA SOLA
+4212056	PALMEIRA
+4212106	PALMITOS
+4212205	PAPANDUVA
+4212239	PARAISO
+4212254	PASSO DE TORRES
+4212270	PASSOS MAIA
+4212304	PAULO LOPES
+4212403	PEDRAS GRANDES
+4212502	PENHA
+4212601	PERITIBA
+4212650	PESCARIA BRAVA
+4212700	PETROLANDIA
+4212809	BALNEARIO PICARRAS
+4212908	PINHALZINHO
+4213005	PINHEIRO PRETO
+4213104	PIRATUBA
+4213153	PLANALTO ALEGRE
+4213203	POMERODE
+4213302	PONTE ALTA
+4213351	PONTE ALTA DO NORTE
+4213401	PONTE SERRADA
+4213500	PORTO BELO
+4213609	PORTO UNIAO
+4213708	POUSO REDONDO
+4213807	PRAIA GRANDE
+4213906	PRESIDENTE CASTELLO BRANCO
+4214003	PRESIDENTE GETULIO
+4214102	PRESIDENTE NEREU
+4214151	PRINCESA
+4214201	QUILOMBO
+4214300	RANCHO QUEIMADO
+4214409	RIO DAS ANTAS
+4214508	RIO DO CAMPO
+4214607	RIO DO OESTE
+4214706	RIO DOS CEDROS
+4214805	RIO DO SUL
+4214904	RIO FORTUNA
+4215000	RIO NEGRINHO
+4215059	RIO RUFINO
+4215075	RIQUEZA
+4215109	RODEIO
+4215208	ROMELANDIA
+4215307	SALETE
+4215356	SALTINHO
+4215406	SALTO VELOSO
+4215455	SANGAO
+4215505	SANTA CECILIA
+4215554	SANTA HELENA
+4215604	SANTA ROSA DE LIMA
+4215653	SANTA ROSA DO SUL
+4215679	SANTA TEREZINHA
+4215687	SANTA TEREZINHA DO PROGRESSO
+4215695	SANTIAGO DO SUL
+4215703	SANTO AMARO DA IMPERATRIZ
+4215752	SAO BERNARDINO
+4215802	SAO BENTO DO SUL
+4215901	SAO BONIFACIO
+4216008	SAO CARLOS
+4216057	SAO CRISTOVAO DO SUL
+4216107	SAO DOMINGOS
+4216206	SAO FRANCISCO DO SUL
+4216255	SAO JOAO DO OESTE
+4216305	SAO JOAO BATISTA
+4216354	SAO JOAO DO ITAPERIU
+4216404	SAO JOAO DO SUL
+4216503	SAO JOAQUIM
+4216602	SAO JOSE
+4216701	SAO JOSE DO CEDRO
+4216800	SAO JOSE DO CERRITO
+4216909	SAO LOURENCO DO OESTE
+4217006	SAO LUDGERO
+4217105	SAO MARTINHO
+4217154	SAO MIGUEL DA BOA VISTA
+4217204	SAO MIGUEL DO OESTE
+4217253	SAO PEDRO DE ALCANTARA
+4217303	SAUDADES
+4217402	SCHROEDER
+4217501	SEARA
+4217550	SERRA ALTA
+4217600	SIDEROPOLIS
+4217709	SOMBRIO
+4217758	SUL BRASIL
+4217808	TAIO
+4217907	TANGARA
+4217956	TIGRINHOS
+4218004	TIJUCAS
+4218103	TIMBE DO SUL
+4218202	TIMBO
+4218251	TIMBO GRANDE
+4218301	TRES BARRAS
+4218350	TREVISO
+4218400	TREZE DE MAIO
+4218509	TREZE TILIAS
+4218608	TROMBUDO CENTRAL
+4218707	TUBARAO
+4218756	TUNAPOLIS
+4218806	TURVO
+4218855	UNIAO DO OESTE
+4218905	URUBICI
+4218954	URUPEMA
+4219002	URUSSANGA
+4219101	VARGEAO
+4219150	VARGEM
+4219176	VARGEM BONITA
+4219200	VIDAL RAMOS
+4219309	VIDEIRA
+4219358	VITOR MEIRELES
+4219408	WITMARSUM
+4219507	XANXERE
+4219606	XAVANTINA
+4219705	XAXIM
+4219853	ZORTEA
+4220000	BALNEARIO RINCAO
+4300034	ACEGUA
+4300059	AGUA SANTA
+4300109	AGUDO
+4300208	AJURICABA
+4300307	ALECRIM
+4300406	ALEGRETE
+4300455	ALEGRIA
+4300471	ALMIRANTE TAMANDARE DO SUL
+4300505	ALPESTRE
+4300554	ALTO ALEGRE
+4300570	ALTO FELIZ
+4300604	ALVORADA
+4300638	AMARAL FERRADOR
+4300646	AMETISTA DO SUL
+4300661	ANDRE DA ROCHA
+4300703	ANTA GORDA
+4300802	ANTONIO PRADO
+4300851	ARAMBARE
+4300877	ARARICA
+4300901	ARATIBA
+4301008	ARROIO DO MEIO
+4301057	ARROIO DO SAL
+4301073	ARROIO DO PADRE
+4301107	ARROIO DOS RATOS
+4301206	ARROIO DO TIGRE
+4301305	ARROIO GRANDE
+4301404	ARVOREZINHA
+4301503	AUGUSTO PESTANA
+4301552	AUREA
+4301602	BAGE
+4301636	BALNEARIO PINHAL
+4301651	BARAO
+4301701	BARAO DE COTEGIPE
+4301750	BARAO DO TRIUNFO
+4301800	BARRACAO
+4301859	BARRA DO GUARITA
+4301875	BARRA DO QUARAI
+4301909	BARRA DO RIBEIRO
+4301925	BARRA DO RIO AZUL
+4301958	BARRA FUNDA
+4302006	BARROS CASSAL
+4302055	BENJAMIN CONSTANT DO SUL
+4302105	BENTO GONCALVES
+4302154	BOA VISTA DAS MISSOES
+4302204	BOA VISTA DO BURICA
+4302220	BOA VISTA DO CADEADO
+4302238	BOA VISTA DO INCRA
+4302253	BOA VISTA DO SUL
+4302303	BOM JESUS
+4302352	BOM PRINCIPIO
+4302378	BOM PROGRESSO
+4302402	BOM RETIRO DO SUL
+4302451	BOQUEIRAO DO LEAO
+4302501	BOSSOROCA
+4302584	BOZANO
+4302600	BRAGA
+4302659	BROCHIER
+4302709	BUTIA
+4302808	CACAPAVA DO SUL
+4302907	CACEQUI
+4303004	CACHOEIRA DO SUL
+4303103	CACHOEIRINHA
+4303202	CACIQUE DOBLE
+4303301	CAIBATE
+4303400	CAICARA
+4303509	CAMAQUA
+4303558	CAMARGO
+4303608	CAMBARA DO SUL
+4303673	CAMPESTRE DA SERRA
+4303707	CAMPINA DAS MISSOES
+4303806	CAMPINAS DO SUL
+4303905	CAMPO BOM
+4304002	CAMPO NOVO
+4304101	CAMPOS BORGES
+4304200	CANDELARIA
+4304309	CANDIDO GODOI
+4304358	CANDIOTA
+4304408	CANELA
+4304507	CANGUCU
+4304606	CANOAS
+4304614	CANUDOS DO VALE
+4304622	CAPAO BONITO DO SUL
+4304630	CAPAO DA CANOA
+4304655	CAPAO DO CIPO
+4304663	CAPAO DO LEAO
+4304671	CAPIVARI DO SUL
+4304689	CAPELA DE SANTANA
+4304697	CAPITAO
+4304705	CARAZINHO
+4304713	CARAA
+4304804	CARLOS BARBOSA
+4304853	CARLOS GOMES
+4304903	CASCA
+4304952	CASEIROS
+4305009	CATUIPE
+4305108	CAXIAS DO SUL
+4305116	CENTENARIO
+4305124	CERRITO
+4305132	CERRO BRANCO
+4305157	CERRO GRANDE
+4305173	CERRO GRANDE DO SUL
+4305207	CERRO LARGO
+4305306	CHAPADA
+4305355	CHARQUEADAS
+4305371	CHARRUA
+4305405	CHIAPETTA
+4305439	CHUI
+4305447	CHUVISCA
+4305454	CIDREIRA
+4305504	CIRIACO
+4305587	COLINAS
+4305603	COLORADO
+4305702	CONDOR
+4305801	CONSTANTINA
+4305835	COQUEIRO BAIXO
+4305850	COQUEIROS DO SUL
+4305871	CORONEL BARROS
+4305900	CORONEL BICACO
+4305934	CORONEL PILAR
+4305959	COTIPORA
+4305975	COXILHA
+4306007	CRISSIUMAL
+4306056	CRISTAL
+4306072	CRISTAL DO SUL
+4306106	CRUZ ALTA
+4306130	CRUZALTENSE
+4306205	CRUZEIRO DO SUL
+4306304	DAVID CANABARRO
+4306320	DERRUBADAS
+4306353	DEZESSEIS DE NOVEMBRO
+4306379	DILERMANDO DE AGUIAR
+4306403	DOIS IRMAOS
+4306429	DOIS IRMAOS DAS MISSOES
+4306452	DOIS LAJEADOS
+4306502	DOM FELICIANO
+4306551	DOM PEDRO DE ALCANTARA
+4306601	DOM PEDRITO
+4306700	DONA FRANCISCA
+4306734	DOUTOR MAURICIO CARDOSO
+4306759	DOUTOR RICARDO
+4306767	ELDORADO DO SUL
+4306809	ENCANTADO
+4306908	ENCRUZILHADA DO SUL
+4306924	ENGENHO VELHO
+4306932	ENTRE-IJUIS
+4306957	ENTRE RIOS DO SUL
+4306973	EREBANGO
+4307005	ERECHIM
+4307054	ERNESTINA
+4307104	HERVAL
+4307203	ERVAL GRANDE
+4307302	ERVAL SECO
+4307401	ESMERALDA
+4307450	ESPERANCA DO SUL
+4307500	ESPUMOSO
+4307559	ESTACAO
+4307609	ESTANCIA VELHA
+4307708	ESTEIO
+4307807	ESTRELA
+4307815	ESTRELA VELHA
+4307831	EUGENIO DE CASTRO
+4307864	FAGUNDES VARELA
+4307906	FARROUPILHA
+4308003	FAXINAL DO SOTURNO
+4308052	FAXINALZINHO
+4308078	FAZENDA VILANOVA
+4308102	FELIZ
+4308201	FLORES DA CUNHA
+4308250	FLORIANO PEIXOTO
+4308300	FONTOURA XAVIER
+4308409	FORMIGUEIRO
+4308433	FORQUETINHA
+4308458	FORTALEZA DOS VALOS
+4308508	FREDERICO WESTPHALEN
+4308607	GARIBALDI
+4308656	GARRUCHOS
+4308706	GAURAMA
+4308805	GENERAL CAMARA
+4308854	GENTIL
+4308904	GETULIO VARGAS
+4309001	GIRUA
+4309050	GLORINHA
+4309100	GRAMADO
+4309126	GRAMADO DOS LOUREIROS
+4309159	GRAMADO XAVIER
+4309209	GRAVATAI
+4309258	GUABIJU
+4309308	GUAIBA
+4309407	GUAPORE
+4309506	GUARANI DAS MISSOES
+4309555	HARMONIA
+4309571	HERVEIRAS
+4309605	HORIZONTINA
+4309654	HULHA NEGRA
+4309704	HUMAITA
+4309753	IBARAMA
+4309803	IBIACA
+4309902	IBIRAIARAS
+4309951	IBIRAPUITA
+4310009	IBIRUBA
+4310108	IGREJINHA
+4310207	IJUI
+4310306	ILOPOLIS
+4310330	IMBE
+4310363	IMIGRANTE
+4310405	INDEPENDENCIA
+4310413	INHACORA
+4310439	IPE
+4310462	IPIRANGA DO SUL
+4310504	IRAI
+4310538	ITAARA
+4310553	ITACURUBI
+4310579	ITAPUCA
+4310603	ITAQUI
+4310652	ITATI
+4310702	ITATIBA DO SUL
+4310751	IVORA
+4310801	IVOTI
+4310850	JABOTICABA
+4310876	JACUIZINHO
+4310900	JACUTINGA
+4311007	JAGUARAO
+4311106	JAGUARI
+4311122	JAQUIRANA
+4311130	JARI
+4311155	JOIA
+4311205	JULIO DE CASTILHOS
+4311239	LAGOA BONITA DO SUL
+4311254	LAGOAO
+4311270	LAGOA DOS TRES CANTOS
+4311304	LAGOA VERMELHA
+4311403	LAJEADO
+4311429	LAJEADO DO BUGRE
+4311502	LAVRAS DO SUL
+4311601	LIBERATO SALZANO
+4311627	LINDOLFO COLLOR
+4311643	LINHA NOVA
+4311700	MACHADINHO
+4311718	MACAMBARA
+4311734	MAMPITUBA
+4311759	MANOEL VIANA
+4311775	MAQUINE
+4311791	MARATA
+4311809	MARAU
+4311908	MARCELINO RAMOS
+4311981	MARIANA PIMENTEL
+4312005	MARIANO MORO
+4312054	MARQUES DE SOUZA
+4312104	MATA
+4312138	MATO CASTELHANO
+4312153	MATO LEITAO
+4312179	MATO QUEIMADO
+4312203	MAXIMILIANO DE ALMEIDA
+4312252	MINAS DO LEAO
+4312302	MIRAGUAI
+4312351	MONTAURI
+4312377	MONTE ALEGRE DOS CAMPOS
+4312385	MONTE BELO DO SUL
+4312401	MONTENEGRO
+4312427	MORMACO
+4312443	MORRINHOS DO SUL
+4312450	MORRO REDONDO
+4312476	MORRO REUTER
+4312500	MOSTARDAS
+4312609	MUCUM
+4312617	MUITOS CAPOES
+4312625	MULITERNO
+4312658	NAO-ME-TOQUE
+4312674	NICOLAU VERGUEIRO
+4312708	NONOAI
+4312757	NOVA ALVORADA
+4312807	NOVA ARACA
+4312906	NOVA BASSANO
+4312955	NOVA BOA VISTA
+4313003	NOVA BRESCIA
+4313011	NOVA CANDELARIA
+4313037	NOVA ESPERANCA DO SUL
+4313060	NOVA HARTZ
+4313086	NOVA PADUA
+4313102	NOVA PALMA
+4313201	NOVA PETROPOLIS
+4313300	NOVA PRATA
+4313334	NOVA RAMADA
+4313359	NOVA ROMA DO SUL
+4313375	NOVA SANTA RITA
+4313391	NOVO CABRAIS
+4313409	NOVO HAMBURGO
+4313425	NOVO MACHADO
+4313441	NOVO TIRADENTES
+4313466	NOVO XINGU
+4313490	NOVO BARREIRO
+4313508	OSORIO
+4313607	PAIM FILHO
+4313656	PALMARES DO SUL
+4313706	PALMEIRA DAS MISSOES
+4313805	PALMITINHO
+4313904	PANAMBI
+4313953	PANTANO GRANDE
+4314001	PARAI
+4314027	PARAISO DO SUL
+4314035	PARECI NOVO
+4314050	PAROBE
+4314068	PASSA SETE
+4314076	PASSO DO SOBRADO
+4314100	PASSO FUNDO
+4314134	PAULO BENTO
+4314159	PAVERAMA
+4314175	PEDRAS ALTAS
+4314209	PEDRO OSORIO
+4314308	PEJUCARA
+4314407	PELOTAS
+4314423	PICADA CAFE
+4314456	PINHAL
+4314464	PINHAL DA SERRA
+4314472	PINHAL GRANDE
+4314498	PINHEIRINHO DO VALE
+4314506	PINHEIRO MACHADO
+4314548	PINTO BANDEIRA
+4314555	PIRAPO
+4314605	PIRATINI
+4314704	PLANALTO
+4314753	POCO DAS ANTAS
+4314779	PONTAO
+4314787	PONTE PRETA
+4314803	PORTAO
+4314902	PORTO ALEGRE
+4315008	PORTO LUCENA
+4315057	PORTO MAUA
+4315073	PORTO VERA CRUZ
+4315107	PORTO XAVIER
+4315131	POUSO NOVO
+4315149	PRESIDENTE LUCENA
+4315156	PROGRESSO
+4315172	PROTASIO ALVES
+4315206	PUTINGA
+4315305	QUARAI
+4315313	QUATRO IRMAOS
+4315321	QUEVEDOS
+4315354	QUINZE DE NOVEMBRO
+4315404	REDENTORA
+4315453	RELVADO
+4315503	RESTINGA SECA
+4315552	RIO DOS INDIOS
+4315602	RIO GRANDE
+4315701	RIO PARDO
+4315750	RIOZINHO
+4315800	ROCA SALES
+4315909	RODEIO BONITO
+4315958	ROLADOR
+4316006	ROLANTE
+4316105	RONDA ALTA
+4316204	RONDINHA
+4316303	ROQUE GONZALES
+4316402	ROSARIO DO SUL
+4316428	SAGRADA FAMILIA
+4316436	SALDANHA MARINHO
+4316451	SALTO DO JACUI
+4316477	SALVADOR DAS MISSOES
+4316501	SALVADOR DO SUL
+4316600	SANANDUVA
+4316709	SANTA BARBARA DO SUL
+4316733	SANTA CECILIA DO SUL
+4316758	SANTA CLARA DO SUL
+4316808	SANTA CRUZ DO SUL
+4316907	SANTA MARIA
+4316956	SANTA MARIA DO HERVAL
+4316972	SANTA MARGARIDA DO SUL
+4317004	SANTANA DA BOA VISTA
+4317103	SANT'ANA DO LIVRAMENTO
+4317202	SANTA ROSA
+4317251	SANTA TEREZA
+4317301	SANTA VITORIA DO PALMAR
+4317400	SANTIAGO
+4317509	SANTO ANGELO
+4317558	SANTO ANTONIO DO PALMA
+4317608	SANTO ANTONIO DA PATRULHA
+4317707	SANTO ANTONIO DAS MISSOES
+4317756	SANTO ANTONIO DO PLANALTO
+4317806	SANTO AUGUSTO
+4317905	SANTO CRISTO
+4317954	SANTO EXPEDITO DO SUL
+4318002	SAO BORJA
+4318051	SAO DOMINGOS DO SUL
+4318101	SAO FRANCISCO DE ASSIS
+4318200	SAO FRANCISCO DE PAULA
+4318309	SAO GABRIEL
+4318408	SAO JERONIMO
+4318424	SAO JOAO DA URTIGA
+4318432	SAO JOAO DO POLESINE
+4318440	SAO JORGE
+4318457	SAO JOSE DAS MISSOES
+4318465	SAO JOSE DO HERVAL
+4318481	SAO JOSE DO HORTENCIO
+4318499	SAO JOSE DO INHACORA
+4318507	SAO JOSE DO NORTE
+4318606	SAO JOSE DO OURO
+4318614	SAO JOSE DO SUL
+4318622	SAO JOSE DOS AUSENTES
+4318705	SAO LEOPOLDO
+4318804	SAO LOURENCO DO SUL
+4318903	SAO LUIZ GONZAGA
+4319000	SAO MARCOS
+4319109	SAO MARTINHO
+4319125	SAO MARTINHO DA SERRA
+4319158	SAO MIGUEL DAS MISSOES
+4319208	SAO NICOLAU
+4319307	SAO PAULO DAS MISSOES
+4319356	SAO PEDRO DA SERRA
+4319364	SAO PEDRO DAS MISSOES
+4319372	SAO PEDRO DO BUTIA
+4319406	SAO PEDRO DO SUL
+4319505	SAO SEBASTIAO DO CAI
+4319604	SAO SEPE
+4319703	SAO VALENTIM
+4319711	SAO VALENTIM DO SUL
+4319737	SAO VALERIO DO SUL
+4319752	SAO VENDELINO
+4319802	SAO VICENTE DO SUL
+4319901	SAPIRANGA
+4320008	SAPUCAIA DO SUL
+4320107	SARANDI
+4320206	SEBERI
+4320230	SEDE NOVA
+4320263	SEGREDO
+4320305	SELBACH
+4320321	SENADOR SALGADO FILHO
+4320354	SENTINELA DO SUL
+4320404	SERAFINA CORREA
+4320453	SERIO
+4320503	SERTAO
+4320552	SERTAO SANTANA
+4320578	SETE DE SETEMBRO
+4320602	SEVERIANO DE ALMEIDA
+4320651	SILVEIRA MARTINS
+4320677	SINIMBU
+4320701	SOBRADINHO
+4320800	SOLEDADE
+4320859	TABAI
+4320909	TAPEJARA
+4321006	TAPERA
+4321105	TAPES
+4321204	TAQUARA
+4321303	TAQUARI
+4321329	TAQUARUCU DO SUL
+4321352	TAVARES
+4321402	TENENTE PORTELA
+4321436	TERRA DE AREIA
+4321451	TEUTONIA
+4321469	TIO HUGO
+4321477	TIRADENTES DO SUL
+4321493	TOROPI
+4321501	TORRES
+4321600	TRAMANDAI
+4321626	TRAVESSEIRO
+4321634	TRES ARROIOS
+4321667	TRES CACHOEIRAS
+4321709	TRES COROAS
+4321808	TRES DE MAIO
+4321832	TRES FORQUILHAS
+4321857	TRES PALMEIRAS
+4321907	TRES PASSOS
+4321956	TRINDADE DO SUL
+4322004	TRIUNFO
+4322103	TUCUNDUVA
+4322152	TUNAS
+4322186	TUPANCI DO SUL
+4322202	TUPANCIRETA
+4322251	TUPANDI
+4322301	TUPARENDI
+4322327	TURUCU
+4322343	UBIRETAMA
+4322350	UNIAO DA SERRA
+4322376	UNISTALDA
+4322400	URUGUAIANA
+4322509	VACARIA
+4322525	VALE VERDE
+4322533	VALE DO SOL
+4322541	VALE REAL
+4322558	VANINI
+4322608	VENANCIO AIRES
+4322707	VERA CRUZ
+4322806	VERANOPOLIS
+4322855	VESPASIANO CORREA
+4322905	VIADUTOS
+4323002	VIAMAO
+4323101	VICENTE DUTRA
+4323200	VICTOR GRAEFF
+4323309	VILA FLORES
+4323358	VILA LANGARO
+4323408	VILA MARIA
+4323457	VILA NOVA DO SUL
+4323507	VISTA ALEGRE
+4323606	VISTA ALEGRE DO PRATA
+4323705	VISTA GAUCHA
+4323754	VITORIA DAS MISSOES
+4323770	WESTFALIA
+4323804	XANGRI-LA
+5000203	AGUA CLARA
+5000252	ALCINOPOLIS
+5000609	AMAMBAI
+5000708	ANASTACIO
+5000807	ANAURILANDIA
+5000856	ANGELICA
+5000906	ANTONIO JOAO
+5001003	APARECIDA DO TABOADO
+5001102	AQUIDAUANA
+5001243	ARAL MOREIRA
+5001508	BANDEIRANTES
+5001904	BATAGUASSU
+5002001	BATAYPORA
+5002100	BELA VISTA
+5002159	BODOQUENA
+5002209	BONITO
+5002308	BRASILANDIA
+5002407	CAARAPO
+5002605	CAMAPUA
+5002704	CAMPO GRANDE
+5002803	CARACOL
+5002902	CASSILANDIA
+5002951	CHAPADAO DO SUL
+5003108	CORGUINHO
+5003157	CORONEL SAPUCAIA
+5003207	CORUMBA
+5003256	COSTA RICA
+5003306	COXIM
+5003454	DEODAPOLIS
+5003488	DOIS IRMAOS DO BURITI
+5003504	DOURADINA
+5003702	DOURADOS
+5003751	ELDORADO
+5003801	FATIMA DO SUL
+5003900	FIGUEIRAO
+5004007	GLORIA DE DOURADOS
+5004106	GUIA LOPES DA LAGUNA
+5004304	IGUATEMI
+5004403	INOCENCIA
+5004502	ITAPORA
+5004601	ITAQUIRAI
+5004700	IVINHEMA
+5004809	JAPORA
+5004908	JARAGUARI
+5005004	JARDIM
+5005103	JATEI
+5005152	JUTI
+5005202	LADARIO
+5005251	LAGUNA CARAPA
+5005400	MARACAJU
+5005608	MIRANDA
+5005681	MUNDO NOVO
+5005707	NAVIRAI
+5005806	NIOAQUE
+5006002	NOVA ALVORADA DO SUL
+5006200	NOVA ANDRADINA
+5006259	NOVO HORIZONTE DO SUL
+5006275	PARAISO DAS AGUAS
+5006309	PARANAIBA
+5006358	PARANHOS
+5006408	PEDRO GOMES
+5006606	PONTA PORA
+5006903	PORTO MURTINHO
+5007109	RIBAS DO RIO PARDO
+5007208	RIO BRILHANTE
+5007307	RIO NEGRO
+5007406	RIO VERDE DE MATO GROSSO
+5007505	ROCHEDO
+5007554	SANTA RITA DO PARDO
+5007695	SAO GABRIEL DO OESTE
+5007703	SETE QUEDAS
+5007802	SELVIRIA
+5007901	SIDROLANDIA
+5007935	SONORA
+5007950	TACURU
+5007976	TAQUARUSSU
+5008008	TERENOS
+5008305	TRES LAGOAS
+5008404	VICENTINA
+5100102	ACORIZAL
+5100201	AGUA BOA
+5100250	ALTA FLORESTA
+5100300	ALTO ARAGUAIA
+5100359	ALTO BOA VISTA
+5100409	ALTO GARCAS
+5100508	ALTO PARAGUAI
+5100607	ALTO TAQUARI
+5100805	APIACAS
+5101001	ARAGUAIANA
+5101209	ARAGUAINHA
+5101258	ARAPUTANGA
+5101308	ARENAPOLIS
+5101407	ARIPUANA
+5101605	BARAO DE MELGACO
+5101704	BARRA DO BUGRES
+5101803	BARRA DO GARCAS
+5101852	BOM JESUS DO ARAGUAIA
+5101902	BRASNORTE
+5102504	CACERES
+5102603	CAMPINAPOLIS
+5102637	CAMPO NOVO DO PARECIS
+5102678	CAMPO VERDE
+5102686	CAMPOS DE JULIO
+5102694	CANABRAVA DO NORTE
+5102702	CANARANA
+5102793	CARLINDA
+5102850	CASTANHEIRA
+5103007	CHAPADA DOS GUIMARAES
+5103056	CLAUDIA
+5103106	COCALINHO
+5103205	COLIDER
+5103254	COLNIZA
+5103304	COMODORO
+5103353	CONFRESA
+5103361	CONQUISTA D'OESTE
+5103379	COTRIGUACU
+5103403	CUIABA
+5103437	CURVELANDIA
+5103452	DENISE
+5103502	DIAMANTINO
+5103601	DOM AQUINO
+5103700	FELIZ NATAL
+5103809	FIGUEIROPOLIS D'OESTE
+5103858	GAUCHA DO NORTE
+5103908	GENERAL CARNEIRO
+5103957	GLORIA D'OESTE
+5104104	GUARANTA DO NORTE
+5104203	GUIRATINGA
+5104500	INDIAVAI
+5104526	IPIRANGA DO NORTE
+5104542	ITANHANGA
+5104559	ITAUBA
+5104609	ITIQUIRA
+5104807	JACIARA
+5104906	JANGADA
+5105002	JAURU
+5105101	JUARA
+5105150	JUINA
+5105176	JURUENA
+5105200	JUSCIMEIRA
+5105234	LAMBARI D'OESTE
+5105259	LUCAS DO RIO VERDE
+5105309	LUCIARA
+5105507	VILA BELA DA SANTISSIMA TRINDADE
+5105580	MARCELANDIA
+5105606	MATUPA
+5105622	MIRASSOL D'OESTE
+5105903	NOBRES
+5106000	NORTELANDIA
+5106109	NOSSA SENHORA DO LIVRAMENTO
+5106158	NOVA BANDEIRANTES
+5106174	NOVA NAZARE
+5106182	NOVA LACERDA
+5106190	NOVA SANTA HELENA
+5106208	NOVA BRASILANDIA
+5106216	NOVA CANAA DO NORTE
+5106224	NOVA MUTUM
+5106232	NOVA OLIMPIA
+5106240	NOVA UBIRATA
+5106257	NOVA XAVANTINA
+5106265	NOVO MUNDO
+5106273	NOVO HORIZONTE DO NORTE
+5106281	NOVO SAO JOAQUIM
+5106299	PARANAITA
+5106307	PARANATINGA
+5106315	NOVO SANTO ANTONIO
+5106372	PEDRA PRETA
+5106422	PEIXOTO DE AZEVEDO
+5106455	PLANALTO DA SERRA
+5106505	POCONE
+5106653	PONTAL DO ARAGUAIA
+5106703	PONTE BRANCA
+5106752	PONTES E LACERDA
+5106778	PORTO ALEGRE DO NORTE
+5106802	PORTO DOS GAUCHOS
+5106828	PORTO ESPERIDIAO
+5106851	PORTO ESTRELA
+5107008	POXOREU
+5107040	PRIMAVERA DO LESTE
+5107065	QUERENCIA
+5107107	SAO JOSE DOS QUATRO MARCOS
+5107156	RESERVA DO CABACAL
+5107180	RIBEIRAO CASCALHEIRA
+5107198	RIBEIRAOZINHO
+5107206	RIO BRANCO
+5107248	SANTA CARMEM
+5107263	SANTO AFONSO
+5107297	SAO JOSE DO POVO
+5107305	SAO JOSE DO RIO CLARO
+5107354	SAO JOSE DO XINGU
+5107404	SAO PEDRO DA CIPA
+5107578	RONDOLANDIA
+5107602	RONDONOPOLIS
+5107701	ROSARIO OESTE
+5107743	SANTA CRUZ DO XINGU
+5107750	SALTO DO CEU
+5107768	SANTA RITA DO TRIVELATO
+5107776	SANTA TEREZINHA
+5107792	SANTO ANTONIO DO LESTE
+5107800	SANTO ANTONIO DO LEVERGER
+5107859	SAO FELIX DO ARAGUAIA
+5107875	SAPEZAL
+5107883	SERRA NOVA DOURADA
+5107909	SINOP
+5107925	SORRISO
+5107941	TABAPORA
+5107958	TANGARA DA SERRA
+5108006	TAPURAH
+5108055	TERRA NOVA DO NORTE
+5108105	TESOURO
+5108204	TORIXOREU
+5108303	UNIAO DO SUL
+5108352	VALE DE SAO DOMINGOS
+5108402	VARZEA GRANDE
+5108501	VERA
+5108600	VILA RICA
+5108808	NOVA GUARITA
+5108857	NOVA MARILANDIA
+5108907	NOVA MARINGA
+5108956	NOVA MONTE VERDE
+5200050	ABADIA DE GOIAS
+5200100	ABADIANIA
+5200134	ACREUNA
+5200159	ADELANDIA
+5200175	AGUA FRIA DE GOIAS
+5200209	AGUA LIMPA
+5200258	AGUAS LINDAS DE GOIAS
+5200308	ALEXANIA
+5200506	ALOANDIA
+5200555	ALTO HORIZONTE
+5200605	ALTO PARAISO DE GOIAS
+5200803	ALVORADA DO NORTE
+5200829	AMARALINA
+5200852	AMERICANO DO BRASIL
+5200902	AMORINOPOLIS
+5201108	ANAPOLIS
+5201207	ANHANGUERA
+5201306	ANICUNS
+5201405	APARECIDA DE GOIANIA
+5201454	APARECIDA DO RIO DOCE
+5201504	APORE
+5201603	ARACU
+5201702	ARAGARCAS
+5201801	ARAGOIANIA
+5202155	ARAGUAPAZ
+5202353	ARENOPOLIS
+5202502	ARUANA
+5202601	AURILANDIA
+5202809	AVELINOPOLIS
+5203104	BALIZA
+5203203	BARRO ALTO
+5203302	BELA VISTA DE GOIAS
+5203401	BOM JARDIM DE GOIAS
+5203500	BOM JESUS DE GOIAS
+5203559	BONFINOPOLIS
+5203575	BONOPOLIS
+5203609	BRAZABRANTES
+5203807	BRITANIA
+5203906	BURITI ALEGRE
+5203939	BURITI DE GOIAS
+5203962	BURITINOPOLIS
+5204003	CABECEIRAS
+5204102	CACHOEIRA ALTA
+5204201	CACHOEIRA DE GOIAS
+5204250	CACHOEIRA DOURADA
+5204300	CACU
+5204409	CAIAPONIA
+5204508	CALDAS NOVAS
+5204557	CALDAZINHA
+5204607	CAMPESTRE DE GOIAS
+5204656	CAMPINACU
+5204706	CAMPINORTE
+5204805	CAMPO ALEGRE DE GOIAS
+5204854	CAMPO LIMPO DE GOIAS
+5204904	CAMPOS BELOS
+5204953	CAMPOS VERDES
+5205000	CARMO DO RIO VERDE
+5205059	CASTELANDIA
+5205109	CATALAO
+5205208	CATURAI
+5205307	CAVALCANTE
+5205406	CERES
+5205455	CEZARINA
+5205471	CHAPADAO DO CEU
+5205497	CIDADE OCIDENTAL
+5205513	COCALZINHO DE GOIAS
+5205521	COLINAS DO SUL
+5205703	CORREGO DO OURO
+5205802	CORUMBA DE GOIAS
+5205901	CORUMBAIBA
+5206206	CRISTALINA
+5206305	CRISTIANOPOLIS
+5206404	CRIXAS
+5206503	CROMINIA
+5206602	CUMARI
+5206701	DAMIANOPOLIS
+5206800	DAMOLANDIA
+5206909	DAVINOPOLIS
+5207105	DIORAMA
+5207253	DOVERLANDIA
+5207352	EDEALINA
+5207402	EDEIA
+5207501	ESTRELA DO NORTE
+5207535	FAINA
+5207600	FAZENDA NOVA
+5207808	FIRMINOPOLIS
+5207907	FLORES DE GOIAS
+5208004	FORMOSA
+5208103	FORMOSO
+5208152	GAMELEIRA DE GOIAS
+5208301	DIVINOPOLIS DE GOIAS
+5208400	GOIANAPOLIS
+5208509	GOIANDIRA
+5208608	GOIANESIA
+5208707	GOIANIA
+5208806	GOIANIRA
+5208905	GOIAS
+5209101	GOIATUBA
+5209150	GOUVELANDIA
+5209200	GUAPO
+5209291	GUARAITA
+5209408	GUARANI DE GOIAS
+5209457	GUARINOS
+5209606	HEITORAI
+5209705	HIDROLANDIA
+5209804	HIDROLINA
+5209903	IACIARA
+5209937	INACIOLANDIA
+5209952	INDIARA
+5210000	INHUMAS
+5210109	IPAMERI
+5210158	IPIRANGA DE GOIAS
+5210208	IPORA
+5210307	ISRAELANDIA
+5210406	ITABERAI
+5210562	ITAGUARI
+5210604	ITAGUARU
+5210802	ITAJA
+5210901	ITAPACI
+5211008	ITAPIRAPUA
+5211206	ITAPURANGA
+5211305	ITARUMA
+5211404	ITAUCU
+5211503	ITUMBIARA
+5211602	IVOLANDIA
+5211701	JANDAIA
+5211800	JARAGUA
+5211909	JATAI
+5212006	JAUPACI
+5212055	JESUPOLIS
+5212105	JOVIANIA
+5212204	JUSSARA
+5212253	LAGOA SANTA
+5212303	LEOPOLDO DE BULHOES
+5212501	LUZIANIA
+5212600	MAIRIPOTABA
+5212709	MAMBAI
+5212808	MARA ROSA
+5212907	MARZAGAO
+5212956	MATRINCHA
+5213004	MAURILANDIA
+5213053	MIMOSO DE GOIAS
+5213087	MINACU
+5213103	MINEIROS
+5213400	MOIPORA
+5213509	MONTE ALEGRE DE GOIAS
+5213707	MONTES CLAROS DE GOIAS
+5213756	MONTIVIDIU
+5213772	MONTIVIDIU DO NORTE
+5213806	MORRINHOS
+5213855	MORRO AGUDO DE GOIAS
+5213905	MOSSAMEDES
+5214002	MOZARLANDIA
+5214051	MUNDO NOVO
+5214101	MUTUNOPOLIS
+5214408	NAZARIO
+5214507	NEROPOLIS
+5214606	NIQUELANDIA
+5214705	NOVA AMERICA
+5214804	NOVA AURORA
+5214838	NOVA CRIXAS
+5214861	NOVA GLORIA
+5214879	NOVA IGUACU DE GOIAS
+5214903	NOVA ROMA
+5215009	NOVA VENEZA
+5215207	NOVO BRASIL
+5215231	NOVO GAMA
+5215256	NOVO PLANALTO
+5215306	ORIZONA
+5215405	OURO VERDE DE GOIAS
+5215504	OUVIDOR
+5215603	PADRE BERNARDO
+5215652	PALESTINA DE GOIAS
+5215702	PALMEIRAS DE GOIAS
+5215801	PALMELO
+5215900	PALMINOPOLIS
+5216007	PANAMA
+5216304	PARANAIGUARA
+5216403	PARAUNA
+5216452	PEROLANDIA
+5216809	PETROLINA DE GOIAS
+5216908	PILAR DE GOIAS
+5217104	PIRACANJUBA
+5217203	PIRANHAS
+5217302	PIRENOPOLIS
+5217401	PIRES DO RIO
+5217609	PLANALTINA
+5217708	PONTALINA
+5218003	PORANGATU
+5218052	PORTEIRAO
+5218102	PORTELANDIA
+5218300	POSSE
+5218391	PROFESSOR JAMIL
+5218508	QUIRINOPOLIS
+5218607	RIALMA
+5218706	RIANAPOLIS
+5218789	RIO QUENTE
+5218805	RIO VERDE
+5218904	RUBIATABA
+5219001	SANCLERLANDIA
+5219100	SANTA BARBARA DE GOIAS
+5219209	SANTA CRUZ DE GOIAS
+5219258	SANTA FE DE GOIAS
+5219308	SANTA HELENA DE GOIAS
+5219357	SANTA ISABEL
+5219407	SANTA RITA DO ARAGUAIA
+5219456	SANTA RITA DO NOVO DESTINO
+5219506	SANTA ROSA DE GOIAS
+5219605	SANTA TEREZA DE GOIAS
+5219704	SANTA TEREZINHA DE GOIAS
+5219712	SANTO ANTONIO DA BARRA
+5219738	SANTO ANTONIO DE GOIAS
+5219753	SANTO ANTONIO DO DESCOBERTO
+5219803	SAO DOMINGOS
+5219902	SAO FRANCISCO DE GOIAS
+5220009	SAO JOAO D'ALIANCA
+5220058	SAO JOAO DA PARAUNA
+5220108	SAO LUIS DE MONTES BELOS
+5220157	SAO LUIZ DO NORTE
+5220207	SAO MIGUEL DO ARAGUAIA
+5220264	SAO MIGUEL DO PASSA QUATRO
+5220280	SAO PATRICIO
+5220405	SAO SIMAO
+5220454	SENADOR CANEDO
+5220504	SERRANOPOLIS
+5220603	SILVANIA
+5220686	SIMOLANDIA
+5220702	SITIO D'ABADIA
+5221007	TAQUARAL DE GOIAS
+5221080	TERESINA DE GOIAS
+5221197	TEREZOPOLIS DE GOIAS
+5221304	TRES RANCHOS
+5221403	TRINDADE
+5221452	TROMBAS
+5221502	TURVANIA
+5221551	TURVELANDIA
+5221577	UIRAPURU
+5221601	URUACU
+5221700	URUANA
+5221809	URUTAI
+5221858	VALPARAISO DE GOIAS
+5221908	VARJAO
+5222005	VIANOPOLIS
+5222054	VICENTINOPOLIS
+5222203	VILA BOA
+5222302	VILA PROPICIO
+5300108	BRASILIA
+\.
+
+
+--
+-- Data for Name: civil_status; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.civil_status (id, name) FROM stdin;
+1	SOLTEIRO(A)
+2	CASADO(A)
+3	DIVORCIADO(A)
+4	VIUVO(A)
+5	SEPARADO(A)
+\.
+
+
+--
+-- Data for Name: gender; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.gender (id, name) FROM stdin;
+1	MASCULINO
+2	FEMININO
+3	TRANSHOMEM
+4	TRANSMULHER
+5	TRAVESTI
+6	TRANSGÊNERO
+7	HOMEM TRANSSEXUAL
+8	MULHER TRANSSEXUAL
+9	MULHER TRANS
+10	HOMEM TRANS
+11	NEUTRO
+\.
+
+
+--
+-- Data for Name: knex_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.knex_migrations (id, name, batch, migration_time) FROM stdin;
+1	20200616114006_create_trigger_update_at.js	1	2020-12-01 22:46:15.387-03
+2	20200905200916_create_table_city.js	1	2020-12-01 22:46:15.415-03
+3	20200905200929_create_table_occupation.js	1	2020-12-01 22:46:15.457-03
+4	20200905200930_create_table_sector.js	1	2020-12-01 22:46:15.481-03
+5	20201201152146_create_table_gender.js	1	2020-12-01 22:46:15.504-03
+6	20201201152339_create_table_civil_status.js	1	2020-12-01 22:46:15.531-03
+7	20201201152432_create_table_skin_color.js	1	2020-12-01 22:46:15.555-03
+8	20201201152534_create_table_nationality.js	1	2020-12-01 22:46:15.582-03
+9	20201201152627_create_table_level_education.js	1	2020-12-01 22:46:15.606-03
+10	20201201152630_create_table_account.js	1	2020-12-01 22:46:15.649-03
+11	20201201152631_create_table_patient.js	1	2020-12-01 22:46:15.687-03
+12	20201201152632_create_table_medic.js	1	2020-12-01 22:46:15.74-03
+13	20201201152633_create_table_medic_schedule.js	1	2020-12-01 22:46:15.775-03
+14	20201201152634_create_table_schedule.js	1	2020-12-01 22:46:15.831-03
+15	20201201152635_create_table_patient_screening.js	1	2020-12-01 22:46:15.872-03
+16	20201201152636_create_table_product.js	1	2020-12-01 22:46:15.924-03
+17	20201201152637_create_table_product_movement.js	1	2020-12-01 22:46:16.123-03
+18	20201201152638_create_table_sector_stock.js	1	2020-12-01 22:46:16.15-03
+\.
+
+
+--
+-- Data for Name: knex_migrations_lock; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.knex_migrations_lock (index, is_locked) FROM stdin;
+1	0
+\.
+
+
+--
+-- Data for Name: level_education; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.level_education (id, name) FROM stdin;
+1	NAO SABE LER/ESCREVER
+2	ALFABETIZADO
+3	FUNDAMENTAL INCOMPLETO (1o GRAU INCOMP)
+4	FUNDAMENTAL COMPLETO (1o GRAU COMPLETO)
+5	MEDIO INCOMPLETO (2o GRAU INCOMPLETO)
+6	MEDIO COMPLETO (2o GRAU COMPLETO)
+7	SUPERIOR INCOMPLETO
+8	SUPERIOR COMPLETO
+9	ESPECIALIZACAO/RESIDENCIA
+10	MESTRADO
+11	DOUTORADO
+\.
+
+
+--
+-- Data for Name: medic; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.medic (id, name, crm, cpf, address, number, complement, state, district, city, zip_code, email, phone, created_at, updated_at) FROM stdin;
+1	MEDICO TESTE2	12345	10550344470	RUA SANDRA VASCONCELOS PEREIRA DE MELO	105	ASDASDASD	PB	ITARARÉ	CAMPINA GRANDE	58411005	meoprogramar@gmail.com	9191231239	2020-12-01 22:51:10.263739-03	2020-12-01 22:51:15.832989-03
+\.
+
+
+--
+-- Data for Name: medic_schedule; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.medic_schedule (id, id_medic, sunday, monday, tuesday, wednesday, thursday, friday, saturday, created_at, updated_at) FROM stdin;
+1	1	4	4	4	4	0	0	0	2020-12-01 22:51:27.338353-03	2020-12-01 22:51:27.338353-03
+\.
+
+
+--
+-- Data for Name: nationality; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.nationality (id, name) FROM stdin;
+1	BRASILEIRO
+2	NATURALIZADO BRASILEIRO
+3	ARGENTINO
+4	BOLIVIANO
+5	CHILENO
+6	PARAGUAIO
+7	URUGUAIO
+8	ALEMAO
+9	BELGA
+10	BRITANICO
+11	CANADENSE
+12	ESPANHOL
+13	NORTE-AMERICANO
+14	FRANCES
+15	SUICO
+16	ITALIANO
+17	JAPONES
+18	CHINES
+19	COREANO
+20	PORTUGUES
+21	OUTROS LATINOS-AMERICANOS
+22	OUTROS ASIATICOS
+23	OUTROS
+\.
+
+
+--
+-- Data for Name: occupation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.occupation (id, name) FROM stdin;
+010105	OFICIAL GENERAL DA AERONAUTICA
+010110	OFICIAL GENERAL DO EXERCITO
+010115	OFICIAL GENERAL DA MARINHA
+010205	OFICIAL DA AERONAUTICA
+010210	OFICIAL DO EXERCITO
+010215	OFICIAL DA MARINHA
+010305	PRACA DA AERONAUTICA
+010310	PRACA DO EXERCITO
+010315	PRACA DA MARINHA
+020105	CORONEL DA POLICIA MILITAR
+020110	TENENTE-CORONEL DA POLICIA MILITAR
+020115	MAJOR DA POLICIA MILITAR
+020205	CAPITAO DA POLICIA MILITAR
+020305	PRIMEIRO TENENTE DE POLICIA MILITAR
+020310	SEGUNDO TENENTE DE POLICIA MILITAR
+021105	SUBTENENTE DA POLICIA MILITAR
+021110	SARGENTO DA POLICIA MILITAR
+021205	CABO DA POLICIA MILITAR
+021210	SOLDADO DA POLICIA MILITAR
+030105	CORONEL BOMBEIRO MILITAR
+030110	MAJOR BOMBEIRO MILITAR
+030115	TENENTE-CORONEL BOMBEIRO MILITAR
+030205	CAPITAO BOMBEIRO MILITAR
+030305	TENENTE DO CORPO DE BOMBEIROS MILITAR
+031105	SUBTENENTE BOMBEIRO MILITAR
+031110	SARGENTO BOMBEIRO MILITAR
+031205	CABO BOMBEIRO MILITAR
+031210	SOLDADO BOMBEIRO MILITAR
+111105	SENADOR
+111110	DEPUTADO FEDERAL
+111115	DEPUTADO ESTADUAL E DISTRITAL
+111120	VEREADOR
+111205	PRESIDENTE DA REPUBLICA
+111210	VICE-PRESIDENTE DA REPUBLICA
+111215	MINISTRO DE ESTADO
+111220	SECRETARIO-EXECUTIVO
+111225	MEMBRO SUPERIOR DO PODER EXECUTIVO
+111230	GOVERNADOR DE ESTADO
+111235	GOVERNADOR DO DISTRITO FEDERAL
+111240	VICE-GOVERNADOR DE ESTADO
+111245	VICE-GOVERNADOR DO DISTRITO FEDERAL
+111250	PREFEITO
+111255	VICE-PREFEITO
+111305	MINISTRO DO SUPREMO TRIBUNAL FEDERAL
+111310	MINISTRO DO SUPERIOR TRIBUNAL DE JUSTICA
+111315	MINISTRO DO SUPERIOR TRIBUNAL MILITAR
+111320	MINISTRO DO SUPERIOR TRIBUNAL DO TRABALHO
+111325	JUIZ DE DIREITO
+111330	JUIZ FEDERAL
+111335	JUIZ AUDITOR FEDERAL - JUSTICA MILITAR
+111340	JUIZ AUDITOR ESTADUAL - JUSTICA MILITAR
+111345	JUIZ DO TRABALHO
+111405	DIRIGENTE DO SERVICO PUBLICO FEDERAL
+111410	DIRIGENTE DO SERVICO PUBLICO ESTADUAL E DISTRITAL
+111415	DIRIGENTE DO SERVICO PUBLICO MUNICIPAL
+113005	CACIQUE
+113010	LIDER DE COMUNIDADE CAICARA
+113015	MEMBRO DE LIDERANCA QUILOMBOLA
+114105	DIRIGENTE DE PARTIDO POLITICO
+114205	DIRIGENTES DE ENTIDADES DE TRABALHADORES
+114210	DIRIGENTES DE ENTIDADES PATRONAIS
+114305	DIRIGENTE E ADMINISTRADOR DE ORGANIZACAO RELIGIOSA
+114405	DIRIGENTE E ADMINISTRADOR DE ORGANIZACAO DA SOCIEDADE CIVIL SEM FINS LUCRATIVOS
+121005	DIRETOR DE PLANEJAMENTO ESTRATEGICO
+121010	DIRETOR GERAL DE EMPRESA E ORGANIZACOES (EXCETO DE INTERESSE PUBLICO)
+122105	DIRETOR DE PRODUCAO E OPERACOES EM EMPRESA AGROPECUARIA
+122110	DIRETOR DE PRODUCAO E OPERACOES EM EMPRESA AQUICOLA
+122115	DIRETOR DE PRODUCAO E OPERACOES EM EMPRESA FLORESTAL
+122120	DIRETOR DE PRODUCAO E OPERACOES EM EMPRESA PESQUEIRA
+122205	DIRETOR DE PRODUCAO E OPERACOES DA INDUSTRIA DE TRANSFORMACAO, EXTRACAO MINERAL E UTILIDADES
+122305	DIRETOR DE OPERACOES DE OBRAS PUBLICA E CIVIL
+122405	DIRETOR DE OPERACOES COMERCIAIS (COMERCIO ATACADISTA E VAREJISTA)
+122505	DIRETOR DE PRODUCAO E OPERACOES DE ALIMENTACAO
+122510	DIRETOR DE PRODUCAO E OPERACOES DE HOTEL
+122515	DIRETOR DE PRODUCAO E OPERACOES DE TURISMO
+122605	DIRETOR DE OPERACOES DE CORREIOS
+122610	DIRETOR DE OPERACOES DE SERVICOS DE ARMAZENAMENTO
+122615	DIRETOR DE OPERACOES DE SERVICOS DE TELECOMUNICACOES
+122620	DIRETOR DE OPERACOES DE SERVICOS DE TRANSPORTE
+122705	DIRETOR COMERCIAL EM OPERACOES DE INTERMEDIACAO FINANCEIRA
+122710	DIRETOR DE PRODUTOS BANCARIOS
+122715	DIRETOR DE CREDITO RURAL
+122720	DIRETOR DE CAMBIO E COMERCIO EXTERIOR
+122725	DIRETOR DE COMPLIANCE
+122730	DIRETOR DE CREDITO (EXCETO CREDITO IMOBILIARIO)
+122735	DIRETOR DE CREDITO IMOBILIARIO
+122740	DIRETOR DE LEASING
+122745	DIRETOR DE MERCADO DE CAPITAIS
+122750	DIRETOR DE RECUPERACAO DE CREDITOS EM OPERACOES DE INTERMEDIACAO FINANCEIRA
+122755	DIRETOR DE RISCOS DE MERCADO
+123105	DIRETOR ADMINISTRATIVO
+123110	DIRETOR ADMINISTRATIVO E FINANCEIRO
+123115	DIRETOR FINANCEIRO
+123205	DIRETOR DE RECURSOS HUMANOS
+123210	DIRETOR DE RELACOES DE TRABALHO
+123305	DIRETOR COMERCIAL
+123310	DIRETOR DE MARKETING
+123405	DIRETOR DE SUPRIMENTOS
+123410	DIRETOR DE SUPRIMENTOS NO SERVICO PUBLICO
+123605	DIRETOR DE SERVICOS DE INFORMATICA
+123705	DIRETOR DE PESQUISA E DESENVOLVIMENTO (P&D)
+123805	DIRETOR DE MANUTENCAO
+131105	DIRETOR DE SERVICOS CULTURAIS
+131110	DIRETOR DE SERVICOS SOCIAIS
+131115	GERENTE DE SERVICOS CULTURAIS
+131120	GERENTE DE SERVICOS SOCIAIS
+131205	DIRETOR DE SERVICOS DE SAUDE
+131210	GERENTE DE SERVICOS DE SAUDE
+131305	DIRETOR DE INSTITUICAO EDUCACIONAL DA AREA PRIVADA
+131310	DIRETOR DE INSTITUICAO EDUCACIONAL PUBLICA
+131315	GERENTE DE INSTITUICAO EDUCACIONAL DA AREA PRIVADA
+131320	GERENTE DE SERVICOS EDUCACIONAIS DA AREA PUBLICA
+141105	GERENTE DE PRODUCAO E OPERACOES AQUICOLAS
+141110	GERENTE DE PRODUCAO E OPERACOES FLORESTAIS
+141115	GERENTE DE PRODUCAO E OPERACOES AGROPECUARIAS
+141120	GERENTE DE PRODUCAO E OPERACOES PESQUEIRAS
+141205	GERENTE DE PRODUCAO E OPERACOES
+141305	GERENTE DE PRODUCAO E OPERACOES DA CONSTRUCAO CIVIL E OBRAS PUBLICAS
+141405	COMERCIANTE ATACADISTA
+141410	COMERCIANTE VAREJISTA
+141415	GERENTE DE LOJA E SUPERMERCADO
+141420	GERENTE DE OPERACOES DE SERVICOS DE ASSISTENCIA TECNICA
+141505	GERENTE DE HOTEL
+141510	GERENTE DE RESTAURANTE
+141515	GERENTE DE BAR
+141520	GERENTE DE PENSAO
+141605	GERENTE DE OPERACOES DE TRANSPORTES
+141610	GERENTE DE OPERACOES DE CORREIOS E TELECOMUNICACOES
+141615	GERENTE DE LOGISTICA (ARMAZENAGEM E DISTRIBUICAO)
+141705	GERENTE DE PRODUTOS BANCARIOS
+141710	GERENTE DE AGENCIA
+141715	GERENTE DE CAMBIO E COMERCIO EXTERIOR
+141720	GERENTE DE CREDITO E COBRANCA
+141725	GERENTE DE CREDITO IMOBILIARIO
+141730	GERENTE DE CREDITO RURAL
+141735	GERENTE DE RECUPERACAO DE CREDITO
+142105	GERENTE ADMINISTRATIVO
+142110	GERENTE DE RISCOS
+142115	GERENTE FINANCEIRO
+142205	GERENTE DE RECURSOS HUMANOS
+142210	GERENTE DE DEPARTAMENTO PESSOAL
+142305	GERENTE COMERCIAL
+142310	GERENTE DE COMUNICACAO
+142315	GERENTE DE MARKETING
+142320	GERENTE DE VENDAS
+142405	GERENTE DE COMPRAS
+142410	GERENTE DE SUPRIMENTOS
+142415	GERENTE DE ALMOXARIFADO
+142505	GERENTE DE REDE
+142510	GERENTE DE DESENVOLVIMENTO DE SISTEMAS
+142515	GERENTE DE PRODUCAO DE TECNOLOGIA DA INFORMACAO
+142520	GERENTE DE PROJETOS DE TECNOLOGIA DA INFORMACAO
+142525	GERENTE DE SEGURANCA DE TECNOLOGIA DA INFORMACAO
+142530	GERENTE DE SUPORTE TECNICO DE TECNOLOGIA DA INFORMACAO
+142605	GERENTE DE PESQUISA E DESENVOLVIMENTO (P&D)
+142705	GERENTE DE PROJETOS E SERVICOS DE MANUTENCAO
+201105	BIOENGENHEIRO
+201110	BIOTECNOLOGISTA
+201115	GENETICISTA
+201205	PESQUISADOR EM METROLOGIA
+201210	ESPECIALISTA EM CALIBRACOES METROLOGICAS
+201215	ESPECIALISTA EM ENSAIOS METROLOGICOS
+201220	ESPECIALISTA EM INSTRUMENTACAO METROLOGICA
+201225	ESPECIALISTA EM MATERIAIS DE REFERENCIA METROLOGICA
+202105	ENGENHEIRO MECATRONICO
+203005	PESQUISADOR EM BIOLOGIA AMBIENTAL
+203010	PESQUISADOR EM BIOLOGIA ANIMAL
+203015	PESQUISADOR EM BIOLOGIA DE MICROORGANISMOS E PARASITAS
+203020	PESQUISADOR EM BIOLOGIA HUMANA
+203025	PESQUISADOR EM BIOLOGIA VEGETAL
+203105	PESQUISADOR EM CIENCIAS DA COMPUTACAO E INFORMATICA
+203110	PESQUISADOR EM CIENCIAS DA TERRA E MEIO AMBIENTE
+203115	PESQUISADOR EM FISICA
+203120	PESQUISADOR EM MATEMATICA
+203125	PESQUISADOR EM QUIMICA
+203205	PESQUISADOR DE ENGENHARIA CIVIL
+203210	PESQUISADOR DE ENGENHARIA E TECNOLOGIA (OUTRAS AREAS DA ENGENHARIA)
+203215	PESQUISADOR DE ENGENHARIA ELETRICA E ELETRONICA
+203220	PESQUISADOR DE ENGENHARIA MECANICA
+203225	PESQUISADOR DE ENGENHARIA METALURGICA, DE MINAS E DE MATERIAIS
+203230	PESQUISADOR DE ENGENHARIA QUIMICA
+203305	PESQUISADOR DE CLINICA MEDICA
+203310	PESQUISADOR DE MEDICINA BASICA
+203315	PESQUISADOR EM MEDICINA VETERINARIA
+203320	PESQUISADOR EM SAUDE COLETIVA
+203405	PESQUISADOR EM CIENCIAS AGRONOMICAS
+203410	PESQUISADOR EM CIENCIAS DA PESCA E AQUICULTURA
+203415	PESQUISADOR EM CIENCIAS DA ZOOTECNIA
+203420	PESQUISADOR EM CIENCIAS FLORESTAIS
+203505	PESQUISADOR EM CIENCIAS SOCIAIS E HUMANAS
+203510	PESQUISADOR EM ECONOMIA
+203515	PESQUISADOR EM CIENCIAS DA EDUCACAO
+203520	PESQUISADOR EM HISTORIA
+203525	PESQUISADOR EM PSICOLOGIA
+204105	PERITO CRIMINAL
+211105	ATUARIO
+211110	ESPECIALISTA EM PESQUISA OPERACIONAL
+211115	MATEMATICO
+211120	MATEMATICO APLICADO
+211205	ESTATISTICO
+211210	ESTATISTICO (ESTATISTICA APLICADA)
+211215	ESTATISTICO TEORICO
+212205	ENGENHEIRO DE APLICATIVOS EM COMPUTACAO
+212210	ENGENHEIRO DE EQUIPAMENTOS EM COMPUTACAO
+212215	ENGENHEIROS DE SISTEMAS OPERACIONAIS EM COMPUTACAO
+212305	ADMINISTRADOR DE BANCO DE DADOS
+212310	ADMINISTRADOR DE REDES
+212315	ADMINISTRADOR DE SISTEMAS OPERACIONAIS
+212405	ANALISTA DE DESENVOLVIMENTO DE SISTEMAS
+212410	ANALISTA DE REDES E DE COMUNICACAO DE DADOS
+212415	ANALISTA DE SISTEMAS DE AUTOMACAO
+212420	ANALISTA DE SUPORTE COMPUTACIONAL
+213105	FISICO
+213110	FISICO (ACUSTICA)
+213115	FISICO (ATOMICA E MOLECULAR)
+213120	FISICO (COSMOLOGIA)
+213125	FISICO (ESTATISTICA E MATEMATICA)
+213130	FISICO (FLUIDOS)
+213135	FISICO (INSTRUMENTACAO)
+213140	FISICO (MATERIA CONDENSADA)
+213145	FISICO (MATERIAIS)
+213150	FISICO (MEDICINA)
+213155	FISICO (NUCLEAR E REATORES)
+213160	FISICO (OPTICA)
+213165	FISICO (PARTICULAS E CAMPOS)
+213170	FISICO (PLASMA)
+213175	FISICO (TERMICA)
+213205	QUIMICO
+213210	QUIMICO INDUSTRIAL
+213305	ASTRONOMO
+213310	GEOFISICO ESPACIAL
+213315	METEOROLOGISTA
+213405	GEOLOGO
+213410	GEOLOGO DE ENGENHARIA
+213415	GEOFISICO
+213420	GEOQUIMICO
+213425	HIDROGEOLOGO
+213430	PALEONTOLOGO
+213435	PETROGRAFO
+214105	ARQUITETO DE EDIFICACOES
+214110	ARQUITETO DE INTERIORES
+214115	ARQUITETO DE PATRIMONIO
+214120	ARQUITETO PAISAGISTA
+214125	ARQUITETO URBANISTA
+214130	URBANISTA
+214205	ENGENHEIRO CIVIL
+214210	ENGENHEIRO CIVIL (AEROPORTOS)
+214215	ENGENHEIRO CIVIL (EDIFICACOES)
+214220	ENGENHEIRO CIVIL (ESTRUTURAS METALICAS)
+214225	ENGENHEIRO CIVIL (FERROVIAS E METROVIAS)
+214230	ENGENHEIRO CIVIL (GEOTECNIA)
+214235	ENGENHEIRO CIVIL (HIDROLOGIA)
+214240	ENGENHEIRO CIVIL (HIDRAULICA)
+214245	ENGENHEIRO CIVIL (PONTES E VIADUTOS)
+214250	ENGENHEIRO CIVIL (PORTOS E VIAS NAVEGAVEIS)
+214255	ENGENHEIRO CIVIL (RODOVIAS)
+214260	ENGENHEIRO CIVIL (SANEAMENTO)
+214265	ENGENHEIRO CIVIL (TUNEIS)
+214270	ENGENHEIRO CIVIL (TRANSPORTES E TRANSITO)
+214305	ENGENHEIRO ELETRICISTA
+214310	ENGENHEIRO ELETRONICO
+214315	ENGENHEIRO ELETRICISTA DE MANUTENCAO
+214320	ENGENHEIRO ELETRICISTA DE PROJETOS
+214325	ENGENHEIRO ELETRONICO DE MANUTENCAO
+214330	ENGENHEIRO ELETRONICO DE PROJETOS
+214335	ENGENHEIRO DE MANUTENCAO DE TELECOMUNICACOES
+214340	ENGENHEIRO DE TELECOMUNICACOES
+214345	ENGENHEIRO PROJETISTA DE TELECOMUNICACOES
+214350	ENGENHEIRO DE REDES DE COMUNICACAO
+214355	ENGENHEIRO DE CONTROLE E AUTOMACAO
+214360	TECNOLOGO EM ELETRICIDADE
+214365	TECNOLOGO EM ELETRONICA
+214405	ENGENHEIRO MECANICO
+214410	ENGENHEIRO MECANICO AUTOMOTIVO
+214415	ENGENHEIRO MECANICO (ENERGIA NUCLEAR)
+214420	ENGENHEIRO MECANICO INDUSTRIAL
+214425	ENGENHEIRO AERONAUTICO
+214430	ENGENHEIRO NAVAL
+214505	ENGENHEIRO QUIMICO
+214510	ENGENHEIRO QUIMICO (INDUSTRIA QUIMICA)
+214515	ENGENHEIRO QUIMICO (MINERACAO, METALURGIA, SIDERURGIA, CIMENTEIRA E CERAMICA)
+214520	ENGENHEIRO QUIMICO (PAPEL E CELULOSE)
+214525	ENGENHEIRO QUIMICO (PETROLEO E BORRACHA)
+214530	ENGENHEIRO QUIMICO (UTILIDADES E MEIO AMBIENTE)
+214605	ENGENHEIRO DE MATERIAIS
+214610	ENGENHEIRO METALURGISTA
+214705	ENGENHEIRO DE MINAS
+214710	ENGENHEIRO DE MINAS (BENEFICIAMENTO)
+214715	ENGENHEIRO DE MINAS (LAVRA A CEU ABERTO)
+214720	ENGENHEIRO DE MINAS (LAVRA SUBTERRANEA)
+214725	ENGENHEIRO DE MINAS (PESQUISA MINERAL)
+214730	ENGENHEIRO DE MINAS (PLANEJAMENTO)
+214735	ENGENHEIRO DE MINAS (PROCESSO)
+214740	ENGENHEIRO DE MINAS (PROJETO)
+214805	ENGENHEIRO AGRIMENSOR
+214810	ENGENHEIRO CARTOGRAFO
+214905	ENGENHEIRO DE PRODUCAO
+214910	ENGENHEIRO DE CONTROLE DE QUALIDADE
+214915	ENGENHEIRO DE SEGURANCA DO TRABALHO
+214920	ENGENHEIRO DE RISCOS
+214925	ENGENHEIRO DE TEMPOS E MOVIMENTOS
+215105	AGENTE DE MANOBRA E DOCAGEM
+215110	CAPITAO DE MANOBRA DA MARINHA MERCANTE
+215115	COMANDANTE DA MARINHA MERCANTE
+215120	COORDENADOR DE OPERACOES DE COMBATE A POLUICAO NO MEIO AQUAVIARIO
+215125	IMEDIATO DA MARINHA MERCANTE
+215130	INSPETOR DE TERMINAL
+215135	INSPETOR NAVAL
+215140	OFICIAL DE QUARTO DE NAVEGACAO DA MARINHA MERCANTE
+215145	PRATICO DE PORTOS DA MARINHA MERCANTE
+215150	VISTORIADOR NAVAL
+215205	OFICIAL SUPERIOR DE MAQUINAS DA MARINHA MERCANTE
+215210	PRIMEIRO OFICIAL DE MAQUINAS DA MARINHA MERCANTE
+215215	SEGUNDO OFICIAL DE MAQUINAS DA MARINHA MERCANTE
+215220	SUPERINTENDENTE TECNICO NO TRANSPORTE AQUAVIARIO
+215305	PILOTO DE AERONAVES
+215310	PILOTO DE ENSAIOS EM VOO
+215315	INSTRUTOR DE VOO
+221105	BIOLOGO
+222105	ENGENHEIRO AGRICOLA
+222110	ENGENHEIRO AGRONOMO
+222115	ENGENHEIRO DE PESCA
+222120	ENGENHEIRO FLORESTAL
+223101	MEDICO ACUPUNTURISTA
+223102	MEDICO ALERGISTA E IMUNOLOGISTA
+223103	MEDICO ANATOMOPATOLOGISTA
+223104	MEDICO ANESTESIOLOGISTA
+223105	MEDICO ANGIOLOGISTA
+223106	MEDICO CARDIOLOGISTA
+223107	MEDICO CIRURGIAO CARDIOVASCULAR
+223108	MEDICO CIRURGIAO DE CABECA E PESCOCO
+223109	MEDICO CIRURGIAO DO APARELHO DIGESTIVO
+223110	MEDICO CIRURGIAO GERAL
+223111	MEDICO CIRURGIAO PEDIATRICO
+223112	MEDICO CIRURGIAO PLASTICO
+223113	MEDICO CIRURGIAO TORACICO
+223114	MEDICO CITOPATOLOGISTA
+223115	INATIVO
+223116	MEDICO DE SAUDE DA FAMILIA
+223117	MEDICO DERMATOLOGISTA
+223118	MEDICO DO TRABALHO
+223119	MEDICO EM ELETROENCEFALOGRAFIA
+223120	MEDICO EM ENDOSCOPIA
+223121	MEDICO EM MEDICINA DE TRAFEGO
+223122	MEDICO EM MEDICINA INTENSIVA
+223123	MEDICO EM MEDICINA NUCLEAR
+223124	MEDICO EM RADIOLOGIA E DIAGNOSTICO POR IMAGEM
+223125	MEDICO ENDOCRINOLOGISTA E METABOLOGISTA
+223126	MEDICO FISIATRA
+223127	MEDICO FONIATRA
+223128	MEDICO GASTROENTEROLOGISTA
+223129	MEDICO GENERALISTA
+223130	MEDICO GENETICISTA
+223131	MEDICO GERIATRA
+223132	MEDICO GINECOLOGISTA E OBSTETRA
+223133	MEDICO HEMATOLOGISTA
+223134	MEDICO HEMOTERAPEUTA
+223135	MEDICO HOMEOPATA
+223136	MEDICO INFECTOLOGISTA
+223137	MEDICO LEGISTA
+223138	MEDICO MASTOLOGISTA
+223139	MEDICO NEFROLOGISTA
+223140	MEDICO NEUROCIRURGIAO
+223141	MEDICO NEUROFISIOLOGISTA
+223142	MEDICO NEUROLOGISTA
+223143	MEDICO NUTROLOGISTA
+223144	MEDICO OFTALMOLOGISTA
+223145	MEDICO ONCOLOGISTA
+223146	MEDICO ORTOPEDISTA E TRAUMATOLOGISTA
+223147	MEDICO OTORRINOLARINGOLOGISTA
+223148	MEDICO PATOLOGISTA CLINICO
+223149	MEDICO PEDIATRA
+223150	MEDICO PERITO
+223151	MEDICO PNEUMOLOGISTA
+223152	MEDICO PROCTOLOGISTA
+223153	MEDICO PSIQUIATRA
+223154	MEDICO RADIOTERAPEUTA
+223155	MEDICO REUMATOLOGISTA
+223156	MEDICO SANITARISTA
+223157	MEDICO UROLOGISTA
+2231A1	MEDICO BRONCOESOFALOGISTA
+2231A2	MEDICO HANSENOLOGISTA
+2231F3	MEDICO CIRURGIAO VASCULAR
+2231F4	MEDICO CANCEROLOGISTA PEDIATRICO
+2231F5	MEDICO CANCEROLOGISTA CIRURGICO
+2231F6	MEDICO CANCEROLOGISTA CLINICO
+2231F7	MEDICO EM MEDICINA DE FAMILIA E COMUNIDADE
+2231F8	MEDICO EM MEDICINA PREVENTIVA E SOCIAL
+2231F9	MEDICO RESIDENTE
+223204	CIRURGIAO DENTISTA - AUDITOR
+223208	CIRURGIAO DENTISTA - CLINICO GERAL
+223212	CIRURGIAO DENTISTA - ENDODONTISTA
+223216	CIRURGIAO DENTISTA - EPIDEMIOLOGISTA
+223220	CIRURGIAO DENTISTA - ESTOMATOLOGISTA
+223224	CIRURGIAO DENTISTA - IMPLANTODONTISTA
+223228	CIRURGIAO DENTISTA - ODONTOGERIATRA
+223232	CIRURGIAO DENTISTA - ODONTOLOGISTA LEGAL
+223236	CIRURGIAO DENTISTA - ODONTOPEDIATRA
+223240	CIRURGIAO DENTISTA - ORTOPEDISTA E ORTODONTISTA
+223244	CIRURGIAO DENTISTA - PATOLOGISTA BUCAL
+223248	CIRURGIAO DENTISTA - PERIODONTISTA
+223252	CIRURGIAO DENTISTA - PROTESIOLOGO BUCOMAXILOFACIAL
+223256	CIRURGIAO DENTISTA - PROTESISTA
+223260	CIRURGIAO DENTISTA - RADIOLOGISTA
+223264	CIRURGIAO DENTISTA - REABILITADOR ORAL
+223268	CIRURGIAO DENTISTA - TRAUMATOLOGISTA BUCOMAXILOFACIAL
+223272	CIRURGIAO DENTISTA DE SAUDE COLETIVA
+223293	CIRURGIAO-DENTISTA DA ESTRATEGIA DE SAUDE DA
+2232B1	CIRURGIAO DENTISTA DE SAUDE DA FAMILIA
+223305	MEDICO VETERINARIO
+223310	ZOOTECNISTA
+223405	FARMACEUTICO
+223410	FARMACEUTICO BIOQUIMICO
+223505	ENFERMEIRO
+223510	ENFERMEIRO AUDITOR
+223515	ENFERMEIRO DE BORDO
+223520	ENFERMEIRO DE CENTRO CIRURGICO
+223525	ENFERMEIRO DE TERAPIA INTENSIVA
+223530	ENFERMEIRO DO TRABALHO
+223535	ENFERMEIRO NEFROLOGISTA
+223540	ENFERMEIRO NEONATOLOGISTA
+223545	ENFERMEIRO OBSTETRICO
+223550	ENFERMEIRO PSIQUIATRICO
+223555	ENFERMEIRO PUERICULTOR E PEDIATRICO
+223560	ENFERMEIRO SANITARISTA
+223565	ENFERMEIRO DA ESTRATEGIA DE SAUDE DA FAMILIA
+2235C1	ENFERMEIRO SAUDE DA FAMILIA
+2235C2	ENFERMEIRO DA ESTRATEGIA DE AGENTE COMUNITARIO DE SAUDE
+223605	FISIOTERAPEUTA
+223615	ORTOPTISTA
+223620	TERAPEUTA OCUPACIONAL
+2236I1	TECNICO EM ORIENTACAO E MOBILIDADE DE CEGOS E DEFICIENTES VISUAIS
+223705	DIETISTA
+223710	NUTRICIONISTA
+223810	FONOAUDIOLOGO
+223905	TERAPEUTA OCUPACIONAL
+223910	ORTOPTISTA
+224105	AVALIADOR FISICO
+224110	LUDOMOTRICISTA
+224115	PREPARADOR DE ATLETA
+224120	PREPARADOR FISICO
+224125	TECNICO DE DESPORTO INDIVIDUAL E COLETIVO (EXCETO FUTEBOL)
+224130	TECNICO DE LABORATORIO E FISCALIZACAO DESPORTIVA
+224135	TREINADOR PROFISSIONAL DE FUTEBOL
+225103	MEDICO INFECTOLOGISTA
+225105	MEDICO ACUPUNTURISTA
+225106	MEDICO LEGISTA
+225109	MEDICO NEFROLOGISTA
+225110	MEDICO ALERGISTA E IMUNOLOGISTA
+225112	MEDICO NEUROLOGISTA
+225115	MEDICO ANGIOLOGISTA
+225118	MEDICO NUTROLOGISTA
+225120	MEDICO CARDIOLOGISTA
+225121	MEDICO ONCOLOGISTA CLINICO
+225122	MEDICO CANCEROLOGISTA PEDIATRICO
+225124	MEDICO PEDIATRA
+225125	MEDICO CLINICO
+225127	MEDICO PNEUMOLOGISTA
+225130	MEDICO DE FAMILIA E COMUNIDADE
+225133	MEDICO PSIQUIATRA
+225135	MEDICO DERMATOLOGISTA
+225136	MEDICO REUMATOLOGISTA
+225139	MEDICO SANITARISTA
+225140	MEDICO DO TRABALHO
+225145	MEDICO EM MEDICINA DE TRAFEGO
+225148	MEDICO ANATOMOPATOLOGISTA
+225150	MEDICO EM MEDICINA INTENSIVA
+225151	MEDICO ANESTESIOLOGISTA
+225155	MEDICO ENDOCRINOLOGISTA E METABOLOGISTA
+225160	MEDICO FISIATRA
+225165	MEDICO GASTROENTEROLOGISTA
+225170	MEDICO GENERALISTA
+225175	MEDICO GENETICISTA
+225180	MEDICO GERIATRA
+225185	MEDICO HEMATOLOGISTA
+225190	MEDICO HEMOTERAPEUTA
+225195	MEDICO HOMEOPATA
+225203	MEDICO EM CIRURGIA VASCULAR
+225210	MEDICO CIRURGIAO CARDIOVASCULAR
+225215	MEDICO CIRURGIAO DE CABECA E PESCOCO
+225220	MEDICO CIRURGIAO DO APARELHO DIGESTIVO
+225225	MEDICO CIRURGIAO GERAL
+225230	MEDICO CIRURGIAO PEDIATRICO
+225235	MEDICO CIRURGIAO PLASTICO
+225250	MEDICO GINECOLOGISTA E OBSTETRA
+225255	MEDICO MASTOLOGISTA
+225260	MEDICO NEUROCIRURGIAO
+225265	MEDICO OFTALMOLOGISTA
+225270	MEDICO ORTOPEDISTA E TRAUMATOLOGISTA
+225275	MEDICO OTORRINOLARINGOLOGISTA
+225280	MEDICO COLOPROCTOLOGISTA
+225285	MEDICO UROLOGISTA
+225290	MEDICO CANCEROLOGISTA CIRURGICO
+225305	MEDICO CITOPATOLOGISTA
+225310	MEDICO EM ENDOSCOPIA
+225315	MEDICO EM MEDICINA NUCLEAR
+225320	MEDICO EM RADIOLOGIA E DIAGNOSTICO POR IMAGEM
+225325	MEDICO PATOLOGISTA
+225330	MEDICO RADIOTERAPEUTA
+225350	MEDICO NEUROFISIOLOGISTA CLINICO
+231105	PROFESSOR DE NIVEL SUPERIOR NA EDUCACAO INFANTIL (QUATRO A SEIS ANOS)
+231110	PROFESSOR DE NIVEL SUPERIOR NA EDUCACAO INFANTIL (ZERO A TRES ANOS)
+231205	PROFESSOR DA EDUCACAO DE JOVENS E ADULTOS DO ENSINO FUNDAMENTAL (PRIMEIRA A QUARTA SERIE)
+231210	PROFESSOR DE NIVEL SUPERIOR DO ENSINO FUNDAMENTAL (PRIMEIRA A QUARTA SERIE)
+231305	PROFESSOR DE CIENCIAS EXATAS E NATURAIS DO ENSINO FUNDAMENTAL
+231310	PROFESSOR DE EDUCACAO ARTISTICA DO ENSINO FUNDAMENTAL
+231315	PROFESSOR DE EDUCACAO FISICA DO ENSINO FUNDAMENTAL
+231320	PROFESSOR DE GEOGRAFIA DO ENSINO FUNDAMENTAL
+231325	PROFESSOR DE HISTORIA DO ENSINO FUNDAMENTAL
+231330	PROFESSOR DE LINGUA ESTRANGEIRA MODERNA DO ENSINO FUNDAMENTAL
+231335	PROFESSOR DE LINGUA PORTUGUESA DO ENSINO FUNDAMENTAL
+231340	PROFESSOR DE MATEMATICA DO ENSINO FUNDAMENTAL
+232105	PROFESSOR DE ARTES NO ENSINO MEDIO
+232110	PROFESSOR DE BIOLOGIA NO ENSINO MEDIO
+232115	PROFESSOR DE DISCIPLINAS PEDAGOGICAS NO ENSINO MEDIO
+232120	PROFESSOR DE EDUCACAO FISICA NO ENSINO MEDIO
+232125	PROFESSOR DE FILOSOFIA NO ENSINO MEDIO
+232130	PROFESSOR DE FISICA NO ENSINO MEDIO
+232135	PROFESSOR DE GEOGRAFIA NO ENSINO MEDIO
+232140	PROFESSOR DE HISTORIA NO ENSINO MEDIO
+232145	PROFESSOR DE LINGUA E LITERATURA BRASILEIRA NO ENSINO MEDIO
+232150	PROFESSOR DE LINGUA ESTRANGEIRA MODERNA NO ENSINO MEDIO
+232155	PROFESSOR DE MATEMATICA NO ENSINO MEDIO
+232160	PROFESSOR DE PSICOLOGIA NO ENSINO MEDIO
+232165	PROFESSOR DE QUIMICA NO ENSINO MEDIO
+232170	PROFESSOR DE SOCIOLOGIA NO ENSINO MEDIO
+233105	PROFESSOR DA AREA DE MEIO AMBIENTE
+233110	PROFESSOR DE DESENHO TECNICO
+233115	PROFESSOR DE TECNICAS AGRICOLAS
+233120	PROFESSOR DE TECNICAS COMERCIAIS E SECRETARIAIS
+233125	PROFESSOR DE TECNICAS DE ENFERMAGEM
+233130	PROFESSOR DE TECNICAS INDUSTRIAIS
+233135	PROFESSOR DE TECNOLOGIA E CALCULO TECNICO
+233205	INSTRUTOR DE APRENDIZAGEM E TREINAMENTO AGROPECUARIO
+233210	INSTRUTOR DE APRENDIZAGEM E TREINAMENTO INDUSTRIAL
+233215	PROFESSOR DE APRENDIZAGEM E TREINAMENTO COMERCIAL
+233220	PROFESSOR INSTRUTOR DE ENSINO E APRENDIZAGEM AGROFLORESTAL
+233225	PROFESSOR INSTRUTOR DE ENSINO E APRENDIZAGEM EM SERVICOS
+234105	PROFESSOR DE MATEMATICA APLICADA (NO ENSINO SUPERIOR)
+234110	PROFESSOR DE MATEMATICA PURA (NO ENSINO SUPERIOR)
+234115	PROFESSOR DE ESTATISTICA (NO ENSINO SUPERIOR)
+234120	PROFESSOR DE COMPUTACAO (NO ENSINO SUPERIOR)
+234125	PROFESSOR DE PESQUISA OPERACIONAL (NO ENSINO SUPERIOR)
+234205	PROFESSOR DE FISICA (ENSINO SUPERIOR)
+234210	PROFESSOR DE QUIMICA (ENSINO SUPERIOR)
+234215	PROFESSOR DE ASTRONOMIA (ENSINO SUPERIOR)
+234305	PROFESSOR DE ARQUITETURA
+234310	PROFESSOR DE ENGENHARIA
+234315	PROFESSOR DE GEOFISICA
+234320	PROFESSOR DE GEOLOGIA
+234405	PROFESSOR DE CIENCIAS BIOLOGICAS DO ENSINO SUPERIOR
+234410	PROFESSOR DE EDUCACAO FISICA NO ENSINO SUPERIOR
+234415	PROFESSOR DE ENFERMAGEM DO ENSINO SUPERIOR
+234420	PROFESSOR DE FARMACIA E BIOQUIMICA
+234425	PROFESSOR DE FISIOTERAPIA
+234430	PROFESSOR DE FONOAUDIOLOGIA
+234435	PROFESSOR DE MEDICINA
+234440	PROFESSOR DE MEDICINA VETERINARIA
+234445	PROFESSOR DE NUTRICAO
+234450	PROFESSOR DE ODONTOLOGIA
+234455	PROFESSOR DE TERAPIA OCUPACIONAL
+234460	PROFESSOR DE ZOOTECNIA DO ENSINO SUPERIOR
+234505	PROFESSOR DE ENSINO SUPERIOR NA AREA DE DIDATICA
+234510	PROFESSOR DE ENSINO SUPERIOR NA AREA DE ORIENTACAO EDUCACIONAL
+234515	PROFESSOR DE ENSINO SUPERIOR NA AREA DE PESQUISA EDUCACIONAL
+234520	PROFESSOR DE ENSINO SUPERIOR NA AREA DE PRATICA DE ENSINO
+234604	PROFESSOR DE LINGUA ALEMA
+234608	PROFESSOR DE LINGUA ITALIANA
+234612	PROFESSOR DE LINGUA FRANCESA
+234616	PROFESSOR DE LINGUA INGLESA
+234620	PROFESSOR DE LINGUA ESPANHOLA
+234624	PROFESSOR DE LINGUA PORTUGUESA
+234628	PROFESSOR DE LITERATURA BRASILEIRA
+234632	PROFESSOR DE LITERATURA PORTUGUESA
+234636	PROFESSOR DE LITERATURA ALEMA
+234640	PROFESSOR DE LITERATURA COMPARADA
+234644	PROFESSOR DE LITERATURA ESPANHOLA
+234648	PROFESSOR DE LITERATURA FRANCESA
+234652	PROFESSOR DE LITERATURA INGLESA
+234656	PROFESSOR DE LITERATURA ITALIANA
+234660	PROFESSOR DE LITERATURA DE LINGUAS ESTRANGEIRAS MODERNAS
+234664	PROFESSOR DE OUTRAS LINGUAS E LITERATURAS
+234668	PROFESSOR DE LINGUAS ESTRANGEIRAS MODERNAS
+234672	PROFESSOR DE LINGUISTICA E LINGUISTICA APLICADA
+234676	PROFESSOR DE FILOLOGIA E CRITICA TEXTUAL
+234680	PROFESSOR DE SEMIOTICA
+234684	PROFESSOR DE TEORIA DA LITERATURA
+234705	PROFESSOR DE ANTROPOLOGIA DO ENSINO SUPERIOR
+234710	PROFESSOR DE ARQUIVOLOGIA DO ENSINO SUPERIOR
+234715	PROFESSOR DE BIBLIOTECONOMIA DO ENSIO SUPERIOR
+234720	PROFESSOR DE CIENCIA POLITICA DO ENSINO SUPERIOR
+234725	PROFESSOR DE COMUNICACAO SOCIAL DO ENSINO SUPERIOR
+234730	PROFESSOR DE DIREITO DO ENSINO SUPERIOR
+234735	PROFESSOR DE FILOSOFIA DO ENSINO SUPERIOR
+234740	PROFESSOR DE GEOGRAFIA DO ENSINO SUPERIOR
+234745	PROFESSOR DE HISTORIA DO ENSINO SUPERIOR
+234750	PROFESSOR DE JORNALISMO
+234755	PROFESSOR DE MUSEOLOGIA DO ENSINO SUPERIOR
+234760	PROFESSOR DE PSICOLOGIA DO ENSINO SUPERIOR
+234765	PROFESSOR DE SERVICO SOCIAL DO ENSINO SUPERIOR
+234770	PROFESSOR DE SOCIOLOGIA DO ENSINO SUPERIOR
+234805	PROFESSOR DE ECONOMIA
+234810	PROFESSOR DE ADMINISTRACAO
+234815	PROFESSOR DE CONTABILIDADE
+234905	PROFESSOR DE ARTES DO ESPETACULO NO ENSINO SUPERIOR
+234910	PROFESSOR DE ARTES VISUAIS NO ENSINO SUPERIOR (ARTES PLASTICAS E MULTIMIDIA)
+234915	PROFESSOR DE MUSICA NO ENSINO SUPERIOR
+239205	PROFESSOR DE ALUNOS COM DEFICIENCIA AUDITIVA E SURDOS
+239210	PROFESSOR DE ALUNOS COM DEFICIENCIA FISICA
+239215	PROFESSOR DE ALUNOS COM DEFICIENCIA MENTAL
+239220	PROFESSOR DE ALUNOS COM DEFICIENCIA MULTIPLA
+239225	PROFESSOR DE ALUNOS COM DEFICIENCIA VISUAL
+239405	COORDENADOR PEDAGOGICO
+239410	ORIENTADOR EDUCACIONAL
+239415	PEDAGOGO
+239420	PROFESSOR DE TECNICAS E RECURSOS AUDIOVISUAIS
+239425	PSICOPEDAGOGO
+239430	SUPERVISOR DE ENSINO
+241005	ADVOGADO
+241010	ADVOGADO DE EMPRESA
+241015	ADVOGADO (DIREITO CIVIL)
+241020	ADVOGADO (DIREITO PUBLICO)
+241025	ADVOGADO (DIREITO PENAL)
+241030	ADVOGADO (AREAS ESPECIAIS)
+241035	ADVOGADO (DIREITO DO TRABALHO)
+241040	CONSULTOR JURIDICO
+241205	ADVOGADO DA UNIAO
+241210	PROCURADOR AUTARQUICO
+241215	PROCURADOR DA FAZENDA NACIONAL
+241220	PROCURADOR DO ESTADO
+241225	PROCURADOR DO MUNICIPIO
+241230	PROCURADOR FEDERAL
+241235	PROCURADOR FUNDACIONAL
+241305	OFICIAL DE REGISTRO DE CONTRATOS MARITIMOS
+241310	OFICIAL DO REGISTRO CIVIL DE PESSOAS JURIDICAS
+241315	OFICIAL DO REGISTRO CIVIL DE PESSOAS NATURAIS
+241320	OFICIAL DO REGISTRO DE DISTRIBUICOES
+241325	OFICIAL DO REGISTRO DE IMOVEIS
+241330	OFICIAL DO REGISTRO DE TITULOS E DOCUMENTOS
+241335	TABELIAO DE NOTAS
+241340	TABELIAO DE PROTESTOS
+242205	PROCURADOR DA REPUBLICA
+242210	PROCURADOR DE JUSTICA
+242215	PROCURADOR DE JUSTICA MILITAR
+242220	PROCURADOR DO TRABALHO
+242225	PROCURADOR REGIONAL DA REPUBLICA
+242230	PROCURADOR REGIONAL DO TRABALHO
+242235	PROMOTOR DE JUSTICA
+242240	SUBPROCURADOR DE JUSTICA MILITAR
+242245	SUBPROCURADOR-GERAL DA REPUBLICA
+242250	SUBPROCURADOR-GERAL DO TRABALHO
+242305	DELEGADO DE POLICIA
+242405	DEFENSOR PUBLICO
+242410	PROCURADOR DA ASSISTENCIA JUDICIARIA
+251105	ANTROPOLOGO
+251110	ARQUEOLOGO
+251115	CIENTISTA POLITICO
+251120	SOCIOLOGO
+251205	ECONOMISTA
+251210	ECONOMISTA AGROINDUSTRIAL
+251215	ECONOMISTA FINANCEIRO
+251220	ECONOMISTA INDUSTRIAL
+251225	ECONOMISTA DO SETOR PUBLICO
+251230	ECONOMISTA AMBIENTAL
+251235	ECONOMISTA REGIONAL E URBANO
+251305	GEOGRAFO
+251405	FILOSOFO
+251505	PSICOLOGO EDUCACIONAL
+251510	PSICOLOGO CLINICO
+251515	PSICOLOGO DO ESPORTE
+251520	PSICOLOGO HOSPITALAR
+251525	PSICOLOGO JURIDICO
+251530	PSICOLOGO SOCIAL
+251535	PSICOLOGO DO TRANSITO
+251540	PSICOLOGO DO TRABALHO
+251545	NEUROPSICOLOGO
+251550	PSICANALISTA
+251605	ASSISTENTE SOCIAL
+251610	ECONOMISTA DOMESTICO
+252105	ADMINISTRADOR
+252205	AUDITOR (CONTADORES E AFINS)
+252210	CONTADOR
+252215	PERITO CONTABIL
+252305	SECRETARIA EXECUTIVA
+252310	SECRETARIO BILINGUE
+252315	SECRETARIA TRILINGUE
+252405	ANALISTA DE RECURSOS HUMANOS
+252505	ADMINISTRADOR DE FUNDOS E CARTEIRAS DE INVESTIMENTO
+252510	ANALISTA DE CAMBIO
+252515	ANALISTA DE COBRANCA (INSTITUICOES FINANCEIRAS)
+252525	ANALISTA DE CREDITO (INSTITUICOES FINANCEIRAS)
+252530	ANALISTA DE CREDITO RURAL
+252535	ANALISTA DE LEASING
+252540	ANALISTA DE PRODUTOS BANCARIOS
+252545	ANALISTA FINANCEIRO (INSTITUICOES FINANCEIRAS)
+253105	RELACOES PUBLICAS
+253110	REDATOR DE PUBLICIDADE
+253115	AGENTE PUBLICITARIO
+253120	ANALISTA DE NEGOCIOS
+253125	ANALISTA DE PESQUISA DE MERCADO
+253205	GERENTE DE CAPTACAO (FUNDOS E INVESTIMENTOS INSTITUCIONAIS)
+253210	GERENTE DE CLIENTES ESPECIAIS (PRIVATE)
+253215	GERENTE DE CONTAS - PESSOA FISICA E JURIDICA
+253220	GERENTE DE GRANDES CONTAS (CORPORATE)
+253225	OPERADOR DE NEGOCIOS
+253305	CORRETOR DE VALORES, ATIVOS FINANCEIROS, MERCADORIAS E DERIVATIVOS
+254105	AUDITOR-FISCAL DA RECEITA FEDERAL
+254110	TECNICO DA RECEITA FEDERAL
+254205	AUDITOR-FISCAL DA PREVIDENCIA SOCIAL
+254305	AUDITOR-FISCAL DO TRABALHO
+254310	AGENTE DE HIGIENE E SEGURANCA
+254405	FISCAL DE TRIBUTOS ESTADUAL
+254410	FISCAL DE TRIBUTOS MUNICIPAL
+254415	TECNICO DE TRIBUTOS ESTADUAL
+254420	TECNICO DE TRIBUTOS MUNICIPAL
+261105	ARQUIVISTA PESQUISADOR (JORNALISMO)
+261110	ASSESSOR DE IMPRENSA
+261115	DIRETOR DE REDACAO
+261120	EDITOR
+261125	JORNALISTA
+261130	PRODUTOR DE TEXTO
+261135	REPORTER (EXCLUSIVE RADIO E TELEVISAO)
+261140	REVISOR
+261205	BIBLIOTECARIO
+261210	DOCUMENTALISTA
+261215	ANALISTA DE INFORMACOES (PESQUISADOR DE INFORMACOES DE REDE)
+261305	ARQUIVISTA
+261310	MUSEOLOGO
+261405	FILOLOGO
+261410	INTERPRETE
+261415	LINGUISTA
+261420	TRADUTOR
+261505	AUTOR-ROTEIRISTA
+261510	CRITICO
+261515	ESCRITOR DE FICCAO
+261520	ESCRITOR DE NAO FICCAO
+261525	POETA
+261530	REDATOR DE TEXTOS TECNICOS
+261605	EDITOR DE JORNAL
+261610	EDITOR DE LIVRO
+261615	EDITOR DE MIDIA ELETRONICA
+261620	EDITOR DE REVISTA
+261625	EDITOR DE REVISTA CIENTIFICA
+261705	ANCORA DE RADIO E TELEVISAO
+261710	COMENTARISTA DE RADIO E TELEVISAO
+261715	LOCUTOR DE RADIO E TELEVISAO
+261720	LOCUTOR PUBLICITARIO DE RADIO E TELEVISAO
+261725	NARRADOR EM PROGRAMAS DE RADIO E TELEVISAO
+261730	REPORTER DE RADIO E TELEVISAO
+261805	FOTOGRAFO
+261810	FOTOGRAFO PUBLICITARIO
+261815	FOTOGRAFO RETRATISTA
+261820	REPOTER FOTOGRAFICO
+262105	EMPRESARIO DE ESPETACULO
+262110	PRODUTOR CINEMATOGRAFICO
+262115	PRODUTOR DE RADIO
+262120	PRODUTOR DE TEATRO
+262125	PRODUTOR DE TELEVISAO
+262205	DIRETOR DE CINEMA
+262210	DIRETOR DE PROGRAMAS DE RADIO
+262215	DIRETOR DE PROGRAMAS DE TELEVISAO
+262220	DIRETOR TEATRAL
+262305	CENOGRAFO CARNAVALESCO E FESTAS POPULARES
+262310	CENOGRAFO DE CINEMA
+262315	CENOGRAFO DE EVENTOS
+262320	CENOGRAFO DE TEATRO
+262325	CENOGRAFO DE TV
+262330	DIRETOR DE ARTE
+262405	ARTISTA (ARTES VISUAIS)
+262410	DESENHISTA INDUSTRIAL (DESIGNER)
+262505	ATOR
+262605	COMPOSITOR
+262610	MUSICO ARRANJADOR
+262615	MUSICO REGENTE
+262620	MUSICOLOGO
+262705	MUSICO INTERPRETE CANTOR
+262710	MUSICO INTERPRETE INSTRUMENTISTA
+262805	ASSISTENTE DE COREOGRAFIA
+262810	BAILARINO (EXCETO DANCAS POPULARES)
+262815	COREOGRAFO
+262820	DRAMATURGO DE DANCA
+262825	ENSAIADOR DE DANCA
+262830	PROFESSOR DE DANCA
+262905	DECORADOR DE INTERIORES DE NIVEL SUPERIOR
+263105	MINISTRO DE CULTO RELIGIOSO
+263110	MISSIONARIO
+263115	TEOLOGO
+300105	TECNICO EM MECATRONICA - AUTOMACAO DA MANUFATURA
+300110	TECNICO EM MECATRONICA - ROBOTICA
+300305	TECNICO EM ELETROMECANICA
+301105	TECNICO DE LABORATORIO INDUSTRIAL
+301110	TECNICO DE LABORATORIO DE ANALISES FISICO-QUIMICAS (MATERIAIS DE CONSTRUCAO)
+301115	TECNICO QUIMICO DE PETROLEO
+301205	TECNICO DE APOIO A BIOENGENHARIA
+311105	TECNICO QUIMICO
+311110	TECNICO DE CELULOSE E PAPEL
+311115	TECNICO EM CURTIMENTO
+311205	TECNICO EM PETROQUIMICA
+311305	TECNICO EM MATERIAIS, PRODUTOS CERAMICOS E VIDROS
+311405	TECNICO EM BORRACHA
+311410	TECNICO EM PLASTICO
+311505	TECNICO DE CONTROLE DE MEIO AMBIENTE
+311510	TECNICO DE METEOROLOGIA
+311515	TECNICO DE UTILIDADE (PRODUCAO E DISTRIBUICAO DE VAPOR, GASES, OLEOS, COMBUSTIVEIS, ENERGIA)
+311520	TECNICO EM TRATAMENTO DE EFLUENTES
+311605	TECNICO TEXTIL
+311610	TECNICO TEXTIL (TRATAMENTOS QUIMICOS)
+311615	TECNICO TEXTIL DE FIACAO
+311620	TECNICO TEXTIL DE MALHARIA
+311625	TECNICO TEXTIL DE TECELAGEM
+311705	COLORISTA DE PAPEL
+311710	COLORISTA TEXTIL
+311715	PREPARADOR DE TINTAS
+311720	PREPARADOR DE TINTAS (FABRICA DE TECIDOS)
+311725	TINGIDOR DE COUROS E PELES
+312105	TECNICO DE OBRAS CIVIS
+312205	TECNICO DE ESTRADAS
+312210	TECNICO DE SANEAMENTO
+312305	TECNICO EM AGRIMENSURA
+312310	TECNICO EM GEODESIA E CARTOGRAFIA
+312315	TECNICO EM HIDROGRAFIA
+312320	TOPOGRAFO
+313105	ELETROTECNICO
+313110	ELETROTECNICO (PRODUCAO DE ENERGIA)
+313115	ELETROTENICO NA FABRICACAO, MONTAGEM E INSTALACAO DE MAQUINAS E EQUIPAMENTOS
+313120	TECNICO DE MANUTENCAO ELETRICA
+313125	TECNICO DE MANUTENCAO ELETRICA DE MAQUINA
+313130	TECNICO ELETRICISTA
+313205	TECNICO DE MANUTENCAO ELETRONICA
+313210	TECNICO DE MANUTENCAO ELETRONICA (CIRCUITOS DE MAQUINAS COM COMANDO NUMERICO)
+313215	TECNICO ELETRONICO
+313220	TECNICO EM MANUTENCAO DE EQUIPAMENTOS DE INFORMATICA
+313305	TECNICO DE COMUNICACAO DE DADOS
+313310	TECNICO DE REDE (TELECOMUNICACOES)
+313315	TECNICO DE TELECOMUNICACOES (TELEFONIA)
+313320	TECNICO DE TRANSMISSAO (TELECOMUNICACOES)
+313405	TECNICO EM CALIBRACAO
+313410	TECNICO EM INSTRUMENTACAO
+313415	ENCARREGADO DE MANUTENCAO DE INSTRUMENTOS DE CONTROLE, MEDICAO E SIMILARES
+313505	TECNICO EM FOTONICA
+3135D1	TECNICO EM REABILITACAO
+3135D2	TECNICO EM EQUIPAMENTO MEDICO HOSPITALAR
+314105	TECNICO EM MECANICA DE PRECISAO
+314110	TECNICO MECANICO
+314115	TECNICO MECANICO (CALEFACAO, VENTILACAO E REFRIGERACAO)
+314120	TECNICO MECANICO (MAQUINAS)
+314125	TECNICO MECANICO (MOTORES)
+314205	TECNICO MECANICO NA FABRICACAO DE FERRAMENTAS
+314210	TECNICO MECANICO NA MANUTENCAO DE FERRAMENTAS
+314305	TECNICO EM AUTOMOBILISTICA
+314310	TECNICO MECANICO (AERONAVES)
+314315	TECNICO MECANICO (EMBARCACOES)
+314405	TECNICO DE MANUTENCAO DE SISTEMAS E INSTRUMENTOS
+314410	TECNICO EM MANUTENCAO DE MAQUINAS
+314605	INSPETOR DE SOLDAGEM
+314610	TECNICO EM CALDEIRARIA
+314615	TECNICO EM ESTRUTURAS METALICAS
+314620	TECNICO EM SOLDAGEM
+314705	TECNICO DE ACABAMENTO EM SIDERURGIA
+314710	TECNICO DE ACIARIA EM SIDERURGIA
+314715	TECNICO DE FUNDICAO EM SIDERURGIA
+314720	TECNICO DE LAMINACAO EM SIDERURGIA
+314725	TECNICO DE REDUCAO NA SIDERURGIA (PRIMEIRA FUSAO)
+314730	TECNICO DE REFRATARIO EM SIDERURGIA
+316105	TECNICO EM GEOFISICA
+316110	TECNICO EM GEOLOGIA
+316115	TECNICO EM GEOQUIMICA
+316120	TECNICO EM GEOTECNIA
+316305	TECNICO DE MINERACAO
+316310	TECNICO DE MINERACAO (OLEO E PETROLEO)
+316315	TECNICO EM PROCESSAMENTO MINERAL (EXCETO PETROLEO)
+316320	TECNICO EM PESQUISA MINERAL
+316325	TECNICO DE PRODUCAO EM REFINO DE PETROLEO
+316330	TECNICO EM PLANEJAMENTO DE LAVRA DE MINAS
+316335	DESINCRUSTADOR (POCOS DE PETROLEO)
+316340	CIMENTADOR (POCOS DE PETROLEO)
+317105	PROGRAMADOR DE INTERNET
+317110	PROGRAMADOR DE SISTEMAS DE INFORMACAO
+317115	PROGRAMADOR DE MAQUINAS - FERRAMENTA COM COMANDO NUMERICO
+317120	PROGRAMADOR DE MULTIMIDIA
+317205	OPERADOR DE COMPUTADOR (INCLUSIVE MICROCOMPUTADOR)
+317210	TECNICO DE APOIO AO USUARIO DE INFORMATICA (HELPDESK)
+318005	DESENHISTA TECNICO
+318010	DESENHISTA COPISTA
+318015	DESENHISTA DETALHISTA
+318105	DESENHISTA TECNICO (ARQUITETURA)
+318110	DESENHISTA TECNICO (CARTOGRAFIA)
+318115	DESENHISTA TECNICO (CONSTRUCAO CIVIL)
+318120	DESENHISTA TECNICO (INSTALACOES HIDROSSANITARIAS)
+318205	DESENHISTA TECNICO MECANICO
+318210	DESENHISTA TECNICO AERONAUTICO
+318215	DESENHISTA TECNICO NAVAL
+318305	DESENHISTA TECNICO (ELETRICIDADE E ELETRONICA)
+318310	DESENHISTA TECNICO (CALEFACAO, VENTILACAO E REFRIGERACAO)
+318405	DESENHISTA TECNICO (ARTES GRAFICAS)
+318410	DESENHISTA TECNICO (ILUSTRACOES ARTISTICAS)
+318415	DESENHISTA TECNICO (ILUSTRACOES TECNICAS)
+318420	DESENHISTA TECNICO (INDUSTRIA TEXTIL)
+318425	DESENHISTA TECNICO (MOBILIARIO)
+318430	DESENHISTA TECNICO DE EMBALAGENS, MAQUETES E LEIAUTES
+318505	DESENHISTA PROJETISTA DE ARQUITETURA
+318510	DESENHISTA PROJETISTA DE CONSTRUCAO CIVIL
+318605	DESENHISTA PROJETISTA DE MAQUINAS
+318610	DESENHISTA PROJETISTA MECANICO
+318705	DESENHISTA PROJETISTA DE ELETRICIDADE
+318710	DESENHISTA PROJETISTA ELETRONICO
+318805	PROJETISTA DE MOVEIS
+318810	MODELISTA DE ROUPAS
+318815	MODELISTA DE CALCADOS
+319105	TECNICO EM CALCADOS E ARTEFATOS DE COURO
+319110	TECNICO EM CONFECCOES DO VESTUARIO
+319205	TECNICO DO MOBILIARIO
+320105	TECNICO EM BIOTERISMO
+320110	TECNICO EM HISTOLOGIA
+321105	TECNICO AGRICOLA
+321110	TECNICO AGROPECUARIO
+321205	TECNICO EM MADEIRA
+321210	TECNICO FLORESTAL
+321305	TECNICO EM PISCICULTURA
+321310	TECNICO EM CARCINICULTURA
+321315	TECNICO EM MITILICULTURA
+321320	TECNICO EM RANICULTURA
+322105	ACUPUNTURISTA
+322110	PODOLOGO
+322115	QUIROPRAXISTA
+322130	ESTETICISTA
+322205	TECNICO DE ENFERMAGEM
+322210	TECNICO DE ENFERMAGEM DE TERAPIA INTENSIVA
+322215	TECNICO DE ENFERMAGEM DO TRABALHO
+322220	TECNICO DE ENFERMAGEM PSIQUIATRICA
+322225	INSTRUMENTADOR CIRURGICO
+322230	AUXILIAR DE ENFERMAGEM
+322235	AUXILIAR DE ENFERMAGEM DO TRABALHO
+322240	AUXILIAR DE SAUDE (NAVEGACAO MARITIMA)
+3222B3	SOCORRISTA HABILITADO
+3222E1	TECNICO DE ENFERMAGEM DE SAUDE DA FAMILIA
+3222E2	AUXILIAR DE ENFERMAGEM DE SAUDE DA FAMILIA
+322305	TECNICO EM OPTICA E OPTOMETRIA
+322405	TECNICO EM HIGIENE DENTAL
+322410	PROTETICO DENTARIO
+322415	ATENDENTE DE CONSULTORIO DENTARIO
+322420	AUXILIAR DE PROTESE DENTARIA
+322425	TECNICO EM SAUDE BUCAL DA ESTRATEGIA DE SAUDE
+322430	AUXILIAR EM SAUDE BUCAL DA ESTRATEGIA DE SAUDE DA
+3224F1	TECNICO DE HIGIENE DENTAL DE SAUDE DA FAMILIA
+3224F2	AUXILIAR DE CONSULTORIO DENTARIO DE SAUDE DA FAMILIA
+322505	TECNICO DE ORTOPEDIA
+322605	TECNICO DE IMOBILIZACAO ORTOPEDICA
+323105	TECNICO EM PECUARIA
+324105	TECNICO EM METODOS ELETROGRAFICOS EM ENCEFALOGRAFIA
+324110	TECNICO EM METODOS GRAFICOS EM CARDIOLOGIA
+324115	TECNICO EM RADIOLOGIA E IMAGENOLOGIA
+324205	TECNICO EM PATOLOGIA CLINICA
+324210	AUXILIAR TECNICO EM PATOLOGIA CLINICA
+325005	ENOLOGO
+325010	AROMISTA
+325015	PERFUMISTA
+325105	AUXILIAR TECNICO EM LABORATORIO DE FARMACIA
+325110	TECNICO EM LABORATORIO DE FARMACIA
+325115	TECNICO EM FARMACIA
+325205	TECNICO DE ALIMENTOS
+325305	TECNICO EM BIOTECNOLOGIA
+325310	TECNICO EM IMUNOBIOLOGICOS
+328105	EMBALSAMADOR
+328110	TAXIDERMISTA
+331105	PROFESSOR DE NIVEL MEDIO NA EDUCACAO INFANTIL
+331110	AUXILIAR DE DESENVOLVIMENTO INFANTIL
+331205	PROFESSOR DE NIVEL MEDIO NO ENSINO FUNDAMENTAL
+331305	PROFESSOR DE NIVEL MEDIO NO ENSINO PROFISSIONALIZANTE
+332105	PROFESSOR LEIGO NO ENSINO FUNDAMENTAL
+332205	PROFESSOR PRATICO NO ENSINO PROFISSIONALIZANTE
+333105	INSTRUTOR DE AUTO-ESCOLA
+333110	INSTRUTOR DE CURSOS LIVRES
+333115	PROFESSORES DE CURSOS LIVRES
+334105	INSPETOR DE ALUNOS DE ESCOLA PRIVADA
+334110	INSPETOR DE ALUNOS DE ESCOLA PUBLICA
+341105	PILOTO COMERCIAL (EXCETO LINHAS AEREAS)
+341110	PILOTO COMERCIAL DE HELICOPTERO (EXCETO LINHAS AEREAS)
+341115	MECANICO DE VOO
+341120	PILOTO AGRICOLA
+341205	CONTRAMESTRE DE CABOTAGEM
+341210	MESTRE DE CABOTAGEM
+341215	MESTRE FLUVIAL
+341220	PATRAO DE PESCA DE ALTO-MAR
+341225	PATRAO DE PESCA NA NAVEGACAO INTERIOR
+341230	PILOTO FLUVIAL
+341305	CONDUTOR MAQUINISTA FLUVIAL
+341310	CONDUTOR MAQUINISTA MARITIMO
+341315	ELETRICISTA DE BORDO
+342105	ANALISTA DE TRANSPORTE EM COMERCIO EXTERIOR
+342110	OPERADOR DE TRANSPORTE MULTIMODAL
+342115	CONTROLADOR DE SERVICOS DE MAQUINAS E VEICULOS
+342120	AFRETADOR
+342205	AJUDANTE DE DESPACHANTE ADUANEIRO
+342210	DESPACHANTE ADUANEIRO
+342305	CHEFE DE SERVICO DE TRANSPORTE RODOVIARIO (PASSAGEIROS E CARGAS)
+342310	INSPETOR DE SERVICOS DE TRANSPORTES RODOVIARIOS (PASSAGEIROS E CARGAS)
+342315	SUPERVISOR DE CARGA E DESCARGA
+342405	AGENTE DE ESTACAO (FERROVIA E METRO)
+342410	OPERADOR DE CENTRO DE CONTROLE (FERROVIA E METRO)
+342505	CONTROLADOR DE TRAFEGO AEREO
+342510	DESPACHANTE OPERACIONAL DE VOO
+342515	FISCAL DE AVIACAO CIVIL (FAC)
+342520	GERENTE DA ADMINISTRACAO DE AEROPORTOS
+342525	GERENTE DE EMPRESA AEREA EM AEROPORTOS
+342530	INSPETOR DE AVIACAO CIVIL
+342535	OPERADOR DE ATENDIMENTO AEROVIARIO
+342540	SUPERVISOR DA ADMINISTRACAO DE AEROPORTOS
+342545	SUPERVISOR DE EMPRESA AEREA EM AEROPORTOS
+342605	CHEFE DE ESTACAO PORTUARIA
+342610	SUPERVISOR DE OPERACOES PORTUARIAS
+351105	TECNICO DE CONTABILIDADE
+351110	CHEFE DE CONTABILIDADE (TECNICO)
+351115	CONSULTOR CONTABIL (TECNICO)
+351305	TECNICO EM ADMINISTRACAO
+351310	TECNICO EM ADMINISTRACAO DE COMERCIO EXTERIOR
+351315	AGENTE DE RECRUTAMENTO E SELECAO
+351405	ESCREVENTE
+351410	ESCRIVAO JUDICIAL
+351415	ESCRIVAO EXTRA - JUDICIAL
+351420	ESCRIVAO DE POLICIA
+351425	OFICIAL DE JUSTICA
+351430	AUXILIAR DE SERVICOS JURIDICOS
+351505	TECNICO EM SECRETARIADO
+351510	TAQUIGRAFO
+351515	ESTENOTIPISTA
+351605	TECNICO EM SEGURANCA NO TRABALHO
+351705	ANALISTA DE SEGUROS (TECNICO)
+351710	ANALISTA DE SINISTROS
+351715	ASSISTENTE COMERCIAL DE SEGUROS
+351720	ASSISTENTE TECNICO DE SEGUROS
+351725	INSPETOR DE RISCO
+351730	INSPETOR DE SINISTROS
+351735	TECNICO DE RESSEGUROS
+351740	TECNICO DE SEGUROS
+351805	DETETIVE PROFISSIONAL
+351810	INVESTIGADOR DE POLICIA
+351815	PAPILOSCOPISTA POLICIAL
+352205	AGENTE DE DEFESA AMBIENTAL
+352210	AGENTE DE SAUDE PUBLICA
+3522G1	AGENTE INDIGENA DE SAUDE
+3522G2	AGENTE INDIGENA DE SANEAMENTO
+352305	METROLOGISTA
+352310	AGENTE FISCAL DE QUALIDADE
+352315	AGENTE FISCAL METROLOGICO
+352320	AGENTE FISCAL TEXTIL
+352405	AGENTE DE DIREITOS AUTORAIS
+352410	AVALIADOR DE PRODUTOS DO MEIO DE COMUNICACAO
+352415	OUVIDOR (OMBUDSMAN) DO MEIO DE COMUNICACAO
+352420	TECNICO EM DIREITOS AUTORAIS
+353205	TECNICO DE OPERACOES E SERVICOS BANCARIOS - CAMBIO
+353210	TECNICO DE OPERACOES E SERVICOS BANCARIOS - CREDITO IMOBILIARIO
+353215	TECNICO DE OPERACOES E SERVICOS BANCARIOS - CREDITO RURAL
+353220	TECNICO DE OPERACOES E SERVICOS BANCARIOS - LEASING
+353225	TECNICO DE OPERACOES E SERVICOS BANCARIOS - RENDA FIXA E VARIAVEL
+353230	TESOUREIRO DE BANCO
+353235	CHEFE DE SERVICOS BANCARIOS
+354110	AGENCIADOR DE PROPAGANDA
+354120	AGENTE DE VENDAS DE SERVICOS
+354125	ASSISTENTE DE VENDAS
+354130	PROMOTOR DE VENDAS ESPECIALIZADO
+354135	TECNICO DE VENDAS
+354140	TECNICO EM ATENDIMENTO E VENDAS
+354145	VENDEDOR PRACISTA
+354205	COMPRADOR
+354210	SUPERVISOR DE COMPRAS
+354305	ANALISTA DE EXPORTACAO E IMPORTACAO
+354405	LEILOEIRO
+354410	AVALIADOR DE IMOVEIS
+354415	AVALIADOR DE BENS MOVEIS
+354505	CORRETOR DE SEGUROS
+354605	CORRETOR DE IMOVEIS
+354705	REPRESENTANTE COMERCIAL AUTONOMO
+354805	TECNICO EM TURISMO
+354810	OPERADOR DE TURISMO
+354815	AGENTE DE VIAGEM
+354820	ORGANIZADOR DE EVENTO
+371105	AUXILIAR DE BIBLIOTECA
+371110	TECNICO EM BIBLIOTECONOMIA
+371205	COLECIONADOR DE SELOS E MOEDAS
+371210	TECNICO EM MUSEOLOGIA
+371305	TECNICO EM PROGRAMACAO VISUAL
+371310	TECNICO GRAFICO
+371405	RECREADOR DE ACANTONAMENTO
+371410	RECREADOR
+372105	DIRETOR DE FOTOGRAFIA
+372110	ILUMINADOR (TELEVISAO)
+372115	OPERADOR DE CAMERA DE TELEVISAO
+372205	OPERADOR DE REDE DE TELEPROCESSAMENTO
+372210	RADIOTELEGRAFISTA
+373105	OPERADOR DE AUDIO DE CONTINUIDADE (RADIO)
+373110	OPERADOR DE CENTRAL DE RADIO
+373115	OPERADOR DE EXTERNA (RADIO)
+373120	OPERADOR DE GRAVACAO DE RADIO
+373125	OPERADOR DE TRANSMISSOR DE RADIO
+373205	TECNICO EM OPERACAO DE EQUIPAMENTOS DE PRODUCAO PARA TELEVISAO E PRODUTORAS DE VIDEO
+373210	TECNICO EM OPERACAO DE EQUIPAMENTO DE EXIBICAO DE TELEVISAO
+373215	TECNICO EM OPERACAO DE EQUIPAMENTOS DE TRANSMISSAO/RECEPCAO DE TELEVISAO
+373220	SUPERVISOR TECNICO OPERACIONAL DE SISTEMAS DE TELEVISAO E PRODUTORAS DE VIDEO
+374105	TECNICO EM GRAVACAO DE AUDIO
+374110	TECNICO EM INSTALACAO DE EQUIPAMENTOS DE AUDIO
+374115	TECNICO EM MASTERIZACAO DE AUDIO
+374120	PROJETISTA DE SOM
+374125	TECNICO EM SONORIZACAO
+374130	TECNICO EM MIXAGEM DE AUDIO
+374135	PROJETISTA DE SISTEMAS DE AUDIO
+374140	MICROFONISTA
+374205	CENOTECNICO (CINEMA, VIDEO, TELEVISAO, TEATRO E ESPETACULOS)
+374210	MAQUINISTA DE CINEMA E VIDEO
+374215	MAQUINISTA DE TEATRO E ESPETACULOS
+374305	OPERADOR DE PROJETOR CINEMATOGRAFICO
+374310	OPERADOR-MANTENEDOR DE PROJETOR CINEMATOGRAFICO
+374405	EDITOR DE TV E VIDEO
+374410	FINALIZADOR DE FILMES
+374415	FINALIZADOR DE VIDEO
+374420	MONTADOR DE FILMES
+375105	DESIGNER DE INTERIORES
+375110	DESIGNER DE VITRINES
+375115	VISUAL MERCHANDISER
+376105	DANCARINO TRADICIONAL
+376110	DANCARINO POPULAR
+376205	ACROBATA
+376210	ARTISTA AEREO
+376215	ARTISTA DE CIRCO (OUTROS)
+376220	CONTORCIONISTA
+376225	DOMADOR DE ANIMAIS (CIRCENSE)
+376230	EQUILIBRISTA
+376235	MAGICO
+376240	MALABARISTA
+376245	PALHACO
+376250	TITERITEIRO
+376255	TRAPEZISTA
+376305	APRESENTADOR DE EVENTOS
+376310	APRESENTADOR DE FESTAS POPULARES
+376315	APRESENTADOR DE PROGRAMAS DE RADIO
+376320	APRESENTADOR DE PROGRAMAS DE TELEVISAO
+376325	APRESENTADOR DE CIRCO
+376405	MODELO ARTISTICO
+376410	MODELO DE MODAS
+376415	MODELO PUBLICITARIO
+377105	ATLETA PROFISSIONAL (OUTRAS MODALIDADES)
+377110	ATLETA PROFISSIONAL DE FUTEBOL
+377115	ATLETA PROFISSIONAL DE GOLFE
+377120	ATLETA PROFISSIONAL DE LUTA
+377125	ATLETA PROFISSIONAL DE TENIS
+377130	JOQUEI
+377135	PILOTO DE COMPETICAO AUTOMOBILISTICA
+377140	PROFISSIONAL DE ATLETISMO
+377145	PUGILISTA
+377205	ARBITRO DESPORTIVO
+377210	ARBITRO DE ATLETISMO
+377215	ARBITRO DE BASQUETE
+377220	ARBITRO DE FUTEBOL
+377225	ARBITRO DE FUTEBOL DE SALAO
+377230	ARBITRO DE JUDO
+377235	ARBITRO DE KARATE
+377240	ARBITRO DE POLO AQUATICO
+377245	ARBITRO DE VOLEI
+391105	CRONOANALISTA
+391110	CRONOMETRISTA
+391115	CONTROLADOR DE ENTRADA E SAIDA
+391120	PLANEJISTA
+391125	TECNICO DE PLANEJAMENTO DE PRODUCAO
+391130	TECNICO DE PLANEJAMENTO E PROGRAMACAO DA MANUTENCAO
+391135	TECNICO DE MATERIA-PRIMA E MATERIAL
+391205	INSPETOR DE QUALIDADE
+391210	TECNICO DE GARANTIA DA QUALIDADE
+391215	OPERADOR DE INSPECAO DE QUALIDADE
+391220	TECNICO DE PAINEL DE CONTROLE
+391225	ESCOLHEDOR DE PAPEL
+391230	TECNICO OPERACIONAL DE SERVICOS DE CORREIOS
+395105	TECNICO DE APOIO EM PESQUISA E DESENVOLVIMENTO (EXCETO AGROPECUARIO E FLORESTAL)
+395110	TECNICO DE APOIO EM PESQUISA E DESENVOLVIMENTO AGROPECUARIO FLORESTAL
+410105	SUPERVISOR ADMINISTRATIVO
+410205	SUPERVISOR DE ALMOXARIFADO
+410210	SUPERVISOR DE CAMBIO
+410215	SUPERVISOR DE CONTAS A PAGAR
+410220	SUPERVISOR DE CONTROLE PATRIMONIAL
+410225	SUPERVISOR DE CREDITO E COBRANCA
+410230	SUPERVISOR DE ORCAMENTO
+410235	SUPERVISOR DE TESOURARIA
+411005	AUXILIAR DE ESCRITORIO, EM GERAL
+411010	ASSISTENTE ADMINISTRATIVO
+411015	ATENDENTE DE JUDICIARIO
+411020	AUXILIAR DE JUDICIARIO
+411025	AUXILIAR DE CARTORIO
+411030	AUXILIAR DE PESSOAL
+411035	AUXILIAR DE ESTATISTICA
+411040	AUXILIAR DE SEGUROS
+411045	AUXILIAR DE SERVICOS DE IMPORTACAO E EXPORTACAO
+412105	DATILOGRAFO
+412110	DIGITADOR
+412115	OPERADOR DE MENSAGENS DE TELECOMUNICACOES (CORREIOS)
+412120	SUPERVISOR DE DIGITACAO E OPERACAO
+412205	CONTINUO
+413105	ANALISTA DE FOLHA DE PAGAMENTO
+413110	AUXILIAR DE CONTABILIDADE
+413115	AUXILIAR DE FATURAMENTO
+413205	ATENDENTE DE AGENCIA
+413210	CAIXA DE BANCO
+413215	COMPENSADOR DE BANCO
+413220	CONFERENTE DE SERVICOS BANCARIOS
+413225	ESCRITURARIO DE BANCO
+413230	OPERADOR DE COBRANCA BANCARIA
+414105	ALMOXARIFE
+414110	ARMAZENISTA
+414115	BALANCEIRO
+414205	APONTADOR DE MAO-DE-OBRA
+414210	APONTADOR DE PRODUCAO
+414215	CONFERENTE DE CARGA E DESCARGA
+415105	ARQUIVISTA DE DOCUMENTOS
+415115	CODIFICADOR DE DADOS
+415120	FITOTECARIO
+415125	KARDEXISTA
+415130	OPERADOR DE MAQUINA COPIADORA (EXCETO OPERADOR DE GRAFICA RAPIDA)
+415205	CARTEIRO
+415210	OPERADOR DE TRIAGEM E TRANSBORDO
+420105	SUPERVISOR DE CAIXAS E BILHETEIROS (EXCETO CAIXA DE BANCO)
+420110	SUPERVISOR DE COBRANCA
+420115	SUPERVISOR DE COLETADORES DE APOSTAS E DE JOGOS
+420120	SUPERVISOR DE ENTREVISTADORES E RECENSEADORES
+420125	SUPERVISOR DE RECEPCIONISTAS
+420130	SUPERVISOR DE TELEFONISTAS
+420135	SUPERVISOR DE TELEMARKETING E ATENDIMENTO
+421105	ATENDENTE COMERCIAL (AGENCIA POSTAL)
+421110	BILHETEIRO DE TRANSPORTES COLETIVOS
+421115	BILHETEIRO NO SERVICO DE DIVERSOES
+421120	EMISSOR DE PASSAGENS
+421125	OPERADOR DE CAIXA
+421205	RECEBEDOR DE APOSTAS (LOTERIA)
+421210	RECEBEDOR DE APOSTAS (TURFE)
+421305	COBRADOR EXTERNO
+421310	COBRADOR INTERNO
+421315	LOCALIZADOR (COBRADOR)
+422105	RECEPCIONISTA, EM GERAL
+422110	RECEPCIONISTA DE CONSULTORIO MEDICO OU DENTARIO
+422115	RECEPCIONISTA DE SEGURO SAUDE
+422120	RECEPCIONISTA DE HOTEL
+422125	RECEPCIONISTA DE BANCO
+422205	TELEFONISTA
+422210	TELEOPERADOR
+422215	MONITOR DE TELEATENDIMENTO
+422220	OPERADOR DE RADIO-CHAMADA
+422305	OPERADOR DE TELEMARKETING ATIVO
+422310	OPERADOR DE TELEMARKETING ATIVO E RECEPTIVO
+422315	OPERADOR DE TELEMARKETING RECEPTIVO
+422320	OPERADOR DE TELEMARKETING TECNICO
+423105	DESPACHANTE DOCUMENTALISTA
+424105	ENTREVISTADOR CENSITARIO E DE PESQUISAS AMOSTRAIS
+424110	ENTREVISTADOR DE PESQUISA DE OPINIAO E MIDIA
+424115	ENTREVISTADOR DE PESQUISAS DE MERCADO
+424120	ENTREVISTADOR DE PRECOS
+424125	ESCRITURARIO EM ESTATISTICA
+510105	SUPERVISOR DE TRANSPORTES
+510110	ADMINISTRADOR DE EDIFICIOS
+510115	SUPERVISOR DE ANDAR
+510120	CHEFE DE PORTARIA DE HOTEL
+510125	CHEFE DE COZINHA
+510130	CHEFE DE BAR
+510135	MAÎTRE
+510205	SUPERVISOR DE LAVANDERIA
+510305	SUPERVISOR DE BOMBEIROS
+510310	SUPERVISOR DE VIGILANTES
+511105	COMISSARIO DE VOO
+511110	COMISSARIO DE TREM
+511115	TAIFEIRO (EXCETO MILITARES)
+511205	FISCAL DE TRANSPORTES COLETIVOS (EXCETO TREM)
+511210	DESPACHANTE DE TRANSPORTES COLETIVOS (EXCETO TREM)
+511215	COBRADOR DE TRANSPORTES COLETIVOS (EXCETO TREM)
+511220	BILHETEIRO (ESTACOES DE METRO, FERROVIARIAS E ASSEMELHADAS)
+511405	GUIA DE TURISMO
+512105	EMPREGADO DOMESTICO NOS SERVICOS GERAIS
+512110	EMPREGADO DOMESTICO ARRUMADOR
+512115	EMPREGADO DOMESTICO FAXINEIRO
+512120	EMPREGADO DOMESTICO DIARISTA
+513105	MORDOMO DE RESIDENCIA
+513110	MORDOMO DE HOTELARIA
+513115	GOVERNANTA DE HOTELARIA
+513205	COZINHEIRO GERAL
+513210	COZINHEIRO DO SERVICO DOMESTICO
+513215	COZINHEIRO INDUSTRIAL
+513220	COZINHEIRO DE HOSPITAL
+513225	COZINHEIRO DE EMBARCACOES
+513305	CAMAREIRA DE TEATRO
+513310	CAMAREIRA DE TELEVISAO
+513315	CAMAREIRO DE HOTEL
+513320	CAMAREIRO DE EMBARCACOES
+513325	GUARDA-ROUPEIRA DE CINEMA
+513405	GARCOM
+513410	GARCOM (SERVICOS DE VINHOS)
+513415	CUMIM
+513420	BARMAN
+513425	COPEIRO
+513430	COPEIRO DE HOSPITAL
+513435	ATENDENTE DE LANCHONETE
+514105	ASCENSORISTA
+514110	GARAGISTA
+514115	SACRISTAO
+514120	ZELADOR DE EDIFICIO
+514205	COLETOR DE LIXO
+514210	FAXINEIRO
+514215	GARI
+514220	LIMPADOR DE VIDROS
+514225	TRABALHADOR DE SERVICOS DE MANUTENCAO DE EDIFICIOS E LOGRADOUROS
+515105	AGENTE COMUNITARIO DE SAUDE
+515110	ATENDENTE DE ENFERMAGEM
+515115	PARTEIRA LEIGA
+515120	VISITADOR SANITARIO
+515125	AGENTE INDIGENA DE SAUDE
+515130	AGENTE INDIGENA DE SANEAMENTO
+515135	SOCORRISTA (EXCETO MEDICOS E ENFERMEIROS)
+5151H1	CUIDADOR EM SAUDE
+515205	AUXILIAR DE BANCO DE SANGUE
+515210	AUXILIAR DE FARMACIA DE MANIPULACAO
+515215	AUXILIAR DE LABORATORIO DE ANALISES CLINICAS
+515220	AUXILIAR DE LABORATORIO DE IMUNOBIOLOGICOS
+515225	AUXILIAR DE PRODUCAO FARMACEUTICA
+5152A1	MICROSCOPISTA
+516105	BARBEIRO
+516110	CABELEIREIRO
+516115	ESTETICISTA
+516120	MANICURE
+516125	MAQUIADOR
+516130	MAQUIADOR DE CARACTERIZACAO
+516135	MASSAGISTA
+516140	PEDICURE
+516205	BABA
+516210	CUIDADOR DE IDOSOS
+516215	MAE SOCIAL
+516220	CUIDADOR EM SAUDE
+516305	LAVADEIRO, EM GERAL
+516310	LAVADOR DE ROUPAS A MAQUINA
+516315	LAVADOR DE ARTEFATOS DE TAPECARIA
+516320	LIMPADOR A SECO, A MAQUINA
+516325	PASSADOR DE ROUPAS EM GERAL
+516330	TINGIDOR DE ROUPAS
+516335	CONFERENTE-EXPEDIDOR DE ROUPAS (LAVANDERIAS)
+516340	ATENDENTE DE LAVANDERIA
+516345	AUXILIAR DE LAVANDERIA
+516405	LAVADOR DE ROUPAS
+516410	LIMPADOR DE ROUPAS A SECO, A MAO
+516415	PASSADOR DE ROUPAS, A MAO
+516505	AGENTE FUNERARIO
+516605	OPERADOR DE FORNO (SERVICOS FUNERARIOS)
+516610	SEPULTADOR
+516705	ASTROLOGO
+516710	NUMEROLOGO
+516805	ESOTERICO
+516810	PARANORMAL
+517105	BOMBEIRO DE AERODROMO
+517110	BOMBEIRO DE SEGURANCA DO TRABALHO
+517115	SALVA-VIDAS
+517205	AGENTE DE POLICIA FEDERAL
+517210	POLICIAL RODOVIARIO FEDERAL
+517215	GUARDA-CIVIL MUNICIPAL
+517220	AGENTE DE TRANSITO
+517305	AGENTE DE PROTECAO DE AEROPORTO
+517310	AGENTE DE SEGURANCA
+517315	AGENTE DE SEGURANCA PENITENCIARIA
+517320	VIGIA FLORESTAL
+517325	VIGIA PORTUARIO
+517330	VIGILANTE
+517405	PORTEIRO (HOTEL)
+517410	PORTEIRO DE EDIFICIOS
+517415	PORTEIRO DE LOCAIS DE DIVERSAO
+517420	VIGIA
+519105	CICLISTA MENSAGEIRO
+519110	MOTOCICLISTA NO TRANSPORTE DE DOCUMENTOS E PEQUENOS VOLUMES
+519205	CATADOR DE MATERIAL RECICLAVEL
+519305	ENFERMEIRO VETERINARIO
+519310	ESTETICISTA DE ANIMAIS DOMESTICOS
+519315	BANHISTA DE ANIMAIS DOMESTICOS
+519320	TOSADOR DE ANIMAIS DOMESTICOS
+519805	PROFISSIONAL DO SEXO
+519905	CARTAZEIRO
+519910	CONTROLADOR DE PRAGAS
+519915	ENGRAXATE
+519920	GANDULA
+519925	GUARDADOR DE VEICULOS
+519930	LAVADOR DE GARRAFAS, VIDROS E OUTROS UTENSILIOS
+519935	LAVADOR DE VEICULOS
+519940	LEITURISTA
+519945	RECEPCIONISTA DE CASAS DE ESPETACULOS
+520105	SUPERVISOR DE VENDAS DE SERVICOS
+520110	SUPERVISOR DE VENDAS COMERCIAL
+521105	VENDEDOR EM COMERCIO ATACADISTA
+521110	VENDEDOR DE COMERCIO VAREJISTA
+521115	PROMOTOR DE VENDAS
+521120	DEMONSTRADOR DE MERCADORIAS
+521125	REPOSITOR DE MERCADORIAS
+521130	ATENDENTE DE FARMACIA - BALCONISTA
+521135	FRENTISTA
+523105	INSTALADOR DE CORTINAS E PERSIANAS, PORTAS SANFONADAS E BOXE
+523110	INSTALADOR DE SOM E ACESSORIOS DE VEICULOS
+523115	CHAVEIRO
+524105	VENDEDOR EM DOMICILIO
+524205	FEIRANTE
+524210	JORNALEIRO (EM BANCA DE JORNAL)
+524215	VENDEDOR PERMISSIONARIO
+524305	VENDEDOR AMBULANTE
+524310	PIPOQUEIRO AMBULANTE
+611005	PRODUTOR AGROPECUARIO, EM GERAL
+612005	PRODUTOR AGRICOLA POLIVALENTE
+612105	PRODUTOR DE ARROZ
+612110	PRODUTOR DE CANA-DE-ACUCAR
+612115	PRODUTOR DE CEREAIS DE INVERNO
+612120	PRODUTOR DE GRAMINEAS FORRAGEIRAS
+612125	PRODUTOR DE MILHO E SORGO
+612205	PRODUTOR DE ALGODAO
+612210	PRODUTOR DE CURAUA
+612215	PRODUTOR DE JUTA
+612220	PRODUTOR DE RAMI
+612225	PRODUTOR DE SISAL
+612305	PRODUTOR NA OLERICULTURA DE LEGUMES
+612310	PRODUTOR NA OLERICULTURA DE RAIZES, BULBOS E TUBERCULOS
+612315	PRODUTOR NA OLERICULTURA DE TALOS, FOLHAS E FLORES
+612320	PRODUTOR NA OLERICULTURA DE FRUTOS E SEMENTES
+612405	PRODUTOR DE FLORES DE CORTE
+612410	PRODUTOR DE FLORES EM VASO
+612415	PRODUTOR DE FORRACOES
+612420	PRODUTOR DE PLANTAS ORNAMENTAIS
+612505	PRODUTOR DE ARVORES FRUTIFERAS
+612510	PRODUTOR DE ESPECIES FRUTIFERAS RASTEIRAS
+612515	PRODUTOR DE ESPECIES FRUTIFERAS TREPADEIRAS
+612605	CAFEICULTOR
+612610	PRODUTOR DE CACAU
+612615	PRODUTOR DE ERVA-MATE
+612620	PRODUTOR DE FUMO
+612625	PRODUTOR DE GUARANA
+612705	PRODUTOR DA CULTURA DE AMENDOIM
+612710	PRODUTOR DA CULTURA DE CANOLA
+612715	PRODUTOR DA CULTURA DE COCO-DA-BAIA
+612720	PRODUTOR DA CULTURA DE DENDE
+612725	PRODUTOR DA CULTURA DE GIRASSOL
+612730	PRODUTOR DA CULTURA DE LINHO
+612735	PRODUTOR DA CULTURA DE MAMONA
+612740	PRODUTOR DA CULTURA DE SOJA
+612805	PRODUTOR DE ESPECIARIAS
+612810	PRODUTOR DE PLANTAS AROMATICAS E MEDICINAIS
+613005	CRIADOR EM PECUARIA POLIVALENTE
+613010	CRIADOR DE ANIMAIS DOMESTICOS
+613105	CRIADOR DE ASININOS E MUARES
+613110	CRIADOR DE BOVINOS (CORTE)
+613115	CRIADOR DE BOVINOS (LEITE)
+613120	CRIADOR DE BUBALINOS (CORTE)
+613125	CRIADOR DE BUBALINOS (LEITE)
+613130	CRIADOR DE EQUINOS
+613205	CRIADOR DE CAPRINOS
+613210	CRIADOR DE OVINOS
+613215	CRIADOR DE SUINOS
+613305	AVICULTOR
+613310	CUNICULTOR
+613405	APICULTOR
+613410	CRIADOR DE ANIMAIS PRODUTORES DE VENENO
+613415	MINHOCULTOR
+613420	SERICULTOR
+620105	SUPERVISOR DE EXPLORACAO AGRICOLA
+620110	SUPERVISOR DE EXPLORACAO AGROPECUARIA
+620115	SUPERVISOR DE EXPLORACAO PECUARIA
+621005	TRABALHADOR AGROPECUARIO EM GERAL
+622005	CASEIRO (AGRICULTURA)
+622010	JARDINEIRO
+622015	TRABALHADOR NA PRODUCAO DE MUDAS E SEMENTES
+622020	TRABALHADOR VOLANTE DA AGRICULTURA
+622105	TRABALHADOR DA CULTURA DE ARROZ
+622110	TRABALHADOR DA CULTURA DE CANA-DE-ACUCAR
+622115	TRABALHADOR DA CULTURA DE MILHO E SORGO
+622120	TRABALHADOR DA CULTURA DE TRIGO, AVEIA, CEVADA E TRITICALE
+622205	TRABALHADOR DA CULTURA DE ALGODAO
+622210	TRABALHADOR DA CULTURA DE SISAL
+622215	TRABALHADOR DA CULTURA DO RAMI
+622305	TRABALHADOR NA OLERICULTURA (FRUTOS E SEMENTES)
+622310	TRABALHADOR NA OLERICULTURA (LEGUMES)
+622315	TRABALHADOR NA OLERICULTURA (RAIZES, BULBOS E TUBERCULOS)
+622320	TRABALHADOR NA OLERICULTURA (TALOS, FOLHAS E FLORES)
+622405	TRABALHADOR NO CULTIVO DE FLORES E FOLHAGENS DE CORTE
+622410	TRABALHADOR NO CULTIVO DE FLORES EM VASO
+622415	TRABALHADOR NO CULTIVO DE FORRACOES
+622420	TRABALHADOR NO CULTIVO DE MUDAS
+622425	TRABALHADOR NO CULTIVO DE PLANTAS ORNAMENTAIS
+622505	TRABALHADOR NO CULTIVO DE ARVORES FRUTIFERAS
+622510	TRABALHADOR NO CULTIVO DE ESPECIES FRUTIFERAS RASTEIRAS
+622515	TRABALHADOR NO CULTIVO DE TREPADEIRAS FRUTIFERAS
+622605	TRABALHADOR DA CULTURA DE CACAU
+622610	TRABALHADOR DA CULTURA DE CAFE
+622615	TRABALHADOR DA CULTURA DE ERVA-MATE
+622620	TRABALHADOR DA CULTURA DE FUMO
+622625	TRABALHADOR DA CULTURA DE GUARANA
+622705	TRABALHADOR NA CULTURA DE AMENDOIM
+622710	TRABALHADOR NA CULTURA DE CANOLA
+622715	TRABALHADOR NA CULTURA DE COCO-DA-BAIA
+622720	TRABALHADOR NA CULTURA DE DENDE
+622725	TRABALHADOR NA CULTURA DE MAMONA
+622730	TRABALHADOR NA CULTURA DE SOJA
+622735	TRABALHADOR NA CULTURA DO GIRASSOL
+622740	TRABALHADOR NA CULTURA DO LINHO
+622805	TRABALHADOR DA CULTURA DE ESPECIARIAS
+622810	TRABALHADOR DA CULTURA DE PLANTAS AROMATICAS E MEDICINAIS
+623005	ADESTRADOR DE ANIMAIS
+623010	INSEMINADOR
+623015	TRABALHADOR DE PECUARIA POLIVALENTE
+623020	TRATADOR DE ANIMAIS
+623105	TRABALHADOR DA PECUARIA (ASININOS E MUARES)
+623110	TRABALHADOR DA PECUARIA (BOVINOS CORTE)
+623115	TRABALHADOR DA PECUARIA (BOVINOS LEITE)
+623120	TRABALHADOR DA PECUARIA (BUBALINOS)
+623125	TRABALHADOR DA PECUARIA (EQUINOS)
+623205	TRABALHADOR DA CAPRINOCULTURA
+623210	TRABALHADOR DA OVINOCULTURA
+623215	TRABALHADOR DA SUINOCULTURA
+623305	TRABALHADOR DA AVICULTURA DE CORTE
+623310	TRABALHADOR DA AVICULTURA DE POSTURA
+623315	OPERADOR DE INCUBADORA
+623320	TRABALHADOR DA CUNICULTURA
+623325	SEXADOR
+623405	TRABALHADOR EM CRIATORIOS DE ANIMAIS PRODUTORES DE VENENO
+623410	TRABALHADOR NA APICULTURA
+623415	TRABALHADOR NA MINHOCULTURA
+623420	TRABALHADOR NA SERICICULTURA
+630105	SUPERVISOR DA AQUICULTURA
+630110	SUPERVISOR DA AREA FLORESTAL
+631005	CATADOR DE CARANGUEJOS E SIRIS
+631010	CATADOR DE MARISCOS
+631015	PESCADOR ARTESANAL DE LAGOSTAS
+631020	PESCADOR ARTESANAL DE PEIXES E CAMAROES
+631105	PESCADOR ARTESANAL DE AGUA DOCE
+631205	PESCADOR INDUSTRIAL
+631210	PESCADOR PROFISSIONAL
+631305	CRIADOR DE CAMAROES
+631310	CRIADOR DE JACARES
+631315	CRIADOR DE MEXILHOES
+631320	CRIADOR DE OSTRAS
+631325	CRIADOR DE PEIXES
+631330	CRIADOR DE QUELONIOS
+631335	CRIADOR DE RAS
+631405	GELADOR INDUSTRIAL
+631410	GELADOR PROFISSIONAL
+631415	PROEIRO
+631420	REDEIRO (PESCA)
+632005	GUIA FLORESTAL
+632010	RAIZEIRO
+632015	VIVEIRISTA FLORESTAL
+632105	CLASSIFICADOR DE TORAS
+632110	CUBADOR DE MADEIRA
+632115	IDENTIFICADOR FLORESTAL
+632120	OPERADOR DE MOTOSSERRA
+632125	TRABALHADOR DE EXTRACAO FLORESTAL, EM GERAL
+632205	SERINGUEIRO
+632210	TRABALHADOR DA EXPLORACAO DE ESPECIES PRODUTORAS DE GOMAS NAO ELASTICAS
+632215	TRABALHADOR DA EXPLORACAO DE RESINAS
+632305	TRABALHADOR DA EXPLORACAO DE ANDIROBA
+763310	BORDADOR, A MAQUINA
+632310	TRABALHADOR DA EXPLORACAO DE BABACU
+632315	TRABALHADOR DA EXPLORACAO DE BACABA
+632320	TRABALHADOR DA EXPLORACAO DE BURITI
+632325	TRABALHADOR DA EXPLORACAO DE CARNAUBA
+632330	TRABALHADOR DA EXPLORACAO DE COCO-DA-PRAIA
+632335	TRABALHADOR DA EXPLORACAO DE COPAIBA
+632340	TRABALHADOR DA EXPLORACAO DE MALVA (PAINA)
+632345	TRABALHADOR DA EXPLORACAO DE MURUMURU
+632350	TRABALHADOR DA EXPLORACAO DE OITICICA
+632355	TRABALHADOR DA EXPLORACAO DE OURICURI
+632360	TRABALHADOR DA EXPLORACAO DE PEQUI
+632365	TRABALHADOR DA EXPLORACAO DE PIACAVA
+632370	TRABALHADOR DA EXPLORACAO DE TUCUM
+632405	TRABALHADOR DA EXPLORACAO DE ACAI
+632410	TRABALHADOR DA EXPLORACAO DE CASTANHA
+632415	TRABALHADOR DA EXPLORACAO DE PINHAO
+632420	TRABALHADOR DA EXPLORACAO DE PUPUNHA
+632505	TRABALHADOR DA EXPLORACAO DE ARVORES E ARBUSTOS PRODUTORES DE SUBSTANCIAS AROMAT., MEDIC. E TOXICAS
+632510	TRABALHADOR DA EXPLORACAO DE CIPOS PRODUTORES DE SUBSTANCIAS AROMATICAS, MEDICINAIS E TOXICAS
+632515	TRABALHADOR DA EXPLORACAO DE MADEIRAS TANANTES
+632520	TRABALHADOR DA EXPLORACAO DE RAIZES PRODUTORAS DE SUBSTANCIAS AROMATICAS, MEDICINAIS E TOXICAS
+632525	TRABALHADOR DA EXTRACAO DE SUBSTANCIAS AROMATICAS, MEDICINAIS E TOXICAS, EM GERAL
+632605	CARVOEIRO
+632610	CARBONIZADOR
+632615	AJUDANTE DE CARVOARIA
+641005	OPERADOR DE COLHEITADEIRA
+641010	OPERADOR DE MAQUINAS DE BENEFICIAMENTO DE PRODUTOS AGRICOLAS
+641015	TRATORISTA AGRICOLA
+642005	OPERADOR DE COLHEDOR FLORESTAL
+642010	OPERADOR DE MAQUINAS FLORESTAIS ESTATICAS
+642015	OPERADOR DE TRATOR FLORESTAL
+643005	TRABALHADOR NA OPERACAO DE SISTEMA DE IRRIGACAO LOCALIZADA (MICROASPERSAO E GOTEJAMENTO)
+643010	TRABALHADOR NA OPERACAO DE SISTEMA DE IRRIGACAO POR ASPERSAO (PIVO CENTRAL)
+643015	TRABALHADOR NA OPERACAO DE SISTEMAS CONVENCIONAIS DE IRRIGACAO POR ASPERSAO
+643020	TRABALHADOR NA OPERACAO DE SISTEMAS DE IRRIGACAO E ASPERSAO (ALTO PROPELIDO)
+643025	TRABALHADOR NA OPERACAO DE SISTEMAS DE IRRIGACAO POR SUPERFICIE E DRENAGEM
+710105	SUPERVISOR DE APOIO OPERACIONAL NA MINERACAO
+710110	SUPERVISOR DE EXTRACAO DE SAL
+710115	SUPERVISOR DE PERFURACAO E DESMONTE
+710120	SUPERVISOR DE PRODUCAO NA MINERACAO
+710125	SUPERVISOR DE TRANSPORTE NA MINERACAO
+710205	MESTRE (CONSTRUCAO CIVIL)
+710210	MESTRE DE LINHAS (FERROVIAS)
+710215	INSPETOR DE TERRAPLENAGEM
+710220	SUPERVISOR DE USINA DE CONCRETO
+710225	FISCAL DE PATIO DE USINA DE CONCRETO
+711105	AMOSTRADOR DE MINERIOS
+711110	CANTEIRO
+711115	DESTROCADOR DE PEDRA
+711120	DETONADOR
+711125	ESCORADOR DE MINAS
+711130	MINEIRO
+711205	OPERADOR DE CAMINHAO (MINAS E PEDREIRAS)
+711210	OPERADOR DE CARREGADEIRA
+711215	OPERADOR DE MAQUINA CORTADORA (MINAS E PEDREIRAS)
+711220	OPERADOR DE MAQUINA DE EXTRACAO CONTINUA (MINAS DE CARVAO)
+711225	OPERADOR DE MAQUINA PERFURADORA (MINAS E PEDREIRAS)
+711230	OPERADOR DE MAQUINA PERFURATRIZ
+711235	OPERADOR DE MOTONIVELADORA (EXTRACAO DE MINERAIS SOLIDOS)
+711240	OPERADOR DE SCHUTTHECAR
+711245	OPERADOR DE TRATOR (MINAS E PEDREIRAS)
+711305	OPERADOR DE SONDA DE PERCUSSAO
+711310	OPERADOR DE SONDA ROTATIVA
+711315	SONDADOR (POCOS DE PETROLEO E GAS)
+711320	SONDADOR DE POCOS (EXCETO DE PETROLEO E GAS)
+711325	PLATAFORMISTA (PETROLEO)
+711330	TORRISTA (PETROLEO)
+711405	GARIMPEIRO
+711410	OPERADOR DE SALINA (SAL MARINHO)
+712105	MOLEIRO DE MINERIOS
+712110	OPERADOR DE APARELHO DE FLOTACAO
+712115	OPERADOR DE APARELHO DE PRECIPITACAO (MINAS DE OURO OU PRATA)
+712120	OPERADOR DE BRITADOR DE MANDIBULAS
+712125	OPERADOR DE ESPESSADOR
+712130	OPERADOR DE JIG (MINAS)
+712135	OPERADOR DE PENEIRAS HIDRAULICAS
+712205	CORTADOR DE PEDRAS
+712210	GRAVADOR DE INSCRICOES EM PEDRA
+712215	GRAVADOR DE RELEVOS EM PEDRA
+712220	POLIDOR DE PEDRAS
+712225	TORNEIRO (LAVRA DE PEDRA)
+712230	TRACADOR DE PEDRAS
+715105	OPERADOR DE BATE-ESTACAS
+715110	OPERADOR DE COMPACTADORA DE SOLOS
+715115	OPERADOR DE ESCAVADEIRA
+715120	OPERADOR DE MAQUINA DE ABRIR VALAS
+715125	OPERADOR DE MAQUINAS DE CONSTRUCAO CIVIL E MINERACAO
+715130	OPERADOR DE MOTONIVELADORA
+715135	OPERADOR DE PA CARREGADEIRA
+715140	OPERADOR DE PAVIMENTADORA (ASFALTO, CONCRETO E MATERIAIS SIMILARES)
+715145	OPERADOR DE TRATOR DE LAMINA
+715205	CALCETEIRO
+715210	PEDREIRO
+715215	PEDREIRO (CHAMINES INDUSTRIAIS)
+715220	PEDREIRO (MATERIAL REFRATARIO)
+715225	PEDREIRO (MINERACAO)
+715230	PEDREIRO DE EDIFICACOES
+715305	ARMADOR DE ESTRUTURA DE CONCRETO
+715310	MOLDADOR DE CORPOS DE PROVA EM USINAS DE CONCRETO
+715315	ARMADOR DE ESTRUTURA DE CONCRETO ARMADO
+715405	OPERADOR DE BETONEIRA
+715410	OPERADOR DE BOMBA DE CONCRETO
+715415	OPERADOR DE CENTRAL DE CONCRETO
+715505	CARPINTEIRO
+715510	CARPINTEIRO (ESQUADRIAS)
+715515	CARPINTEIRO (CENARIOS)
+715520	CARPINTEIRO (MINERACAO)
+715525	CARPINTEIRO DE OBRAS
+715530	CARPINTEIRO (TELHADOS)
+715535	CARPINTEIRO DE FORMAS PARA CONCRETO
+715540	CARPINTEIRO DE OBRAS CIVIS DE ARTE (PONTES, TUNEIS, BARRAGENS)
+715545	MONTADOR DE ANDAIMES (EDIFICACOES)
+715605	ELETRICISTA DE INSTALACOES (CENARIOS)
+715610	ELETRICISTA DE INSTALACOES (EDIFICIOS)
+715615	ELETRICISTA DE INSTALACOES
+715705	APLICADOR DE ASFALTO IMPERMEABILIZANTE (COBERTURAS)
+715710	INSTALADOR DE ISOLANTES ACUSTICOS
+715715	INSTALADOR DE ISOLANTES TERMICOS (REFRIGERACAO E CLIMATIZACAO)
+715720	INSTALADOR DE ISOLANTES TERMICOS DE CALDEIRA E TUBULACOES
+715725	INSTALADOR DE MATERIAL ISOLANTE, A MAO (EDIFICACOES)
+715730	INSTALADOR DE MATERIAL ISOLANTE, A MAQUINA (EDIFICACOES)
+716105	ACABADOR DE SUPERFICIES DE CONCRETO
+716110	REVESTIDOR DE SUPERFICIES DE CONCRETO
+716205	TELHADOR (TELHAS DE ARGILA E MATERIAS SIMILARES)
+716210	TELHADOR (TELHAS DE CIMENTO-AMIANTO)
+716215	TELHADOR (TELHAS METALICAS)
+716220	TELHADOR (TELHAS PLATICAS)
+716305	VIDRACEIRO
+716310	VIDRACEIRO (EDIFICACOES)
+716315	VIDRACEIRO (VITRAIS)
+716405	GESSEIRO
+716505	ASSOALHADOR
+716510	LADRILHEIRO
+716515	PASTILHEIRO
+716520	LUSTRADOR DE PISO
+716525	MARMORISTA (CONSTRUCAO)
+716530	MOSAISTA
+716535	TAQUEIRO
+716605	CALAFETADOR
+716610	PINTOR DE OBRAS
+716615	REVESTIDOR DE INTERIORES (PAPEL, MATERIAL PLASTICO E EMBORRACHADOS)
+717005	DEMOLIDOR DE EDIFICACOES
+717010	OPERADOR DE MARTELETE
+717015	POCEIRO (EDIFICACOES)
+717020	SERVENTE DE OBRAS
+717025	VIBRADORISTA
+720105	MESTRE (AFIADOR DE FERRAMENTAS)
+720110	MESTRE DE CALDEIRARIA
+720115	MESTRE DE FERRAMENTARIA
+720120	MESTRE DE FORJARIA
+720125	MESTRE DE FUNDICAO
+720130	MESTRE DE GALVANOPLASTIA
+720135	MESTRE DE PINTURA (TRATAMENTO DE SUPERFICIES)
+720140	MESTRE DE SOLDAGEM
+720145	MESTRE DE TREFILACAO DE METAIS
+720150	MESTRE DE USINAGEM
+720155	MESTRE SERRALHEIRO
+720160	SUPERVISOR DE CONTROLE DE TRATAMENTO TERMICO
+720205	MESTRE (CONSTRUCAO NAVAL)
+720210	MESTRE (INDUSTRIA DE AUTOMOTORES E MATERIAL DE TRANSPORTES)
+720215	MESTRE (INDUSTRIA DE MAQUINAS E OUTROS EQUIPAMENTOS MECANICOS)
+720220	MESTRE DE CONSTRUCAO DE FORNOS
+721105	FERRAMENTEIRO
+721110	FERRAMENTEIRO DE MANDRIS, CALIBRADORES E OUTROS DISPOSITIVOS
+721115	MODELADOR DE METAIS (FUNDICAO)
+721205	OPERADOR DE MAQUINA DE ELETROEROSAO
+721210	OPERADOR DE MAQUINAS OPERATRIZES
+721215	OPERADOR DE MAQUINAS-FERRAMENTA CONVENCIONAIS
+721220	OPERADOR DE USINAGEM CONVENCIONAL POR ABRASAO
+721225	PREPARADOR DE MAQUINAS-FERRAMENTA
+721305	AFIADOR DE CARDAS
+721310	AFIADOR DE CUTELARIA
+721315	AFIADOR DE FERRAMENTAS
+721320	AFIADOR DE SERRAS
+721325	POLIDOR DE METAIS
+721405	OPERADOR DE CENTRO DE USINAGEM COM COMANDO NUMERICO
+721410	OPERADOR DE FRESADORA COM COMANDO NUMERICO
+721415	OPERADOR DE MANDRILADORA COM COMANDO NUMERICO
+721420	OPERADOR DE MAQUINA ELETROEROSAO, A FIO, COM COMANDO NUMERICO
+721425	OPERADOR DE RETIFICADORA COM COMANDO NUMERICO
+721430	OPERADOR DE TORNO COM COMANDO NUMERICO
+722105	FORJADOR
+722110	FORJADOR A MARTELO
+722115	FORJADOR PRENSISTA
+722205	FUNDIDOR DE METAIS
+722210	LINGOTADOR
+722215	OPERADOR DE ACABAMENTO DE PECAS FUNDIDAS
+722220	OPERADOR DE MAQUINA CENTRIFUGADORA DE FUNDICAO
+722225	OPERADOR DE MAQUINA DE FUNDIR SOB PRESSAO
+722230	OPERADOR DE VAZAMENTO (LINGOTAMENTO)
+722235	PREPARADOR DE PANELAS (LINGOTAMENTO)
+722305	MACHEIRO, A MAO
+722310	MACHEIRO, A MAQUINA
+722315	MOLDADOR, A MAO
+722320	MOLDADOR, A MAQUINA
+722325	OPERADOR DE EQUIPAMENTOS DE PREPARACAO DE AREIA
+722330	OPERADOR DE MAQUINA DE MOLDAR AUTOMATIZADA
+722405	CABLEADOR
+722410	ESTIRADOR DE TUBOS DE METAL SEM COSTURA
+722415	TREFILADOR DE METAIS, A MAQUINA
+723105	CEMENTADOR DE METAIS
+723110	NORMALIZADOR DE METAIS E DE COMPOSITOS
+723115	OPERADOR DE EQUIPAMENTO PARA RESFRIAMENTO
+723120	OPERADOR DE FORNO DE TRATAMENTO TERMICO DE METAIS
+723125	TEMPERADOR DE METAIS E DE COMPOSITOS
+723205	DECAPADOR
+723210	FOSFATIZADOR
+723215	GALVANIZADOR
+723220	METALIZADOR A PISTOLA
+723225	METALIZADOR (BANHO QUENTE)
+723230	OPERADOR DE MAQUINA RECOBRIDORA DE ARAME
+723235	OPERADOR DE ZINCAGEM (PROCESSO ELETROLITICO)
+723240	OXIDADOR
+723305	OPERADOR DE EQUIPAMENTO DE SECAGEM DE PINTURA
+723310	PINTOR A PINCEL E ROLO (EXCETO OBRAS E ESTRUTURAS METALICAS)
+723315	PINTOR DE ESTRUTURAS METALICAS
+723320	PINTOR DE VEICULOS (FABRICACAO)
+723325	PINTOR POR IMERSAO
+723330	PINTOR, A PISTOLA (EXCETO OBRAS E ESTRUTURAS METALICAS)
+724105	ASSENTADOR DE CANALIZACAO (EDIFICACOES)
+724110	ENCANADOR
+724115	INSTALADOR DE TUBULACOES
+724120	INSTALADOR DE TUBULACOES (AERONAVES)
+724125	INSTALADOR DE TUBULACOES (EMBARCACOES)
+724130	INSTALADOR DE TUBULACOES DE GAS COMBUSTIVEL (PRODUCAO E DISTRIBUICAO)
+724135	INSTALADOR DE TUBULACOES DE VAPOR (PRODUCAO E DISTRIBUICAO)
+724205	MONTADOR DE ESTRUTURAS METALICAS
+724210	MONTADOR DE ESTRUTURAS METALICAS DE EMBARCACOES
+724215	REBITADOR A MARTELO PNEUMATICO
+724220	PREPARADOR DE ESTRUTURAS METALICAS
+724225	RISCADOR DE ESTRUTURAS METALICAS
+724230	REBITADOR, A MAO
+724305	BRASADOR
+724310	OXICORTADOR A MAO E A MAQUINA
+724315	SOLDADOR
+724320	SOLDADOR A OXIGAS
+724325	SOLDADOR ELETRICO
+724405	CALDEIREIRO (CHAPAS DE COBRE)
+724410	CALDEIREIRO (CHAPAS DE FERRO E ACO)
+724415	CHAPEADOR
+724420	CHAPEADOR DE CARROCERIAS METALICAS (FABRICACAO)
+724425	CHAPEADOR NAVAL
+724430	CHAPEADOR DE AERONAVES
+724435	FUNILEIRO INDUSTRIAL
+724440	SERRALHEIRO
+724505	OPERADOR DE MAQUINA DE CILINDRAR CHAPAS
+724510	OPERADOR DE MAQUINA DE DOBRAR CHAPAS
+724515	PRENSISTA (OPERADOR DE PRENSA)
+724605	OPERADOR DE LACOS DE CABOS DE ACO
+724610	TRANCADOR DE CABOS DE ACO
+725005	AJUSTADOR FERRAMENTEIRO
+725010	AJUSTADOR MECANICO
+725015	AJUSTADOR MECANICO (USINAGEM EM BANCADA E EM MAQUINAS-FERRAMENTAS)
+725020	AJUSTADOR MECANICO EM BANCADA
+725025	AJUSTADOR NAVAL (REPARO E CONSTRUCAO)
+725105	MONTADOR DE MAQUINAS, MOTORES E ACESSORIOS (MONTAGEM EM SERIE)
+725205	MONTADOR DE MAQUINAS
+725210	MONTADOR DE MAQUINAS GRAFICAS
+725215	MONTADOR DE MAQUINAS OPERATRIZES PARA MADEIRA
+725220	MONTADOR DE MAQUINAS TEXTEIS
+725225	MONTADOR DE MAQUINAS-FERRAMENTAS (USINAGEM DE METAIS)
+725305	MONTADOR DE EQUIPAMENTO DE LEVANTAMENTO
+725310	MONTADOR DE MAQUINAS AGRICOLAS
+725315	MONTADOR DE MAQUINAS DE MINAS E PEDREIRAS
+725320	MONTADOR DE MAQUINAS DE TERRAPLENAGEM
+725405	MECANICO MONTADOR DE MOTORES DE AERONAVES
+725410	MECANICO MONTADOR DE MOTORES DE EMBARCACOES
+725415	MECANICO MONTADOR DE MOTORES DE EXPLOSAO E DIESEL
+725420	MECANICO MONTADOR DE TURBOALIMENTADORES
+725505	MONTADOR DE VEICULOS (LINHA DE MONTAGEM)
+725510	OPERADOR DE TIME DE MONTAGEM
+725605	MONTADOR DE ESTRUTURAS DE AERONAVES
+725610	MONTADOR DE SISTEMAS DE COMBUSTIVEL DE AERONAVES
+725705	MECANICO DE REFRIGERACAO
+730105	SUPERVISOR DE MONTAGEM E INSTALACAO ELETROELETRONICA
+731105	MONTADOR DE EQUIPAMENTOS ELETRONICOS (APARELHOS MEDICOS)
+731110	MONTADOR DE EQUIPAMENTOS ELETRONICOS (COMPUTADORES E EQUIPAMENTOS AUXILIARES)
+731115	MONTADOR DE EQUIPAMENTOS ELETRICOS (INSTRUMENTOS DE MEDICAO)
+731120	MONTADOR DE EQUIPAMENTOS ELETRICOS (APARELHOS ELETRODOMESTICOS)
+731125	MONTADOR DE EQUIPAMENTOS ELETRICOS (CENTRAIS ELETRICAS)
+731130	MONTADOR DE EQUIPAMENTOS ELETRICOS (MOTORES E DINAMOS)
+731135	MONTADOR DE EQUIPAMENTOS ELETRICOS
+731140	MONTADOR DE EQUIPAMENTOS ELETRONICOS (INSTALACOES DE SINALIZACAO)
+731145	MONTADOR DE EQUIPAMENTOS ELETRONICOS (MAQUINAS INDUSTRIAIS)
+731150	MONTADOR DE EQUIPAMENTOS ELETRONICOS
+731155	MONTADOR DE EQUIPAMENTOS ELETRICOS (ELEVADORES E EQUIPAMENTOS SIMILARES)
+731160	MONTADOR DE EQUIPAMENTOS ELETRICOS (TRANSFORMADORES)
+731165	BOBINADOR ELETRICISTA, A MAO
+731170	BOBINADOR ELETRICISTA, A MAQUINA
+731175	OPERADOR DE LINHA DE MONTAGEM (APARELHOS ELETRICOS)
+731180	OPERADOR DE LINHA DE MONTAGEM (APARELHOS ELETRONICOS)
+731205	MONTADOR DE EQUIPAMENTOS ELETRONICOS (ESTACAO DE RADIO, TV E EQUIPAMENTOS DE RADAR)
+731305	INSTALADOR-REPARADOR DE EQUIPAMENTOS DE COMUTACAO EM TELEFONIA
+731310	INSTALADOR-REPARADOR DE EQUIPAMENTOS DE ENERGIA EM TELEFONIA
+731315	INSTALADOR-REPARADOR DE EQUIPAMENTOS DE TRANSMISSAO EM TELEFONIA
+731320	INSTALADOR-REPARADOR DE LINHAS E APARELHOS DE TELECOMUNICACOES
+731325	INSTALADOR-REPARADOR DE REDES E CABOS TELEFONICOS
+731330	REPARADOR DE APARELHOS DE TELECOMUNICACOES EM LABORATORIO
+732105	ELETRICISTA DE MANUTENCAO DE LINHAS ELETRICAS, TELEFONICAS E DE COMUNICACAO DE DADOS
+732110	EMENDADOR DE CABOS ELETRICOS E TELEFONICOS (AEREOS E SUBTERRANEOS)
+732115	EXAMINADOR DE CABOS, LINHAS ELETRICAS E TELEFONICAS
+732120	INSTALADOR DE LINHAS ELETRICAS DE ALTA E BAIXA-TENSAO (REDE AEREA E SUBTERRANEA)
+732125	INSTALADOR ELETRICISTA (TRACAO DE VEICULOS)
+732130	INSTALADOR-REPARADOR DE REDES TELEFONICAS E DE COMUNICACAO DE DADOS
+732135	LIGADOR DE LINHAS TELEFONICAS
+740105	SUPERVISOR DA MECANICA DE PRECISAO
+740110	SUPERVISOR DE FABRICACAO DE INSTRUMENTOS MUSICAIS
+741105	AJUSTADOR DE INSTRUMENTOS DE PRECISAO
+741110	MONTADOR DE INSTRUMENTOS DE OPTICA
+741115	MONTADOR DE INSTRUMENTOS DE PRECISAO
+741120	RELOJOEIRO (FABRICACAO)
+741125	RELOJOEIRO (REPARACAO)
+742105	AFINADOR DE INSTRUMENTOS MUSICAIS
+742110	CONFECCIONADOR DE ACORDEAO
+742115	CONFECCIONADOR DE INSTRUMENTOS DE CORDA
+742120	CONFECCIONADOR DE INSTRUMENTOS DE PERCUSSAO (PELE, COURO OU PLASTICO)
+742125	CONFECCIONADOR DE INSTRUMENTOS DE SOPRO (MADEIRA)
+742130	CONFECCIONADOR DE INSTRUMENTOS DE SOPRO (METAL)
+742135	CONFECCIONADOR DE ORGAO
+742140	CONFECCIONADOR DE PIANO
+750105	SUPERVISOR DE JOALHERIA
+750205	SUPERVISOR DA INDUSTRIA DE MINERAIS NAO METALICOS (EXCETO OS DERIVADOS DE PETROLEO E CARVAO)
+751005	ENGASTADOR (JOIAS)
+751010	JOALHEIRO
+751015	JOALHEIRO (REPARACOES)
+751020	LAPIDADOR (JOIAS)
+751105	BATE-FOLHA A MAQUINA
+751110	FUNDIDOR (JOALHERIA E OURIVESARIA)
+751115	GRAVADOR (JOALHERIA E OURIVESARIA)
+751120	LAMINADOR DE METAIS PRECIOSOS A MAO
+751125	OURIVES
+751130	TREFILADOR (JOALHERIA E OURIVESARIA)
+752105	ARTESAO MODELADOR (VIDROS)
+752110	MOLDADOR (VIDROS)
+752115	SOPRADOR DE VIDRO
+752120	TRANSFORMADOR DE TUBOS DE VIDRO
+752205	APLICADOR SERIGRAFICO EM VIDROS
+752210	CORTADOR DE VIDRO
+752215	GRAVADOR DE VIDRO A AGUA-FORTE
+752220	GRAVADOR DE VIDRO A ESMERIL
+752225	GRAVADOR DE VIDRO A JATO DE AREIA
+752230	LAPIDADOR DE VIDROS E CRISTAIS
+752235	SURFASSAGISTA
+752305	CERAMISTA
+752310	CERAMISTA (TORNO DE PEDAL E MOTOR)
+752315	CERAMISTA (TORNO SEMI-AUTOMATICO)
+752320	CERAMISTA MODELADOR
+752325	CERAMISTA MOLDADOR
+752330	CERAMISTA PRENSADOR
+752405	DECORADOR DE CERAMICA
+752410	DECORADOR DE VIDRO
+752415	DECORADOR DE VIDRO A PINCEL
+752420	OPERADOR DE ESMALTADEIRA
+752425	OPERADOR DE ESPELHAMENTO
+752430	PINTOR DE CERAMICA, A PINCEL
+760105	CONTRAMESTRE DE ACABAMENTO (INDUSTRIA TEXTIL)
+760110	CONTRAMESTRE DE FIACAO (INDUSTRIA TEXTIL)
+760115	CONTRAMESTRE DE MALHARIA (INDUSTRIA TEXTIL)
+760120	CONTRAMESTRE DE TECELAGEM (INDUSTRIA TEXTIL)
+760125	MESTRE (INDUSTRIA TEXTIL E DE CONFECCOES)
+760205	SUPERVISOR DE CURTIMENTO
+760305	ENCARREGADO DE CORTE NA CONFECCAO DO VESTUARIO
+760310	ENCARREGADO DE COSTURA NA CONFECCAO DO VESTUARIO
+760405	SUPERVISOR (INDUSTRIA DE CALCADOS E ARTEFATOS DE COURO)
+760505	SUPERVISOR DA CONFECCAO DE ARTEFATOS DE TECIDOS, COUROS E AFINS
+760605	SUPERVISOR DAS ARTES GRAFICAS (INDUSTRIA EDITORIAL E GRAFICA)
+761005	OPERADOR POLIVALENTE DA INDUSTRIA TEXTIL
+761105	CLASSIFICADOR DE FIBRAS TEXTEIS
+761110	LAVADOR DE LA
+761205	OPERADOR DE ABERTURA (FIACAO)
+761210	OPERADOR DE BINADEIRA
+761215	OPERADOR DE BOBINADEIRA
+761220	OPERADOR DE CARDAS
+761225	OPERADOR DE CONICALEIRA
+761230	OPERADOR DE FILATORIO
+761235	OPERADOR DE LAMINADEIRA E REUNIDEIRA
+761240	OPERADOR DE MACAROQUEIRA
+761245	OPERADOR DE OPEN-END
+761250	OPERADOR DE PASSADOR (FIACAO)
+761255	OPERADOR DE PENTEADEIRA
+761260	OPERADOR DE RETORCEDEIRA
+761303	TECELAO (REDES)
+761306	TECELAO (RENDAS E BORDADOS)
+761309	TECELAO (TEAR AUTOMATICO)
+761312	TECELAO (TEAR JACQUARD)
+761315	TECELAO (TEAR MECANICO DE MAQUINETA)
+761318	TECELAO (TEAR MECANICO DE XADREZ)
+761321	TECELAO (TEAR MECANICO LISO)
+761324	TECELAO (TEAR MECANICO, EXCETO JACQUARD)
+761327	TECELAO DE MALHAS, A MAQUINA
+761330	TECELAO DE MALHAS (MAQUINA CIRCULAR)
+761333	TECELAO DE MALHAS (MAQUINA RETILINEA)
+761336	TECELAO DE MEIAS, A MAQUINA
+761339	TECELAO DE MEIAS (MAQUINA CIRCULAR)
+761342	TECELAO DE MEIAS (MAQUINA RETILINEA)
+761345	TECELAO DE TAPETES, A MAQUINA
+761348	OPERADOR DE ENGOMADEIRA DE URDUME
+761351	OPERADOR DE ESPULADEIRA
+761354	OPERADOR DE MAQUINA DE CORDOALHA
+761357	OPERADOR DE URDIDEIRA
+761360	PASSAMANEIRO A MAQUINA
+761363	REMETEDOR DE FIOS
+761366	PICOTADOR DE CARTOES JACQUARD
+761405	ALVEJADOR (TECIDOS)
+761410	ESTAMPADOR DE TECIDO
+761415	OPERADOR DE CALANDRAS (TECIDOS)
+761420	OPERADOR DE CHAMUSCADEIRA DE TECIDOS
+761425	OPERADOR DE IMPERMEABILIZADOR DE TECIDOS
+761430	OPERADOR DE MAQUINA DE LAVAR FIOS E TECIDOS
+761435	OPERADOR DE RAMEUSE
+761805	INSPETOR DE ESTAMPARIA (PRODUCAO TEXTIL)
+761810	REVISOR DE FIOS (PRODUCAO TEXTIL)
+761815	REVISOR DE TECIDOS ACABADOS
+761820	REVISOR DE TECIDOS CRUS
+762005	TRABALHADOR POLIVALENTE DO CURTIMENTO DE COUROS E PELES
+762105	CLASSIFICADOR DE PELES
+762110	DESCARNADOR DE COUROS E PELES, A MAQUINA
+762115	ESTIRADOR DE COUROS E PELES (PREPARACAO)
+762120	FULONEIRO
+762125	RACHADOR DE COUROS E PELES
+762205	CURTIDOR (COUROS E PELES)
+762210	CLASSIFICADOR DE COUROS
+762215	ENXUGADOR DE COUROS
+762220	REBAIXADOR DE COUROS
+762305	ESTIRADOR DE COUROS E PELES (ACABAMENTO)
+762310	FULONEIRO NO ACABAMENTO DE COUROS E PELES
+762315	LIXADOR DE COUROS E PELES
+762320	MATIZADOR DE COUROS E PELES
+762325	OPERADOR DE MAQUINAS DO ACABAMENTO DE COUROS E PELES
+762330	PRENSADOR DE COUROS E PELES
+762335	PALECIONADOR DE COUROS E PELES
+762340	PREPARADOR DE COUROS CURTIDOS
+762345	VAQUEADOR DE COUROS E PELES
+763005	ALFAIATE
+763010	COSTUREIRA DE PECAS SOB ENCOMENDA
+763015	COSTUREIRA DE REPARACAO DE ROUPAS
+763020	COSTUREIRO DE ROUPA DE COURO E PELE
+763105	AUXILIAR DE CORTE (PREPARACAO DA CONFECCAO DE ROUPAS)
+763110	CORTADOR DE ROUPAS
+763115	ENFESTADOR DE ROUPAS
+763120	RISCADOR DE ROUPAS
+763205	COSTUREIRO DE ROUPAS DE COURO E PELE, A MAQUINA NA CONFECCAO EM SERIE
+763210	COSTUREIRO NA CONFECCAO EM SERIE
+763215	COSTUREIRO, A MAQUINA NA CONFECCAO EM SERIE
+763305	ARREMATADEIRA
+763315	MARCADOR DE PECAS CONFECCIONADAS PARA BORDAR
+763320	OPERADOR DE MAQUINA DE COSTURA DE ACABAMENTO
+763325	PASSADEIRA DE PECAS CONFECCIONADAS
+764005	TRABALHADOR POLIVALENTE DA CONFECCAO DE CALCADOS
+764105	CORTADOR DE CALCADOS, A MAQUINA (EXCETO SOLAS E PALMILHAS)
+764110	CORTADOR DE SOLAS E PALMILHAS, A MAQUINA
+764115	PREPARADOR DE CALCADOS
+764120	PREPARADOR DE SOLAS E PALMILHAS
+764205	COSTURADOR DE CALCADOS, A MAQUINA
+764210	MONTADOR DE CALCADOS
+764305	ACABADOR DE CALCADOS
+765005	CONFECCIONADOR DE ARTEFATOS DE COURO (EXCETO SAPATOS)
+765010	CHAPELEIRO DE SENHORAS
+765015	BONELEIRO
+765105	CORTADOR DE ARTEFATOS DE COURO (EXCETO ROUPAS E CALCADOS)
+765110	CORTADOR DE TAPECARIA
+765205	COLCHOEIRO (CONFECCAO DE COLCHOES)
+765215	CONFECCIONADOR DE BRINQUEDOS DE PANO
+765225	CONFECCIONADOR DE VELAS NAUTICAS, BARRACAS E TOLDOS
+765230	ESTOFADOR DE AVIOES
+765235	ESTOFADOR DE MOVEIS
+765310	COSTURADOR DE ARTEFATOS DE COURO, A MAQUINA (EXCETO ROUPAS E CALCADOS)
+765315	MONTADOR DE ARTEFATOS DE COURO (EXCETO ROUPAS E CALCADOS)
+765405	TRABALHADOR DO ACABAMENTO DE ARTEFATOS DE TECIDOS E COUROS
+766105	COPIADOR DE CHAPA
+766115	GRAVADOR DE MATRIZ PARA FLEXOGRAFIA (CLICHERISTA)
+766120	EDITOR DE TEXTO E IMAGEM
+766125	MONTADOR DE FOTOLITO (ANALOGICO E DIGITAL)
+766130	GRAVADOR DE MATRIZ PARA ROTOGRAVURA (ELETROMECANICO E QUIMICO)
+766135	GRAVADOR DE MATRIZ CALCOGRAFICA
+766140	GRAVADOR DE MATRIZ SERIGRAFICA
+766145	OPERADOR DE SISTEMAS DE PROVA (ANALOGICO E DIGITAL)
+766150	OPERADOR DE PROCESSO DE TRATAMENTO DE IMAGEM
+766155	PROGRAMADOR VISUAL GRAFICO
+766205	IMPRESSOR (SERIGRAFIA)
+766210	IMPRESSOR CALCOGRAFICO
+766215	IMPRESSOR DE OFSETE (PLANO E ROTATIVO)
+766220	IMPRESSOR DE ROTATIVA
+766225	IMPRESSOR DE ROTOGRAVURA
+766230	IMPRESSOR DIGITAL
+766235	IMPRESSOR FLEXOGRAFICO
+766240	IMPRESSOR LETTERSET
+766245	IMPRESSOR TAMPOGRAFICO
+766250	IMPRESSOR TIPOGRAFICO
+766305	ACABADOR DE EMBALAGENS (FLEXIVEIS E CARTOTECNICAS)
+766310	IMPRESSOR DE CORTE E VINCO
+766315	OPERADOR DE ACABAMENTO (INDUSTRIA GRAFICA)
+766320	OPERADOR DE GUILHOTINA (CORTE DE PAPEL)
+766325	PREPARADOR DE MATRIZES DE CORTE E VINCO
+766405	LABORATORISTA FOTOGRAFICO
+766410	REVELADOR DE FILMES FOTOGRAFICOS, EM PRETO E BRANCO
+766415	REVELADOR DE FILMES FOTOGRAFICOS, EM CORES
+766420	AUXILIAR DE RADIOLOGIA (REVELACAO FOTOGRAFICA)
+768105	TECELAO (TEAR MANUAL)
+768110	TECELAO DE TAPETES, A MAO
+768115	TRICOTEIRO, A MAO
+768120	REDEIRO
+768125	CHAPELEIRO (CHAPEUS DE PALHA)
+768130	CROCHETEIRO, A MAO
+768205	BORDADOR, A MAO
+768210	CERZIDOR
+768305	ARTIFICE DO COURO
+768310	CORTADOR DE CALCADOS, A MAO (EXCETO SOLAS)
+768315	COSTURADOR DE ARTEFATOS DE COURO, A MAO (EXCETO ROUPAS E CALCADOS)
+768320	SAPATEIRO (CALCADOS SOB MEDIDA)
+768325	SELEIRO
+768605	TIPOGRAFO
+768610	LINOTIPISTA
+768615	MONOTIPISTA
+768620	PAGINADOR
+768625	PINTOR DE LETREIROS
+768630	CONFECCIONADOR DE CARIMBOS DE BORRACHA
+768705	GRAVADOR, A MAO (ENCADERNACAO)
+768710	RESTAURADOR DE LIVROS
+770105	MESTRE (INDUSTRIA DE MADEIRA E MOBILIARIO)
+770110	MESTRE CARPINTEIRO
+771105	MARCENEIRO
+771110	MODELADOR DE MADEIRA
+771115	MAQUETISTA NA MARCENARIA
+771120	TANOEIRO
+772105	CLASSIFICADOR DE MADEIRA
+772110	IMPREGNADOR DE MADEIRA
+772115	SECADOR DE MADEIRA
+773105	CORTADOR DE LAMINADOS DE MADEIRA
+773110	OPERADOR DE SERRAS NO DESDOBRAMENTO DE MADEIRA
+773115	SERRADOR DE BORDAS NO DESDOBRAMENTO DE MADEIRA
+773120	SERRADOR DE MADEIRA
+773125	SERRADOR DE MADEIRA (SERRA CIRCULAR MULTIPLA)
+773130	SERRADOR DE MADEIRA (SERRA DE FITA MULTIPLA)
+773205	OPERADOR DE MAQUINA INTERCALADORA E PLACAS (COMPENSADOS)
+773210	PRENSISTA DE AGLOMERADOS
+773215	PRENSISTA DE COMPENSADOS
+773220	PREPARADOR DE AGLOMERANTES
+773305	OPERADOR DE DESEMPENADEIRA NA USINAGEM CONVENCIONAL DE MADEIRA
+773310	OPERADOR DE ENTALHADEIRA (USINAGEM DE MADEIRA)
+773315	OPERADOR DE FRESADORA (USINAGEM DE MADEIRA)
+773320	OPERADOR DE LIXADEIRA (USINAGEM DE MADEIRA)
+773325	OPERADOR DE MAQUINA DE USINAGEM MADEIRA, EM GERAL
+773330	OPERADOR DE MOLDURADORA (USINAGEM DE MADEIRA)
+773335	OPERADOR DE PLAINA DESENGROSSADEIRA
+773340	OPERADOR DE SERRAS (USINAGEM DE MADEIRA)
+773345	OPERADOR DE TORNO AUTOMATICO (USINAGEM DE MADEIRA)
+773350	OPERADOR DE TUPIA (USINAGEM DE MADEIRA)
+773355	TORNEIRO NA USINAGEM CONVENCIONAL DE MADEIRA
+773405	OPERADOR DE MAQUINA BORDATRIZ
+773410	OPERADOR DE MAQUINA DE CORTINA D#AGUA (PRODUCAO DE MOVEIS)
+773415	OPERADOR DE MAQUINA DE USINAGEM DE MADEIRA (PRODUCAO EM SERIE)
+773420	OPERADOR DE PRENSA DE ALTA FREQUENCIA NA USINAGEM DE MADEIRA
+773505	OPERADOR DE CENTRO DE USINAGEM DE MADEIRA (CNC)
+773510	OPERADOR DE MAQUINAS DE USINAR MADEIRA (CNC)
+774105	MONTADOR DE MOVEIS E ARTEFATOS DE MADEIRA
+775105	ENTALHADOR DE MADEIRA
+775110	FOLHEADOR DE MOVEIS DE MADEIRA
+775115	LUSTRADOR DE PECAS DE MADEIRA
+775120	MARCHETEIRO
+776405	CESTEIRO
+776410	CONFECCIONADOR DE ESCOVAS, PINCEIS E PRODUTOS SIMILARES (A MAO)
+776415	CONFECCIONADOR DE ESCOVAS, PINCEIS E PRODUTOS SIMILARES (A MAQUINA)
+776420	CONFECCIONADOR DE MOVEIS DE VIME, JUNCO E BAMBU
+776425	ESTEIREIRO
+776430	VASSOUREIRO
+777105	CARPINTEIRO NAVAL (CONSTRUCAO DE PEQUENAS EMBARCACOES)
+777110	CARPINTEIRO NAVAL (EMBARCACOES)
+777115	CARPINTEIRO NAVAL (ESTALEIROS)
+777205	CARPINTEIRO DE CARRETAS
+777210	CARPINTEIRO DE CARROCERIAS
+780105	SUPERVISOR DE EMBALAGEM E ETIQUETAGEM
+781105	CONDUTOR DE PROCESSOS ROBOTIZADOS DE PINTURA
+781110	CONDUTOR DE PROCESSOS ROBOTIZADOS DE SOLDAGEM
+781305	OPERADOR DE VEICULOS SUBAQUATICOS CONTROLADOS REMOTAMENTE
+781705	MERGULHADOR PROFISSIONAL (RASO E PROFUNDO)
+782105	OPERADOR DE DRAGA
+782110	OPERADOR DE GUINDASTE (FIXO)
+782115	OPERADOR DE GUINDASTE MOVEL
+782120	OPERADOR DE MAQUINA RODOFERROVIARIA
+782125	OPERADOR DE MONTA-CARGAS (CONSTRUCAO CIVIL)
+782130	OPERADOR DE PONTE ROLANTE
+782135	OPERADOR DE PORTICO ROLANTE
+782140	OPERADOR DE TALHA ELETRICA
+782145	SINALEIRO (PONTE-ROLANTE)
+782205	GUINCHEIRO (CONSTRUCAO CIVIL)
+782210	OPERADOR DE DOCAGEM
+782220	OPERADOR DE EMPILHADEIRA
+782305	MOTORISTA DE CARRO DE PASSEIO
+782310	MOTORISTA DE FURGAO OU VEICULO SIMILAR
+782315	MOTORISTA DE TAXI
+782405	MOTORISTA DE ONIBUS RODOVIARIO
+782410	MOTORISTA DE ONIBUS URBANO
+782415	MOTORISTA DE TROLEBUS
+782505	CAMINHONEIRO AUTONOMO (ROTAS REGIONAIS E INTERNACIONAIS)
+782510	MOTORISTA DE CAMINHAO (ROTAS REGIONAIS E INTERNACIONAIS)
+782515	MOTORISTA OPERACIONAL DE GUINCHO
+782605	OPERADOR DE TREM DE METRO
+782610	MAQUINISTA DE TREM
+782615	MAQUINISTA DE TREM METROPOLITANO
+782620	MOTORNEIRO
+782625	AUXILIAR DE MAQUINISTA DE TREM
+782630	OPERADOR DE TELEFERICO (PASSAGEIROS)
+782705	MARINHEIRO DE CONVES (MARITIMO E FLUVIARIO)
+782710	MARINHEIRO DE MAQUINAS
+782715	MOCO DE CONVES (MARITIMO E FLUVIARIO)
+782720	MOCO DE MAQUINAS (MARITIMO E FLUVIARIO)
+782721	MARINHEIRO DE ESPORTE E RECREIO
+782805	CONDUTOR DE VEICULOS DE TRACAO ANIMAL (RUAS E ESTRADAS)
+782810	TROPEIRO
+782815	BOIADEIRO
+782820	CONDUTOR DE VEICULOS A PEDAIS
+783105	AGENTE DE PATIO
+783110	MANOBRADOR
+783205	CARREGADOR (AERONAVES)
+783210	CARREGADOR (ARMAZEM)
+783215	CARREGADOR (VEICULOS DE TRANSPORTES TERRESTRES)
+783220	ESTIVADOR
+783225	AJUDANTE DE MOTORISTA
+784105	EMBALADOR, A MAO
+784110	EMBALADOR, A MAQUINA
+784115	OPERADOR DE MAQUINA DE ETIQUETAR
+784120	OPERADOR DE MAQUINA DE ENVASAR LIQUIDOS
+784125	OPERADOR DE PRENSA DE ENFARDAMENTO
+784205	ALIMENTADOR DE LINHA DE PRODUCAO
+810105	MESTRE (INDUSTRIA PETROQUIMICA E CARBOQUIMICA)
+810110	MESTRE DE PRODUCAO QUIMICA
+810205	MESTRE (INDUSTRIA DE BORRACHA E PLASTICO)
+810305	MESTRE DE PRODUCAO FARMACEUTICA
+811005	OPERADOR DE PROCESSOS QUIMICOS E PETROQUIMICOS
+811010	OPERADOR DE SALA DE CONTROLE DE INSTALACOES QUIMICAS, PETROQUIMICAS E AFINS
+811105	MOLEIRO (TRATAMENTOS QUIMICOS E AFINS)
+811110	OPERADOR DE MAQUINA MISTURADEIRA (TRATAMENTOS QUIMICOS E AFINS)
+811115	OPERADOR DE BRITADEIRA (TRATAMENTOS QUIMICOS E AFINS)
+811120	OPERADOR DE CONCENTRACAO
+811125	TRABALHADOR DA FABRICACAO DE RESINAS E VERNIZES
+811130	TRABALHADOR DE FABRICACAO DE TINTAS
+811205	OPERADOR DE CALCINACAO (TRATAMENTO QUIMICO E AFINS)
+811215	OPERADOR DE TRATAMENTO QUIMICO DE MATERIAIS RADIOATIVOS
+811305	OPERADOR DE CENTRIFUGADORA (TRATAMENTOS QUIMICOS E AFINS)
+811310	OPERADOR DE EXPLORACAO DE PETROLEO
+811315	OPERADOR DE FILTRO DE SECAGEM (MINERACAO)
+811320	OPERADOR DE FILTRO DE TAMBOR ROTATIVO (TRATAMENTOS QUIMICOS E AFINS)
+811325	OPERADOR DE FILTRO-ESTEIRA (MINERACAO)
+811330	OPERADOR DE FILTRO-PRENSA (TRATAMENTOS QUIMICOS E AFINS)
+811335	OPERADOR DE FILTROS DE PARAFINA (TRATAMENTOS QUIMICOS E AFINS)
+811405	DESTILADOR DE MADEIRA
+811410	DESTILADOR DE PRODUTOS QUIMICOS (EXCETO PETROLEO)
+811415	OPERADOR DE ALAMBIQUE DE FUNCIONAMENTO CONTINUO (PRODUTOS QUIMICOS, EXCETO PETROLEO)
+811420	OPERADOR DE APARELHO DE REACAO E CONVERSAO (PRODUTOS QUIMICOS, EXCETO PETROLEO)
+811425	OPERADOR DE EQUIPAMENTO DE DESTILACAO DE ALCOOL
+811430	OPERADOR DE EVAPORADOR NA DESTILACAO
+811505	OPERADOR DE PAINEL DE CONTROLE (REFINACAO DE PETROLEO)
+811510	OPERADOR DE TRANSFERENCIA E ESTOCAGEM - NA REFINACAO DO PETROLEO
+811605	OPERADOR DE BRITADOR DE COQUE
+811610	OPERADOR DE CARRO DE APAGAMENTO E COQUE
+811615	OPERADOR DE DESTILACAO E SUBPRODUTOS DE COQUE
+811620	OPERADOR DE ENFORNAMENTO E DESENFORNAMENTO DE COQUE
+811625	OPERADOR DE EXAUSTOR (COQUERIA)
+811630	OPERADOR DE PAINEL DE CONTROLE
+811635	OPERADOR DE PRESERVACAO E CONTROLE TERMICO
+811640	OPERADOR DE REATOR DE COQUE DE PETROLEO
+811645	OPERADOR DE REFRIGERACAO (COQUERIA)
+811650	OPERADOR DE SISTEMA DE REVERSAO (COQUERIA)
+811705	BAMBURISTA
+811710	CALANDRISTA DE BORRACHA
+811715	CONFECCIONADOR DE PNEUMATICOS
+811725	CONFECCIONADOR DE VELAS POR IMERSAO
+811735	CONFECCIONADOR DE VELAS POR MOLDAGEM
+811745	LAMINADOR DE PLASTICO
+811750	MOLDADOR DE BORRACHA POR COMPRESSAO
+811760	MOLDADOR DE PLASTICO POR COMPRESSAO
+811770	MOLDADOR DE PLASTICO POR INJECAO
+811775	TREFILADOR DE BORRACHA
+811805	OPERADOR DE MAQUINA DE PRODUTOS FARMACEUTICOS
+811810	DRAGEADOR (MEDICAMENTOS)
+811815	OPERADOR DE MAQUINA DE FABRICACAO DE COSMETICOS
+812105	PIROTECNICO
+812110	TRABALHADOR DA FABRICACAO DE MUNICAO E EXPLOSIVOS
+813105	CILINDRISTA (PETROQUIMICA E AFINS)
+813110	OPERADOR DE CALANDRA (QUIMICA, PETROQUIMICA E AFINS)
+813115	OPERADOR DE EXTRUSORA (QUIMICA, PETROQUIMICA E AFINS)
+813120	OPERADOR DE PROCESSO (QUIMICA, PETROQUIMICA E AFINS)
+813125	OPERADOR DE PRODUCAO (QUIMICA, PETROQUIMICA E AFINS)
+813130	TECNICO DE OPERACAO (QUIMICA, PETROQUIMICA E AFINS)
+818105	ASSISTENTE DE LABORATORIO INDUSTRIAL
+818110	AUXILIAR DE LABORATORIO DE ANALISES FISICO-QUIMICAS
+820105	MESTRE DE SIDERURGIA
+820110	MESTRE DE ACIARIA
+820115	MESTRE DE ALTO-FORNO
+820120	MESTRE DE FORNO ELETRICO
+820125	MESTRE DE LAMINACAO
+820205	SUPERVISOR DE FABRICACAO DE PRODUTOS CERAMICOS, PORCELANATOS E AFINS
+820210	SUPERVISOR DE FABRICACAO DE PRODUTOS DE VIDRO
+821105	OPERADOR DE CENTRO DE CONTROLE
+821110	OPERADOR DE MAQUINA DE SINTERIZAR
+821205	FORNEIRO E OPERADOR (ALTO-FORNO)
+821210	FORNEIRO E OPERADOR (CONVERSOR A OXIGENIO)
+821215	FORNEIRO E OPERADOR (FORNO ELETRICO)
+821220	FORNEIRO E OPERADOR (REFINO DE METAIS NAO-FERROSOS)
+821225	FORNEIRO E OPERADOR DE FORNO DE REDUCAO DIRETA
+821230	OPERADOR DE ACIARIA (BASCULAMENTO DE CONVERTEDOR)
+821235	OPERADOR DE ACIARIA (DESSULFURACAO DE GUSA)
+821240	OPERADOR DE ACIARIA (RECEBIMENTO DE GUSA)
+821245	OPERADOR DE AREA DE CORRIDA
+821250	OPERADOR DE DESGASEIFICACAO
+821255	SOPRADOR DE CONVERTEDOR
+821305	OPERADOR DE LAMINADOR
+821310	OPERADOR DE LAMINADOR DE BARRAS A FRIO
+821315	OPERADOR DE LAMINADOR DE BARRAS A QUENTE
+821320	OPERADOR DE LAMINADOR DE METAIS NAO-FERROSOS
+821325	OPERADOR DE LAMINADOR DE TUBOS
+821330	OPERADOR DE MONTAGEM DE CILINDROS E MANCAIS
+821335	RECUPERADOR DE GUIAS E CILINDROS
+821405	ENCARREGADO DE ACABAMENTO DE CHAPAS E METAIS (TEMPERA)
+821410	ESCARFADOR
+821415	MARCADOR DE PRODUTOS (SIDERURGICO E METALURGICO)
+821420	OPERADOR DE BOBINADEIRA DE TIRAS A QUENTE, NO ACABAMENTO DE CHAPAS E METAIS
+821425	OPERADOR DE CABINE DE LAMINACAO (FIO-MAQUINA)
+821430	OPERADOR DE ESCORIA E SUCATA
+821435	OPERADOR DE JATO ABRASIVO
+821440	OPERADOR DE TESOURA MECANICA E MAQUINA DE CORTE, NO ACABAMENTO DE CHAPAS E METAIS
+821445	PREPARADOR DE SUCATA E APARAS
+821450	REBARBADOR DE METAL
+822105	FORNEIRO DE CUBILO
+822110	FORNEIRO DE FORNO-POCO
+822115	FORNEIRO DE FUNDICAO (FORNO DE REDUCAO)
+822120	FORNEIRO DE REAQUECIMENTO E TRATAMENTO TERMICO NA METALURGIA
+822125	FORNEIRO DE REVERBERO
+823105	PREPARADOR DE MASSA (FABRICACAO DE ABRASIVOS)
+823110	PREPARADOR DE MASSA (FABRICACAO DE VIDRO)
+823115	PREPARADOR DE MASSA DE ARGILA
+823120	PREPARADOR DE BARBOTINA
+823125	PREPARADOR DE ESMALTES (CERAMICA)
+823130	PREPARADOR DE ADITIVOS
+823135	OPERADOR DE ATOMIZADOR
+823210	EXTRUSOR DE FIOS OU FIBRAS DE VIDRO
+823215	FORNEIRO NA FUNDICAO DE VIDRO
+823220	FORNEIRO NO RECOZIMENTO DE VIDRO
+823230	MOLDADOR DE ABRASIVOS NA FABRICACAO DE CERAMICA, VIDRO E PORCELANA
+823235	OPERADOR DE BANHO METALICO DE VIDRO POR FLUTUACAO
+823240	OPERADOR DE MAQUINA DE SOPRAR VIDRO
+823245	OPERADOR DE MAQUINA EXTRUSORA DE VARETAS E TUBOS DE VIDRO
+823250	OPERADOR DE PRENSA DE MOLDAR VIDRO
+823255	TEMPERADOR DE VIDRO
+823265	TRABALHADOR NA FABRICACAO DE PRODUTOS ABRASIVOS
+823305	CLASSIFICADOR E EMPILHADOR DE TIJOLOS REFRATARIOS
+823315	FORNEIRO (MATERIAIS DE CONSTRUCAO)
+823320	TRABALHADOR DA ELABORACAO DE PRE-FABRICADOS (CIMENTO AMIANTO)
+823325	TRABALHADOR DA ELABORACAO DE PRE-FABRICADOS (CONCRETO ARMADO)
+823330	TRABALHADOR DA FABRICACAO DE PEDRAS ARTIFICIAIS
+828105	OLEIRO (FABRICACAO DE TELHAS)
+828110	OLEIRO (FABRICACAO DE TIJOLOS)
+830105	MESTRE (INDUSTRIA DE CELULOSE, PAPEL E PAPELAO)
+831105	CILINDREIRO NA PREPARACAO DE PASTA PARA FABRICACAO DE PAPEL
+831110	OPERADOR DE BRANQUEADOR DE PASTA PARA FABRICACAO DE PAPEL
+831115	OPERADOR DE DIGESTOR DE PASTA PARA FABRICACAO DE PAPEL
+831120	OPERADOR DE LAVAGEM E DEPURACAO DE PASTA PARA FABRICACAO DE PAPEL
+831125	OPERADOR DE MAQUINA DE SECAR CELULOSE
+832105	CALANDRISTA DE PAPEL
+832110	OPERADOR DE CORTADEIRA DE PAPEL
+832115	OPERADOR DE MAQUINA DE FABRICAR PAPEL (FASE UMIDA)
+832120	OPERADOR DE MAQUINA DE FABRICAR PAPEL (FASE SECA)
+832125	OPERADOR DE MAQUINA DE FABRICAR PAPEL E PAPELAO
+832135	OPERADOR DE REBOBINADEIRA NA FABRICACAO DE PAPEL E PAPELAO
+833105	CARTONAGEIRO, A MAQUINA
+833110	CONFECCIONADOR DE BOLSAS, SACOS E SACOLAS E PAPEL, A MAQUINA
+833115	CONFECCIONADOR DE SACOS DE CELOFANE, A MAQUINA
+833120	OPERADOR DE MAQUINA DE CORTAR E DOBRAR PAPELAO
+833125	OPERADOR DE PRENSA DE EMBUTIR PAPELAO
+833205	CARTONAGEIRO, A MAO (CAIXAS DE PAPELAO)
+840105	SUPERVISOR DE PRODUCAO DA INDUSTRIA ALIMENTICIA
+840110	SUPERVISOR DA INDUSTRIA DE BEBIDAS
+840115	SUPERVISOR DA INDUSTRIA DE FUMO
+840120	CHEFE DE CONFEITARIA
+841105	MOLEIRO DE CEREAIS (EXCETO ARROZ)
+841110	MOLEIRO DE ESPECIARIAS
+841115	OPERADOR DE PROCESSO DE MOAGEM
+841205	MOEDOR DE SAL
+841210	REFINADOR DE SAL
+841305	OPERADOR DE CRISTALIZACAO NA REFINACAO DE ACUCAR
+841310	OPERADOR DE EQUIPAMENTOS DE REFINACAO DE ACUCAR (PROCESSO CONTINUO)
+841315	OPERADOR DE MOENDA NA FABRICACAO DE ACUCAR
+841320	OPERADOR DE TRATAMENTO DE CALDA NA REFINACAO DE ACUCAR
+841408	COZINHADOR (CONSERVACAO DE ALIMENTOS)
+841416	COZINHADOR DE CARNES
+841420	COZINHADOR DE FRUTAS E LEGUMES
+841428	COZINHADOR DE PESCADO
+841432	DESIDRATADOR DE ALIMENTOS
+841440	ESTERILIZADOR DE ALIMENTOS
+841444	HIDROGENADOR DE OLEOS E GORDURAS
+841448	LAGAREIRO
+841456	OPERADOR DE CAMARAS FRIAS
+841460	OPERADOR DE PREPARACAO DE GRAOS VEGETAIS (OLEOS E GORDURAS)
+841464	PRENSADOR DE FRUTAS (EXCETO OLEAGINOSAS)
+841468	PREPARADOR DE RACOES
+841472	REFINADOR DE OLEO E GORDURA
+841476	TRABALHADOR DE FABRICACAO DE MARGARINA
+841484	TRABALHADOR DE PREPARACAO DE PESCADOS (LIMPEZA)
+841505	TRABALHADOR DE TRATAMENTO DO LEITE E FABRICACAO DE LATICINIOS E AFINS
+841605	MISTURADOR DE CAFE
+841610	TORRADOR DE CAFE
+841615	MOEDOR DE CAFE
+841620	OPERADOR DE EXTRACAO DE CAFE SOLUVEL
+841625	TORRADOR DE CACAU
+841630	MISTURADOR DE CHA OU MATE
+841705	ALAMBIQUEIRO
+841710	FILTRADOR DE CERVEJA
+841715	FERMENTADOR
+841720	TRABALHADOR DE FABRICACAO DE VINHOS
+841725	MALTEIRO (GERMINACAO)
+841730	COZINHADOR DE MALTE
+841735	DESSECADOR DE MALTE
+841740	VINAGREIRO
+841745	XAROPEIRO
+841805	OPERADOR DE FORNO (FABRICACAO DE PAES, BISCOITOS E SIMILARES)
+841810	OPERADOR DE MAQUINAS DE FABRICACAO DE DOCES, SALGADOS E MASSAS ALIMENTICIAS
+841815	OPERADOR DE MAQUINAS DE FABRICACAO DE CHOCOLATES E ACHOCOLATADOS
+842105	PREPARADOR DE MELADO E ESSENCIA DE FUMO
+842110	PROCESSADOR DE FUMO
+842115	CLASSIFICADOR DE FUMO
+842120	AUXILIAR DE PROCESSAMENTO DE FUMO
+842205	PREPARADOR DE FUMO NA FABRICACAO DE CHARUTOS
+842210	OPERADOR DE MAQUINA DE FABRICAR CHARUTOS E CIGARRILHAS
+842215	CLASSIFICADOR DE CHARUTOS
+842220	CORTADOR DE CHARUTOS
+842225	CELOFANISTA NA FABRICACAO DE CHARUTOS
+842230	CHARUTEIRO A MAO
+842235	DEGUSTADOR DE CHARUTOS
+842305	OPERADOR DE MAQUINA DE FABRICAR CIGARROS
+848105	DEFUMADOR DE CARNES E PESCADOS
+848110	SALGADOR DE ALIMENTOS
+848115	SALSICHEIRO (FABRICACAO DE LINGUICA, SALSICHA E PRODUTOS SIMILARES)
+848205	PASTEURIZADOR
+848210	QUEIJEIRO NA FABRICACAO DE LATICINIO
+848215	MANTEIGUEIRO NA FABRICACAO DE LATICINIO
+848305	PADEIRO
+848310	CONFEITEIRO
+848315	MASSEIRO (MASSAS ALIMENTICIAS)
+848325	TRABALHADOR DE FABRICACAO DE SORVETE
+848405	DEGUSTADOR DE CAFE
+848410	DEGUSTADOR DE CHA
+848415	DEGUSTADOR DE DERIVADOS DE CACAU
+848420	DEGUSTADOR DE VINHOS OU LICORES
+848505	ABATEDOR
+848510	ACOUGUEIRO
+848515	DESOSSADOR
+848520	MAGAREFE
+848525	RETALHADOR DE CARNE
+848605	TRABALHADOR DO BENEFICIAMENTO DE FUMO
+860105	SUPERVISOR DE MANUTENCAO ELETROMECANICA (UTILIDADES)
+860110	SUPERVISOR DE OPERACAO DE FLUIDOS (DISTRIBUICAO, CAPTACAO, TRATAMENTO DE AGUA, GASES, VAPOR)
+860115	SUPERVISOR DE OPERACAO ELETRICA (GERACAO, TRANSMISSAO E DISTRIBUICAO DE ENERGIA ELETRICA)
+861105	OPERADOR DE CENTRAL HIDRELETRICA
+861110	OPERADOR DE QUADRO DE DISTRIBUICAO DE ENERGIA ELETRICA
+861115	OPERADOR DE CENTRAL TERMOELETRICA
+861120	OPERADOR DE REATOR NUCLEAR
+861205	OPERADOR DE SUBESTACAO
+862105	FOGUISTA (LOCOMOTIVAS A VAPOR)
+862110	MAQUINISTA DE EMBARCACOES
+862115	OPERADOR DE BATERIA DE GAS DE HULHA
+862120	OPERADOR DE CALDEIRA
+862130	OPERADOR DE COMPRESSOR DE AR
+862140	OPERADOR DE ESTACAO DE BOMBEAMENTO
+862150	OPERADOR DE MAQUINAS FIXAS, EM GERAL
+862155	OPERADOR DE UTILIDADE (PRODUCAO E DISTRIBUICAO DE VAPOR, GAS, OLEO, COMBUSTIVEL, ENERGIA, OXIGENIO)
+862205	OPERADOR DE ESTACAO DE CAPTACAO, TRATAMENTO E DISTRIBUICAO DE AGUA
+862305	OPERADOR DE ESTACAO DE TRATAMENTO DE AGUA E EFLUENTES
+862310	OPERADOR DE FORNO DE INCINERACAO NO TRATAMENTO DE AGUA, EFLUENTES E RESIDUOS INDUSTRIAIS
+862405	OPERADOR DE INSTALACAO DE EXTRACAO, PROCESSAMENTO, ENVASAMENTO E DISTRIBUICAO DE GASES
+862505	OPERADOR DE INSTALACAO DE REFRIGERACAO
+862510	OPERADOR DE REFRIGERACAO COM AMONIA
+862515	OPERADOR DE INSTALACAO DE AR-CONDICIONADO
+910105	ENCARREGADO DE MANUTENCAO MECANICA DE SISTEMAS OPERACIONAIS
+910110	SUPERVISOR DE MANUTENCAO DE APARELHOS TERMICOS, DE CLIMATIZACAO E DE REFRIGERACAO
+910115	SUPERVISOR DE MANUTENCAO DE BOMBAS, MOTORES, COMPRESSORES E EQUIPAMENTOS DE TRANSMISSAO
+910120	SUPERVISOR DE MANUTENCAO DE MAQUINAS GRAFICAS
+910125	SUPERVISOR DE MANUTENCAO DE MAQUINAS INDUSTRIAIS TEXTEIS
+910130	SUPERVISOR DE MANUTENCAO DE MAQUINAS OPERATRIZES E DE USINAGEM
+910205	SUPERVISOR DA MANUTENCAO E REPARACAO DE VEICULOS LEVES
+910210	SUPERVISOR DA MANUTENCAO E REPARACAO DE VEICULOS PESADOS
+910905	SUPERVISOR DE REPAROS LINHAS FERREAS
+910910	SUPERVISOR DE MANUTENCAO DE VIAS FERREAS
+911105	MECANICO DE MANUTENCAO DE BOMBA INJETORA (EXCETO DE VEICULOS AUTOMOTORES)
+911110	MECANICO DE MANUTENCAO DE BOMBAS
+911115	MECANICO DE MANUTENCAO DE COMPRESSORES DE AR
+911120	MECANICO DE MANUTENCAO DE MOTORES DIESEL (EXCETO DE VEICULOS AUTOMOTORES)
+911125	MECANICO DE MANUTENCAO DE REDUTORES
+911130	MECANICO DE MANUTENCAO DE TURBINAS (EXCETO DE AERONAVES)
+911135	MECANICO DE MANUTENCAO DE TURBOCOMPRESSORES
+911205	MECANICO DE MANUTENCAO E INSTALACAO DE APARELHOS DE CLIMATIZACAO E REFRIGERACAO
+911305	MECANICO DE MANUTENCAO DE MAQUINAS, EM GERAL
+911310	MECANICO DE MANUTENCAO DE MAQUINAS GRAFICAS
+911315	MECANICO DE MANUTENCAO DE MAQUINAS OPERATRIZES (LAVRA DE MADEIRA)
+911320	MECANICO DE MANUTENCAO DE MAQUINAS TEXTEIS
+911325	MECANICO DE MANUTENCAO DE MAQUINAS-FERRAMENTAS (USINAGEM DE METAIS)
+913105	MECANICO DE MANUTENCAO DE APARELHOS DE LEVANTAMENTO
+913110	MECANICO DE MANUTENCAO DE EQUIPAMENTO DE MINERACAO
+913115	MECANICO DE MANUTENCAO DE MAQUINAS AGRICOLAS
+913120	MECANICO DE MANUTENCAO DE MAQUINAS DE CONSTRUCAO E TERRAPLENAGEM
+914105	MECANICO DE MANUTENCAO DE AERONAVES, EM GERAL
+914110	MECANICO DE MANUTENCAO DE SISTEMA HIDRAULICO DE AERONAVES (SERVICOS DE PISTA E HANGAR)
+914205	MECANICO DE MANUTENCAO DE MOTORES E EQUIPAMENTOS NAVAIS
+914305	MECANICO DE MANUTENCAO DE VEICULOS FERROVIARIOS
+914405	MECANICO DE MANUTENCAO DE AUTOMOVEIS, MOTOCICLETAS E VEICULOS SIMILARES
+914410	MECANICO DE MANUTENCAO DE EMPILHADEIRAS E OUTROS VEICULOS DE CARGAS LEVES
+914415	MECANICO DE MANUTENCAO DE MOTOCICLETAS
+914420	MECANICO DE MANUTENCAO DE TRATORES
+914425	MECANICO DE VEICULOS AUTOMOTORES A DIESEL (EXCETO TRATORES)
+915105	TECNICO EM MANUTENCAO DE INSTRUMENTOS DE MEDICAO E PRECISAO
+915110	TECNICO EM MANUTENCAO DE HIDROMETROS
+915115	TECNICO EM MANUTENCAO DE BALANCAS
+915205	RESTAURADOR DE INSTRUMENTOS MUSICAIS (EXCETO CORDAS ARCADAS)
+915210	REPARADOR DE INSTRUMENTOS MUSICAIS
+915215	LUTHIER (RESTAURACAO DE CORDAS ARCADAS)
+915305	TECNICO EM MANUTENCAO DE EQUIPAMENTOS E INSTRUMENTOS MEDICO-HOSPITALARES
+915405	REPARADOR DE EQUIPAMENTOS FOTOGRAFICOS
+919105	LUBRIFICADOR INDUSTRIAL
+919110	LUBRIFICADOR DE VEICULOS AUTOMOTORES (EXCETO EMBARCACOES)
+919115	LUBRIFICADOR DE EMBARCACOES
+919205	MECANICO DE MANUTENCAO DE MAQUINAS CORTADORAS DE GRAMA, ROCADEIRAS, MOTOSSERRAS E SIMILARES
+919305	MECANICO DE MANUTENCAO DE APARELHOS ESPORTIVOS E DE GINASTICA
+919310	MECANICO DE MANUTENCAO DE BICICLETAS E VEICULOS SIMILARES
+919315	MONTADOR DE BICICLETAS
+950105	SUPERVISOR DE MANUTENCAO ELETRICA DE ALTA TENSAO INDUSTRIAL
+950110	SUPERVISOR DE MANUTENCAO ELETROMECANICA INDUSTRIAL, COMERCIAL E PREDIAL
+950205	ENCARREGADO DE MANUTENCAO ELETRICA DE VEICULOS
+950305	SUPERVISOR DE MANUTENCAO ELETROMECANICA
+951105	ELETRICISTA DE MANUTENCAO ELETROELETRONICA
+951305	INSTALADOR DE SISTEMAS ELETROELETRONICOS DE SEGURANCA
+951310	MANTENEDOR DE SISTEMAS ELETROELETRONICOS DE SEGURANCA
+953105	ELETRICISTA DE INSTALACOES (AERONAVES)
+953110	ELETRICISTA DE INSTALACOES (EMBARCACOES)
+954105	ELETROMECANICO DE MANUTENCAO DE ELEVADORES
+954110	ELETROMECANICO DE MANUTENCAO DE ESCADAS ROLANTES
+954115	ELETROMECANICO DE MANUTENCAO DE PORTAS AUTOMATICAS
+954120	MECANICO DE MANUTENCAO DE INSTALACOES MECANICAS DE EDIFICIOS
+954125	OPERADOR ELETROMECANICO
+954205	REPARADOR DE APARELHOS ELETRODOMESTICOS (EXCETO IMAGEM E SOM)
+954210	REPARADOR DE RADIO, TV E SOM
+954305	REPARADOR DE EQUIPAMENTOS DE ESCRITORIO
+991105	CONSERVADOR DE VIA PERMANENTE (TRILHOS)
+991110	INSPETOR DE VIA PERMANENTE (TRILHOS)
+991115	OPERADOR DE MAQUINAS ESPECIAIS EM CONSERVACAO DE VIA PERMANENTE (TRILHOS)
+991120	SOLDADOR ALUMINOTERMICO EM CONSERVACAO DE TRILHOS
+991205	MANTENEDOR DE EQUIPAMENTOS DE PARQUES DE DIVERSOES E SIMILARES
+991305	FUNILEIRO DE VEICULOS (REPARACAO)
+991310	MONTADOR DE VEICULOS (REPARACAO)
+991315	PINTOR DE VEICULOS (REPARACAO)
+991405	TRABALHADOR DA MANUTENCAO DE EDIFICACOES
+991410	CONSERVADOR DE FACHADAS
+991415	LIMPADOR DE FACHADAS
+992105	ALINHADOR DE PNEUS
+992110	BALANCEADOR
+992115	BORRACHEIRO
+992120	LAVADOR DE PECAS
+992205	ENCARREGADO GERAL DE OPERACOES DE CONSERVACAO DE VIAS PERMANENTES (EXCETO TRILHOS)
+992210	ENCARREGADO DE EQUIPE DE CONSERVACAO DE VIAS PERMANENTES (EXCETO TRILHOS)
+992215	OPERADOR DE CEIFADEIRA NA CONSERVACAO DE VIAS PERMANENTES
+992220	PEDREIRO DE CONSERVACAO DE VIAS PERMANENTES (EXCETO TRILHOS)
+992225	AUXILIAR GERAL DE CONSERVACAO DE VIAS PERMANENTES (EXCETO TRILHOS)
+999999	OUTROS
+\.
+
+
+--
+-- Data for Name: patient; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.patient (id, id_account, id_birth_place, id_living_place, id_occupation, id_gender, id_civil_status, id_skin_color, id_nationality, id_level_education, report_number, name, social_name, birth_date, cpf, sus_card, identity, identity_issuing_organization, birth_record, work_card, pis, mother_name, father_name, address, number, complement, state, district, city, zip_code, phone, email, note, not_identified, created_at, updated_at) FROM stdin;
+1	1	2504009	\N	203105	1	1	1	1	1	1	ESTEVAO2	ESTEVAO2	1997-12-27 00:00:00-02	10550344470	IDENTIDADE	ASD	ASD	ASD	ASD	\N	MAE	PAI	RUA SANDRA VASCONCELOS PEREIRA DE MELO	105	COMPLELMENTONASE	PB	ITARARÉ	CAMPINA GRANDE	58411005	91310693	meoprogramar@gmail.com	asdasd	f	2020-12-01 22:48:56.317048-03	2020-12-01 22:50:26.023963-03
+\.
+
+
+--
+-- Data for Name: patient_screening; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.patient_screening (id, id_account, id_patient, classification, symptom, pa, temperature, p, hgt, weight, spo, created_at, updated_at) FROM stdin;
+1	1	1	VERMELHA	VÔMITO, CORIZA, FEBRE, DOR DE GARGANTA, ADICIONAIS	123	12.3	23	2323	232	23	2020-12-01 22:49:50.902152-03	2020-12-01 22:49:50.902152-03
+\.
+
+
+--
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product (id, id_account, name, quantity_unit, validity, lot, classification, sub_classification, created_at, updated_at) FROM stdin;
+1	1	PRODUTO TESTE	UND	\N	\N	3	8	2020-12-01 22:54:37.299556-03	2020-12-01 22:54:37.299556-03
+2	1	PASDOKKODPAS	UND	\N	\N	1	2	2020-12-01 23:03:42.561452-03	2020-12-01 23:03:42.561452-03
+\.
+
+
+--
+-- Data for Name: product_movement; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_movement (id, id_account, id_product, id_sector_from, id_sector_to, id_patient_to, quantity, chargeback, chargedback_at, created_at, updated_at, created_at_edited, invoice_code, invoice_provider, invoice_value, invoice_date_issue, invoice_link) FROM stdin;
+1	1	1	\N	1	\N	58000	f	\N	2020-12-01 22:54:37.299556-03	2020-12-01 22:55:48.933795-03	2020-12-03 22:54:00-03	\N	\N	\N	\N	160687407729534866806.png
+2	1	1	1	3	\N	5000	f	\N	2020-12-01 22:55:28.708057-03	2020-12-01 22:56:05.996766-03	2020-12-05 22:55:00-03	\N	\N	\N	\N	\N
+4	1	1	1	\N	1	2	f	\N	2020-12-01 22:58:21.375512-03	2020-12-01 22:58:21.375512-03	\N	\N	\N	\N	\N	\N
+5	2	1	3	1	\N	100	t	\N	2020-12-01 22:59:45.471741-03	2020-12-01 22:59:45.471741-03	\N	\N	\N	\N	\N	\N
+3	1	1	1	3	\N	100	f	2020-12-01 22:59:45.474-03	2020-12-01 22:58:06.944978-03	2020-12-01 22:59:45.471741-03	\N	\N	\N	\N	\N	\N
+7	2	1	3	1	\N	50	t	\N	2020-12-01 23:01:51.549513-03	2020-12-01 23:01:51.549513-03	\N	\N	\N	\N	\N	\N
+6	1	1	1	3	\N	50	f	2020-12-01 23:01:51.552-03	2020-12-01 23:01:27.724369-03	2020-12-01 23:01:51.549513-03	\N	\N	\N	\N	\N	\N
+8	1	2	\N	1	\N	2000	f	\N	2020-12-01 23:03:42.561452-03	2020-12-01 23:03:42.561452-03	\N	444444444444444	FORNECEDOR TESTE	500000	1997-12-21 00:00:00-02	\N
+\.
+
+
+--
+-- Data for Name: schedule; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.schedule (id, id_account, id_sender_medic, id_requesting_medic, id_patient, scheduled_day, type, category, status, note, created_at, updated_at) FROM stdin;
+1	1	1	\N	1	2020-12-15 23:25:45-03	EXTERNO	CONSULTA	AGENDADO	\N	2020-12-01 22:52:04.725537-03	2020-12-01 22:52:28.030234-03
+\.
+
+
+--
+-- Data for Name: sector; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.sector (id, name, can_action, created_at, updated_at) FROM stdin;
+1	ALMOXARIFADO	t	2020-12-01 22:46:24.433875-03	2020-12-01 22:46:24.433875-03
+3	COVID	f	2020-12-01 22:53:02.154882-03	2020-12-01 22:53:02.154882-03
+\.
+
+
+--
+-- Data for Name: sector_stock; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.sector_stock (id, id_product, id_sector, quantity, created_at, updated_at) FROM stdin;
+1	1	1	52998	2020-12-01 22:54:37.299556-03	2020-12-01 23:01:51.549513-03
+2	1	3	5000	2020-12-01 22:55:28.708057-03	2020-12-01 23:01:51.549513-03
+3	2	1	2000	2020-12-01 23:03:42.561452-03	2020-12-01 23:03:42.561452-03
+\.
+
+
+--
+-- Data for Name: skin_color; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.skin_color (id, name) FROM stdin;
+1	BRANCO
+2	PRETO
+3	NEGRO
+4	PARDO
+5	AMARELA
+6	INDIGENA
+\.
+
+
+--
+-- Name: account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.account_id_seq', 2, true);
+
+
+--
+-- Name: civil_status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.civil_status_id_seq', 1, false);
+
+
+--
+-- Name: gender_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.gender_id_seq', 1, false);
+
+
+--
+-- Name: knex_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.knex_migrations_id_seq', 18, true);
+
+
+--
+-- Name: knex_migrations_lock_index_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.knex_migrations_lock_index_seq', 1, true);
+
+
+--
+-- Name: level_education_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.level_education_id_seq', 1, false);
+
+
+--
+-- Name: medic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.medic_id_seq', 1, true);
+
+
+--
+-- Name: medic_schedule_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.medic_schedule_id_seq', 1, true);
+
+
+--
+-- Name: nationality_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.nationality_id_seq', 1, false);
+
+
+--
+-- Name: patient_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.patient_id_seq', 1, true);
+
+
+--
+-- Name: patient_screening_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.patient_screening_id_seq', 1, true);
+
+
+--
+-- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_id_seq', 2, true);
+
+
+--
+-- Name: product_movement_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_movement_id_seq', 8, true);
+
+
+--
+-- Name: schedule_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.schedule_id_seq', 1, true);
+
+
+--
+-- Name: sector_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.sector_id_seq', 3, true);
+
+
+--
+-- Name: sector_stock_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.sector_stock_id_seq', 3, true);
+
+
+--
+-- Name: skin_color_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.skin_color_id_seq', 1, false);
+
+
+--
+-- Name: account account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT account_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: city city_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT city_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: civil_status civil_status_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.civil_status
+    ADD CONSTRAINT civil_status_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: gender gender_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.gender
+    ADD CONSTRAINT gender_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: knex_migrations_lock knex_migrations_lock_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knex_migrations_lock
+    ADD CONSTRAINT knex_migrations_lock_pkey PRIMARY KEY (index);
+
+
+--
+-- Name: knex_migrations knex_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knex_migrations
+    ADD CONSTRAINT knex_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: level_education level_education_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.level_education
+    ADD CONSTRAINT level_education_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: medic medic_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medic
+    ADD CONSTRAINT medic_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: medic_schedule medic_schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medic_schedule
+    ADD CONSTRAINT medic_schedule_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nationality nationality_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.nationality
+    ADD CONSTRAINT nationality_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: occupation occupation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.occupation
+    ADD CONSTRAINT occupation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: patient patient_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: patient_screening patient_screening_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient_screening
+    ADD CONSTRAINT patient_screening_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_movement product_movement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement
+    ADD CONSTRAINT product_movement_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schedule schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schedule
+    ADD CONSTRAINT schedule_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sector sector_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector
+    ADD CONSTRAINT sector_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sector_stock sector_stock_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector_stock
+    ADD CONSTRAINT sector_stock_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skin_color skin_color_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.skin_color
+    ADD CONSTRAINT skin_color_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: account account_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER account_updated_at BEFORE UPDATE ON public.account FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: city city_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER city_updated_at BEFORE UPDATE ON public.city FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: civil_status civil_status_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER civil_status_updated_at BEFORE UPDATE ON public.civil_status FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: gender gender_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER gender_updated_at BEFORE UPDATE ON public.gender FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: level_education level_education_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER level_education_updated_at BEFORE UPDATE ON public.level_education FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: medic_schedule medic_schedule_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER medic_schedule_updated_at BEFORE UPDATE ON public.medic_schedule FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: medic medic_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER medic_updated_at BEFORE UPDATE ON public.medic FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: nationality nationality_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER nationality_updated_at BEFORE UPDATE ON public.nationality FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: occupation occupation_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER occupation_updated_at BEFORE UPDATE ON public.occupation FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: patient_screening patient_screening_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER patient_screening_updated_at BEFORE UPDATE ON public.patient_screening FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: patient patient_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER patient_updated_at BEFORE UPDATE ON public.patient FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: product_movement product_movement_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER product_movement_updated_at BEFORE UPDATE ON public.product_movement FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: product product_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER product_updated_at BEFORE UPDATE ON public.product FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: schedule schedule_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER schedule_updated_at BEFORE UPDATE ON public.schedule FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: sector_stock sector_stock_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER sector_stock_updated_at BEFORE UPDATE ON public.sector_stock FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: sector sector_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER sector_updated_at BEFORE UPDATE ON public.sector FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: skin_color skin_color_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER skin_color_updated_at BEFORE UPDATE ON public.skin_color FOR EACH ROW EXECUTE PROCEDURE public.on_update_timestamp();
+
+
+--
+-- Name: account account_id_responsible_sector_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT account_id_responsible_sector_foreign FOREIGN KEY (id_responsible_sector) REFERENCES public.sector(id);
+
+
+--
+-- Name: medic_schedule medic_schedule_id_medic_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medic_schedule
+    ADD CONSTRAINT medic_schedule_id_medic_foreign FOREIGN KEY (id_medic) REFERENCES public.medic(id);
+
+
+--
+-- Name: patient patient_id_account_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_account_foreign FOREIGN KEY (id_account) REFERENCES public.account(id);
+
+
+--
+-- Name: patient patient_id_birth_place_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_birth_place_foreign FOREIGN KEY (id_birth_place) REFERENCES public.city(id);
+
+
+--
+-- Name: patient patient_id_civil_status_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_civil_status_foreign FOREIGN KEY (id_civil_status) REFERENCES public.civil_status(id);
+
+
+--
+-- Name: patient patient_id_gender_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_gender_foreign FOREIGN KEY (id_gender) REFERENCES public.gender(id);
+
+
+--
+-- Name: patient patient_id_level_education_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_level_education_foreign FOREIGN KEY (id_level_education) REFERENCES public.level_education(id);
+
+
+--
+-- Name: patient patient_id_living_place_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_living_place_foreign FOREIGN KEY (id_living_place) REFERENCES public.city(id);
+
+
+--
+-- Name: patient patient_id_nationality_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_nationality_foreign FOREIGN KEY (id_nationality) REFERENCES public.nationality(id);
+
+
+--
+-- Name: patient patient_id_occupation_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_occupation_foreign FOREIGN KEY (id_occupation) REFERENCES public.occupation(id);
+
+
+--
+-- Name: patient patient_id_skin_color_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient
+    ADD CONSTRAINT patient_id_skin_color_foreign FOREIGN KEY (id_skin_color) REFERENCES public.skin_color(id);
+
+
+--
+-- Name: patient_screening patient_screening_id_account_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient_screening
+    ADD CONSTRAINT patient_screening_id_account_foreign FOREIGN KEY (id_account) REFERENCES public.account(id);
+
+
+--
+-- Name: patient_screening patient_screening_id_patient_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patient_screening
+    ADD CONSTRAINT patient_screening_id_patient_foreign FOREIGN KEY (id_patient) REFERENCES public.patient(id);
+
+
+--
+-- Name: product product_id_account_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_id_account_foreign FOREIGN KEY (id_account) REFERENCES public.account(id);
+
+
+--
+-- Name: product_movement product_movement_id_account_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement
+    ADD CONSTRAINT product_movement_id_account_foreign FOREIGN KEY (id_account) REFERENCES public.account(id);
+
+
+--
+-- Name: product_movement product_movement_id_patient_to_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement
+    ADD CONSTRAINT product_movement_id_patient_to_foreign FOREIGN KEY (id_patient_to) REFERENCES public.patient(id);
+
+
+--
+-- Name: product_movement product_movement_id_product_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement
+    ADD CONSTRAINT product_movement_id_product_foreign FOREIGN KEY (id_product) REFERENCES public.product(id);
+
+
+--
+-- Name: product_movement product_movement_id_sector_from_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement
+    ADD CONSTRAINT product_movement_id_sector_from_foreign FOREIGN KEY (id_sector_from) REFERENCES public.sector(id);
+
+
+--
+-- Name: product_movement product_movement_id_sector_to_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_movement
+    ADD CONSTRAINT product_movement_id_sector_to_foreign FOREIGN KEY (id_sector_to) REFERENCES public.sector(id);
+
+
+--
+-- Name: schedule schedule_id_account_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schedule
+    ADD CONSTRAINT schedule_id_account_foreign FOREIGN KEY (id_account) REFERENCES public.account(id);
+
+
+--
+-- Name: schedule schedule_id_patient_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schedule
+    ADD CONSTRAINT schedule_id_patient_foreign FOREIGN KEY (id_patient) REFERENCES public.patient(id);
+
+
+--
+-- Name: schedule schedule_id_requesting_medic_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schedule
+    ADD CONSTRAINT schedule_id_requesting_medic_foreign FOREIGN KEY (id_requesting_medic) REFERENCES public.medic(id);
+
+
+--
+-- Name: schedule schedule_id_sender_medic_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schedule
+    ADD CONSTRAINT schedule_id_sender_medic_foreign FOREIGN KEY (id_sender_medic) REFERENCES public.medic(id);
+
+
+--
+-- Name: sector_stock sector_stock_id_product_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector_stock
+    ADD CONSTRAINT sector_stock_id_product_foreign FOREIGN KEY (id_product) REFERENCES public.product(id);
+
+
+--
+-- Name: sector_stock sector_stock_id_sector_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sector_stock
+    ADD CONSTRAINT sector_stock_id_sector_foreign FOREIGN KEY (id_sector) REFERENCES public.sector(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
